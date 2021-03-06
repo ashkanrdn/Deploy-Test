@@ -35,12 +35,15 @@ sio.connect(server_url)
 # LEDGrowMainPWR=LED(config.LEDGrowMainPWRPin)
 # LEDGrowSup1PWR=LED(config.LEDGrowSup1PWRPin)
 # LEDGrowSup2PWR=LED(config.LEDGrowSup2PWRPin)
-def lightBool(light, boolValue):
-    print(type(boolValue))
-    if boolValue:
-        light.value = 1
-    else:
-        light.value = 0
+def lightBool(light, value):
+    if(type(value) == bool) :
+        if boolValue:
+            light.value = 1
+        else:
+            light.value = 0
+    elif(type(value) == int | float ){
+         light.value = value * 0.01
+    }
 
 
 @sio.event
