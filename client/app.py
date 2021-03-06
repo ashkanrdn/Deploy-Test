@@ -15,7 +15,6 @@ import appConfig as config
 #     servo.max()
 
 
-
 # while True:
 #
 
@@ -32,15 +31,11 @@ def connect():
     print("I'm connected!")
 
 
-@sio.on('rangeChanged')
+@sio.on("rangeChanged")
 def rangeChanged(data):
     dashValues = json.loads(data)
     for controlIDServer in dashValues:
-        if (controlIDServer in controlsIO):
-            print(controlIDServer)
-            print(controlsIO)
-            controlsIO[controlIDServer]['val'] = dashValues[controlIDServer]
+        if controlIDServer in controlsIO:
+            controlsIO[controlIDServer]["state"] = dashValues[controlIDServer]
 
-
-
-    # print(controlsIO,'mmd')
+    print(controlsIO, "mmd")
