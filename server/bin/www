@@ -20,6 +20,11 @@ io.on('connection', (socket) => {
         io.emit('updateState', state);
     });
 
+    socket.on('rangeChanged', (rangeX) => {
+        console.log('range Changed: ' + rangeX);
+
+        io.emit('rangeChanged', rangeX);
+    });
 
 
     socket.on('disconnect', () => {

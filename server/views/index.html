@@ -4,387 +4,202 @@
 <head>
     <title>AMP Maintenance Dashboard</title>
     <!-- Custom styles for this template -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous" />
     <link href="/stylesheets/style.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-</head>
-
-<body>
-    <div class="parent">
-        <!--Lighting   -->
-        <div class="child">
-            <h2>Lighting</h2>
-            <!-- Unordered List -->
-            <ul>
-                <!-- Main LED controls -->
-                <li>
-                    <!-- Title -->
-                    <h6 class="DashTitle">LED main</h6>
-                    <!-- Toggle -->
-                    <div class="content">
-                        <label class="switch">
-                <input type="checkbox" id="myonoffswitch" />
-                <span class="slider round"></span>
-              </label>
-                    </div>
-
-                    <!-- Range Slider -->
-                    <div class="sliderValues">
-                        <!-- Slider  -->
-                        <div class="slidecontainer">
-                            <input type="range" min="1" max="100" value="50" id="myRange" />
-                        </div>
-                        <!-- Slider Value -->
-                        <div class="valueText">
-                            <p>
-                                Dim:
-                                <span id="demo"></span>
-                            </p>
-                        </div>
-                    </div>
-                </li>
-                <!-- LED Supp 1 -->
-                <li>
-                    <!-- Title -->
-                    <h6 class="DashTitle">LED supp 1</h6>
-                    <!-- Toggle -->
-                    <div class="content">
-                        <label class="switch">
-                <input type="checkbox" id="myonoffswitch" />
-                <span class="slider round"></span>
-              </label>
-                    </div>
-
-                    <!-- Range Slider -->
-                    <div class="sliderValues">
-                        <!-- Slider  -->
-                        <div class="slidecontainer">
-                            <input type="range" min="1" max="100" value="50" id="myRange" />
-                        </div>
-                        <!-- Slider Value -->
-                        <div class="valueText">
-                            <p>
-                                Dim:
-                                <span id="demo"></span>
-                            </p>
-                        </div>
-                    </div>
-                </li>
-                <!-- LED sup 2 -->
-                <li>
-                    <!-- Title -->
-                    <h6 class="DashTitle">LED supp 2</h6>
-                    <!-- Toggle -->
-                    <div class="content">
-                        <label class="switch">
-                <input type="checkbox" id="myonoffswitch" />
-                <span class="slider round"></span>
-              </label>
-                    </div>
-
-                    <!-- Range Slider -->
-                    <div class="sliderValues">
-                        <!-- Slider  -->
-                        <div class="slidecontainer">
-                            <input type="range" min="1" max="100" value="50" id="myRange" />
-                        </div>
-                        <!-- Slider Value -->
-                        <div class="valueText">
-                            <p>
-                                Dim:
-                                <span id="demo"></span>
-                            </p>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-
-        <!-- Swing Arm -->
-        <div class="child">
-            <h2>Swing Arm</h2>
-            <!-- Unsorted List -->
-            <ul>
-                <!-- Swing Arm controls -->
-                <li>
-                    <!-- Title -->
-                    <h6 class="DashTitle">Swing Arm</h6>
-                    <!-- Toggle -->
-                    <div class="content">
-                        <label class="switch">
-                <input type="checkbox" id="myonoffswitch" />
-                <span class="slider round"></span>
-              </label>
-                    </div>
-
-                    <!-- Swing Arm Position Slider -->
-                    <div class="sliderValues">
-                        <!-- Slider  -->
-                        <div class="slidecontainer">
-                            <input type="range" min="1" max="100" value="50" id="myRange" />
-                        </div>
-                        <!-- Slider Value -->
-                        <div class="valueText">
-                            <p>
-                                Pos:
-                                <span id="demo"></span>
-                            </p>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <!-- Swing Arm Controls -->
-                    <table>
-                        <!-- Pulse buttons -->
-                        <tr>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <!-- Calibration buttons -->
-                        <tr>
-                            <td>
-                                <button><h3><<</h3></button>
-                            </td>
-                            <td>
-                                <button><h3>>></h3></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p>CCW</p>
-                            </td>
-                            <td>
-                                <p>CW</p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="content">
-                                    <label class="switch">
-                      <input type="checkbox" id="myonoffswitch" />
-                      <span class="slider round"></span>
-                    </label>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="content">
-                                    <label class="switch">
-                      <input type="checkbox" id="myonoffswitch" />
-                      <span class="slider round"></span>
-                    </label>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p>CCW</p>
-                            </td>
-                            <td>
-                                <p>CW</p>
-                            </td>
-                        </tr>
-                    </table>
-                </li>
-                <!-- Air -->
-            </ul>
-            <h2>Air</h2>
-            <ul>
-                <li>
-                    <!-- Title -->
-                    <h6 class="DashTitle">Fan</h6>
-                    <!-- Toggle -->
-                    <div class="content">
-                        <label class="switch">
-                <input type="checkbox" id="myonoffswitch" />
-                <span class="slider round"></span>
-              </label>
-                    </div>
-                </li>
-            </ul>
-        </div>
-
-        <!-- Plumbing -->
-        <div class="child">
-            <h2>Plumbing</h2>
-            <!-- Unordered list -->
-            <ul>
-                <!-- First Row -->
-                <li>
-                    <ul>
-                        <!-- Main Pump toggle controls -->
-                        <li>
-                            <!-- Title -->
-                            <h6 class="DashTitle">Pump Main</h6>
-                            <!-- Toggle -->
-                            <div class="content">
-                                <label class="switch">
-                    <input type="checkbox" id="myonoffswitch" />
-                    <span class="slider round"></span>
-                  </label>
-                            </div>
-                        </li>
-                        <!-- lvl 5 controls -->
-                        <li>
-                            <!-- Title -->
-                            <h6 class="DashTitle">lvl 5</h6>
-                            <!-- Toggle -->
-                            <div class="content">
-                                <label class="switch">
-                    <input type="checkbox" id="myonoffswitch" />
-                    <span class="slider round"></span>
-                  </label>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <!-- 2nd Row -->
-                <li>
-                    <ul>
-                        <!-- H2O controls -->
-                        <li>
-                            <!-- Title -->
-                            <h6 class="DashTitle">H2O</h6>
-                            <!-- Toggle -->
-                            <div class="content">
-                                <label class="switch">
-                    <input type="checkbox" id="myonoffswitch" />
-                    <span class="slider round"></span>
-                  </label>
-                            </div>
-                        </li>
-                        <!-- lvl 4 controls -->
-                        <li>
-                            <!-- Title -->
-                            <h6 class="DashTitle">lvl 4</h6>
-                            <!-- Toggle -->
-                            <div class="content">
-                                <label class="switch">
-                    <input type="checkbox" id="myonoffswitch" />
-                    <span class="slider round"></span>
-                  </label>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <!-- 3rd Row -->
-                <li>
-                    <ul>
-                        <!-- Nutrient controls -->
-                        <li>
-                            <!-- Title -->
-                            <h6 class="DashTitle">Nutrient</h6>
-                            <!-- Toggle -->
-                            <div class="content">
-                                <label class="switch">
-                    <input type="checkbox" id="myonoffswitch" />
-                    <span class="slider round"></span>
-                  </label>
-                            </div>
-                        </li>
-                        <!-- lvl 3 controls -->
-                        <li>
-                            <!-- Title -->
-                            <h6 class="DashTitle">lvl 3</h6>
-                            <!-- Toggle -->
-                            <div class="content">
-                                <label class="switch">
-                    <input type="checkbox" id="myonoffswitch" />
-                    <span class="slider round"></span>
-                  </label>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <!-- 4th Row -->
-                <li>
-                    <ul>
-                        <!-- Indicator Lights -->
-                        <li>
-                            <!-- Title -->
-                            <h6 class="DashTitle">LED main</h6>
-                            <!-- Toggle -->
-                            <div class="content">
-                                <label class="switch">
-                    <input type="checkbox" id="myonoffswitch" />
-                    <span class="slider round"></span>
-                  </label>
-                            </div>
-                        </li>
-                        <!-- lvl 2 controls -->
-                        <li>
-                            <!-- Title -->
-                            <h6 class="DashTitle">lvl 2</h6>
-                            <!-- Toggle -->
-                            <div class="content">
-                                <label class="switch">
-                    <input type="checkbox" id="myonoffswitch" />
-                    <span class="slider round"></span>
-                  </label>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <!-- 5th Row -->
-                <li>
-                    <ul>
-                        <!-- Main Pump toggle controls -->
-                        <li>
-                            <!-- Title -->
-                            <h6 class="DashTitle">Transfer</h6>
-                            <!-- Toggle -->
-                            <div class="content">
-                                <label class="switch">
-                    <input type="checkbox" id="myonoffswitch" />
-                    <span class="slider round"></span>
-                  </label>
-                            </div>
-                        </li>
-                        <!-- lvl 5 controls -->
-                        <li>
-                            <!-- Title -->
-                            <h6 class="DashTitle">lvl 1</h6>
-                            <!-- Toggle -->
-                            <div class="content">
-                                <label class="switch">
-                    <input type="checkbox" id="myonoffswitch" />
-                    <span class="slider round"></span>
-                  </label>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
 
     <script src="socket.io/socket.io.js"></script>
+</head>
 
-    <script>
-        var socket = io.connect('/');
-        var slider = document.getElementById('myRange');
-        var output = document.getElementById('demo');
-        output.innerHTML = slider.value;
+<body class="bg-secondary bg-gradient">
+    <div class="bodyContainer">
+        <ul class="nav nav-pills mb-3 bg-info bg-gradient" id="pills-tab" role="tablist">
+            <li class="nav-item h1" role="presentation">
+                <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">
+            Light Controls
+          </button>
+            </li>
+            <li class="nav-item h1" role="presentation">
+                <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
+            Arm Controls
+          </button>
+            </li>
+            <li class="nav-item h1" role="presentation">
+                <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">
+            Water Controls
+          </button>
+            </li>
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+            <!-- /////////////////////////////////////////////////////// TAB 1 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
+            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                <!-- ============================ All Lighting Controllers  ============================  -->
+                <div class="allControls">
+                    <!-- ============================ Control Panel Title  ============================  -->
+                    <div class="controlsItem">
+                        <h2>Light Controls</h2>
+                    </div>
 
-        slider.oninput = function() {
-            var dim = this.value;
-            m;
-            output.innerHTML = dim;
+                    <!-- ============================ First Row 1  ============================  -->
+                    <div class="controlsItem controlSystem">
+                        <!-- ============================ Lighting Primary Header ============================  -->
+                        <div class="controlsItemInner">
+                            <h5>Lighting</h5>
+                        </div>
+                        <!-- ============================ Lighting Primary Toggle Switch ============================  -->
+                        <div class="controlsItemInner">
+                            <!-- ============================ Toggle Div wrapper (toggle and title) ============================  -->
+                            <div class="ControlContainer">
+                                <!-- Toggle Div -->
+                                <div>
+                                    <input class="toggle" type="checkbox" id="LEDGrowMainPWR" />
+                                </div>
+                                <!-- Toggle Title -->
+                                <div>
+                                    <h3>LED</h3>
+                                </div>
+                            </div>
+                            <!-- ============================ Lighting Primary Range Slider ============================  -->
+                            <div class="ControlContainer sliderDom">
+                                <!-- Range Slider -->
+                                <div><input type="range" id="LEDGrowMain" /></div>
 
-            console.log('dimmed ' + dim);
-        };
-        document.getElementById('myonoffswitch').addEventListener('change', function() {
-            socket.emit('stateChanged', this.checked);
-            console.log(this.checked);
-        });
-        document.getElementById('myRange').addEventListener('click', function() {
-            socket.emit('stateChanged', this.value);
-            console.log(this.value);
-        });
-    </script>
-    <script></script>
+                                <!-- Range Slider Value -->
+                                <div>
+                                    <h3>
+                                        <span></span>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ============================ Second Row 2  ============================  -->
+                    <div class="controlsItem controlSystem">
+                        <!-- ============================ Lighting Primary Header ============================  -->
+                        <div class="controlsItemInner">
+                            <h5>Lighting</h5>
+                        </div>
+                        <!-- ============================ Lighting Primary Toggle Switch ============================  -->
+                        <div class="controlsItemInner">
+                            <!-- ============================ Toggle Div wrapper (toggle and title) ============================  -->
+                            <div class="ControlContainer">
+                                <!-- Toggle Div -->
+                                <div>
+                                    <input class="toggle" type="checkbox" id="LEDGrowSup1PWR" />
+                                </div>
+                                <!-- Toggle Title -->
+                                <div>
+                                    <h3>LED</h3>
+                                </div>
+                            </div>
+                            <!-- ============================ Lighting Primary Range Slider ============================  -->
+                            <div class="ControlContainer sliderDom">
+                                <!-- Range Slider -->
+                                <div><input type="range" id="LEDGrowSup1" /></div>
+
+                                <!-- Range Slider Value -->
+                                <div>
+                                    <h3>
+                                        <span></span>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ============================ Third Row 3  ============================  -->
+                    <div class="controlsItem controlSystem">
+                        <!-- ============================ Lighting Primary Header ============================  -->
+                        <div class="controlsItemInner">
+                            <h5>Lighting</h5>
+                        </div>
+                        <!-- ============================ Lighting Primary Toggle Switch ============================  -->
+                        <div class="controlsItemInner">
+                            <!-- ============================ Toggle Div wrapper (toggle and title) ============================  -->
+                            <div class="ControlContainer">
+                                <!-- Toggle Div -->
+                                <div>
+                                    <input class="toggle" type="checkbox" id="LEDGrowSup2PWR" />
+                                </div>
+                                <!-- Toggle Title -->
+                                <div>
+                                    <h3>LED</h3>
+                                </div>
+                            </div>
+                            <!-- ============================ Lighting Primary Range Slider ============================  -->
+                            <div class="ControlContainer sliderDom">
+                                <!-- Range Slider -->
+                                <div><input type="range" id="LEDGrowSup2" /></div>
+
+                                <!-- Range Slider Value -->
+                                <div>
+                                    <h3>
+                                        <span></span>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- /////////////////////////////////////////////////////// TAB 2 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
+
+            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                <!-- ============================ All Swing  Controllers  ============================  -->
+                <div class="allControls">
+                    <!-- ============================ Control Panel Title  ============================  -->
+                    <div class="controlsItem">
+                        <h2>Swing Arm Controls</h2>
+                    </div>
+
+                    <!-- ============================ First Row 1  ============================  -->
+                    <div class="controlsItem controlSystem">
+                        <!-- ============================ Lighting Primary Header ============================  -->
+                        <div class="controlsItemInner">
+                            <h5>Main Power</h5>
+                        </div>
+                        <!-- ============================ Lighting Primary Toggle Switch ============================  -->
+                        <div class="controlsItemInner">
+                            <!-- ============================ Toggle Div wrapper (toggle and title) ============================  -->
+                            <div class="ControlContainer">
+                                <!-- Toggle Div -->
+                                <div>
+                                    <input class="toggle" type="checkbox" id="STPRMainPWR" />
+                                </div>
+                                <!-- Toggle Title -->
+                                <div>
+                                    <h3>LED</h3>
+                                </div>
+                            </div>
+                            <!-- ============================ Lighting Primary Range Slider ============================  -->
+                            <div class="ControlContainer sliderDom">
+                                <!-- Range Slider -->
+                                <div><input type="range" id="STPRMainDIM" min="-100" max="100" /></div>
+
+                                <!-- Range Slider Value -->
+                                <div>
+                                    <h3>
+                                        <span></span>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">3</div>
+        </div>
+    </div>
+    <!-- /// -->
+    <!-- /// -->
+    <!-- /// -->
+    <!-- /// -->
+    <!-- /// -->
+    <!-- /// -->
+    <!-- ============================ Scripts ============================  -->
+    <script src="/scripts/socketScripts.js"></script>
+    <!-- BootStrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 </body>
 
 </html>
