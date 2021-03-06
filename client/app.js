@@ -21,10 +21,10 @@ socket.on('connect', function() {
         // gpio.write(config.led, !state);
     });
     socket.on('rangeChanged', (vals) => {
-        // let emitVals = JSON.parse(vals);
-        console.log(typeof vals);
-        console.log(JSON.parse(vals));
-        console.log('The new range is: ' + vals);
+        let emitVals = JSON.parse(vals);
+        // console.log(typeof vals);
+        console.log(emitVals);
+
 
         // gpio.write(config.led, !state);
     });
