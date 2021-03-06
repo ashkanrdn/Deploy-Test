@@ -36,7 +36,7 @@ sio.connect(server_url)
 # LEDGrowSup1PWR=LED(config.LEDGrowSup1PWRPin)
 # LEDGrowSup2PWR=LED(config.LEDGrowSup2PWRPin)
 def lightBool(light, boolValue):
-    print(type(boolValue, "boolVal"))
+    print(type(boolValue))
     if boolValue:
         light.value = 1
     else:
