@@ -26,6 +26,20 @@ sio = socketio.Client()
 sio.connect(server_url)
 
 
+# LEDGrowMainPWR=LED(config.LEDGrowMainPWRPin)
+# LEDGrowSup1PWR=LED(config.LEDGrowSup1PWRPin)
+# LEDGrowSup2PWR=LED(config.LEDGrowSup2PWRPin)
+def lightBool(light,boolValue):
+    if (boolValue):
+        light.value = 1
+    else:
+        light.value = 0
+
+
+
+
+
+
 @sio.event
 def connect():
     print("I'm connected!")
@@ -33,9 +47,15 @@ def connect():
 
 @sio.on("rangeChanged")
 def rangeChanged(data):
+    # a json containing controller ids and their values
     dashValues = json.loads(data)
+    # looping through all the keys(controller ids) in the json emitted from server
     for controlIDServer in dashValues:
+        # selecting toggle controllers by comparing keys from server with
+        #  a dictionary containing all the toggle controllers
         if controlIDServer in controlsIO:
             controlsIO[controlIDServer]["state"] = dashValues[controlIDServer]
+            lightBool(controlsIO[controlIDServer]["controller"],controlsIO[controlIDServer]["state"])
 
-    print(controlsIO, "mmd")
+
+
