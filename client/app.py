@@ -1,7 +1,7 @@
 import socketio
 import json
 
-from gpiozero import LED
+# from gpiozero import LED
 from time import sleep
 
 import appConfig as config
@@ -14,16 +14,15 @@ import appConfig as config
 #     sleep(0.5)
 #     servo.max()
 
-red= LED(27)
+# red= LED(27)
 
 # while True:
 #
 
 
-
 # standard Python
 server_url = config.serverUrl
-
+controlsIO = config.toggleID
 sio = socketio.Client()
 sio.connect(server_url)
 
@@ -35,14 +34,11 @@ def connect():
 
 @sio.on('rangeChanged')
 def rangeChanged(data):
-    mamad = json.loads(data)
-    for key in mamad:
-        if (key == 'LEDGrowMainPWR'):
-            if(mamad[key] == True):
-                red.on()
-            elif(mamad[key] == False):
-                red.off()
+    dashValues = json.loads(data)
+    for controlIDServer in dashValues:
+        if controlIDServer in controlsIO:
+            controlsIO[controlIDServer] = dashValues[controlIDServer]
+            print(controlsIO[controlIDServer],'mmd',dashValues[controlIDServer])
 
 
-
-
+    print(controlsIO,'mmd')
