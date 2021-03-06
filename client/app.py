@@ -65,4 +65,9 @@ def rangeChanged(data):
                 controlsIO[controlIDServer]["controller"],
                 controlsIO[controlIDServer]["state"],
             )
-        # elif controlIDServer in controlsDim :
+        elif controlIDServer in controlsDim :
+            controlsDim[controlIDServer]["dimVal"] = dashValues[controlIDServer]
+                lightBool(
+                controlsDim[controlIDServer]["controller"],
+                controlsDim[controlIDServer]["dimVal"],
+            )
