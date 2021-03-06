@@ -19,9 +19,15 @@ import appConfig as config
 #
 
 
-# standard Python
-server_url = config.serverUrl
-controlsIO = config.toggleID
+# Config file variable
+
+server_url = config.serverUrl  #connection server URL
+controlsIO = config.toggleID   #toggle controlers ID dict
+controlsDim = config.dimID      #dimmer controllers ID dict
+
+
+# socket-io connections
+
 sio = socketio.Client()
 sio.connect(server_url)
 
@@ -30,6 +36,7 @@ sio.connect(server_url)
 # LEDGrowSup1PWR=LED(config.LEDGrowSup1PWRPin)
 # LEDGrowSup2PWR=LED(config.LEDGrowSup2PWRPin)
 def lightBool(light,boolValue):
+    print(type(boolValue,'boolVal'))
     if (boolValue):
         light.value = 1
     else:
@@ -56,6 +63,6 @@ def rangeChanged(data):
         if controlIDServer in controlsIO:
             controlsIO[controlIDServer]["state"] = dashValues[controlIDServer]
             lightBool(controlsIO[controlIDServer]["controller"],controlsIO[controlIDServer]["state"])
-
+        elif controlIDServer in controlsDim :
 
 
