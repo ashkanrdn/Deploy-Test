@@ -1,7 +1,7 @@
 import socketio
 import json
 
-# from gpiozero import LED
+from gpiozero import LED
 from time import sleep
 
 import appConfig as config
@@ -14,7 +14,7 @@ import appConfig as config
 #     sleep(0.5)
 #     servo.max()
 
-# red= LED(27)
+
 
 # while True:
 #
@@ -36,9 +36,11 @@ def connect():
 def rangeChanged(data):
     dashValues = json.loads(data)
     for controlIDServer in dashValues:
-        if controlIDServer in controlsIO:
-            controlsIO[controlIDServer] = dashValues[controlIDServer]
-            print(controlsIO[controlIDServer],'mmd',dashValues[controlIDServer])
+        if (controlIDServer in controlsIO):
+            print(controlIDServer)
+            print(controlsIO)
+            controlsIO[controlIDServer]['val'] = dashValues[controlIDServer]
 
 
-    print(controlsIO,'mmd')
+
+    # print(controlsIO,'mmd')
