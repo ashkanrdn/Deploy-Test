@@ -4,7 +4,6 @@ from time import sleep
 
 
 
-
 class Stepper():
     def __init__(self, gpioEna, gpioDir, gpioPul):
         self.pins = [gpioEna, gpioDir, gpioPul]
