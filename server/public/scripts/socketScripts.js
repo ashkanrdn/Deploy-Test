@@ -2,15 +2,6 @@ var socket = io.connect('/');
 
 // Show the dim value in the Dash
 
-let sliders = document.querySelectorAll('.sliderDom'); //getting all the slider divs
-Array.prototype.forEach.call(sliders, (slider) => {
-    //looping through divs and getting the sliders
-    slider.querySelector('input').addEventListener('click', (event) => {
-        //   apply  value to the span
-        slider.querySelector('span').innerHTML = event.target.value;
-    });
-});
-
 //selecting all the inputs
 let inputs = document.querySelectorAll('input');
 
@@ -42,8 +33,36 @@ Array.prototype.forEach.call(inputs, (input) => {
         // whenever any changes happen we emit new message
         // before emitting the object we need stringy it
         stringEmit = JSON.stringify(emitter);
-        console.log(stringEmit, 'emit');
+
         // custom message and values are now being emitted
         socket.emit('rangeChanged', stringEmit);
+    });
+});
+
+
+// Aesthetics for when toggle is clicked slider respond to it
+// if dimmer is clicked toggle is checked
+let controlItemInner = document.querySelectorAll('.controlsItemInner');
+
+Array.prototype.forEach.call(controlItemInner, (div) => {
+    //looping through divs and getting the sliders
+    div.querySelector('input[type=range]').addEventListener('click', (event) => {
+        div.querySelector('span').innerHTML = event.target.value;
+        if (event.target.value < 1) {
+            div.querySelector('input[type=checkbox]').checked = false;
+        } else if (event.target.value > 1) {
+            div.querySelector('input[type=checkbox]').checked = true;
+        }
+    });
+
+    div.querySelector('input[type=checkbox]').addEventListener('click', (event) => {
+        if (event.target.checked === true) {
+            div.querySelector('input[type=range]').value = 100;
+            div.querySelector('span').innerHTML = div.querySelector('input[type=range]').value;
+        } else if (event.target.checked === false) {
+            div.querySelector('span').innerHTML = 0;
+
+            div.querySelector('input[type=range]').value = 0;
+        }
     });
 });

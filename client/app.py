@@ -32,11 +32,8 @@ sio = socketio.Client()
 sio.connect(server_url)
 
 
-# LEDGrowMainPWR=LED(config.LEDGrowMainPWRPin)
-# LEDGrowSup1PWR=LED(config.LEDGrowSup1PWRPin)
-# LEDGrowSup2PWR=LED(config.LEDGrowSup2PWRPin)
 def lightBool(light, lightValue):
-    if(type(lightValue) == bool) :
+    if type(lightValue) == bool:
         if lightValue:
             light.value = 1
         else:
@@ -44,11 +41,6 @@ def lightBool(light, lightValue):
     else:
         light.value = lightValue
         print(lightValue)
-    # elif(type(lightValue) == int  ):
-    #         dimMultiply = lightValue * 0.01
-    #         light.value = 0.5
-    #         print(dimMultiply , 'float')
-
 
 
 @sio.event
@@ -70,9 +62,8 @@ def rangeChanged(data):
                 controlsIO[controlIDServer]["controller"],
                 controlsIO[controlIDServer]["state"],
             )
-        elif controlIDServer in controlsDim :
+        elif controlIDServer in controlsDim:
             controlsDim[controlIDServer]["dimVal"] = dashValues[controlIDServer]
-
 
             lightBool(
                 controlsDim[controlIDServer]["controller"],
