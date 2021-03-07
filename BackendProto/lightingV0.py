@@ -5,7 +5,7 @@ import time
 
 
 
-hello=5555555
+hello=5555555555555
 #Lighting Control Basic Function
 
 ledMainPwr = DigitalOutputDevice(18)
