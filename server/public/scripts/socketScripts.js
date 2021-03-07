@@ -33,7 +33,7 @@ Array.prototype.forEach.call(inputs, (input) => {
         } else if (event.target.attributes.type.value === 'range') {
             // if it is range
             let controlId = event.target.id;
-            let controlValue = event.target.value;
+            let controlValue = event.target.value * 0.01;
             // we assign number value
             Object.assign(emitter, {
                 [controlId]: controlValue,

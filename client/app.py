@@ -35,15 +35,20 @@ sio.connect(server_url)
 # LEDGrowMainPWR=LED(config.LEDGrowMainPWRPin)
 # LEDGrowSup1PWR=LED(config.LEDGrowSup1PWRPin)
 # LEDGrowSup2PWR=LED(config.LEDGrowSup2PWRPin)
-def lightBool(light, value):
-    if(type(value) == bool) :
-        if boolValue:
+def lightBool(light, lightValue):
+    if(type(lightValue) == bool) :
+        if lightValue:
             light.value = 1
         else:
             light.value = 0
-    elif(type(value) == int | float ){
-         light.value = value * 0.01
-    }
+    else:
+        light.value = lightValue
+        print(lightValue)
+    # elif(type(lightValue) == int  ):
+    #         dimMultiply = lightValue * 0.01
+    #         light.value = 0.5
+    #         print(dimMultiply , 'float')
+
 
 
 @sio.event
@@ -67,7 +72,11 @@ def rangeChanged(data):
             )
         elif controlIDServer in controlsDim :
             controlsDim[controlIDServer]["dimVal"] = dashValues[controlIDServer]
-                lightBool(
+
+
+            lightBool(
                 controlsDim[controlIDServer]["controller"],
                 controlsDim[controlIDServer]["dimVal"],
             )
+
+            print(controlsDim[controlIDServer]["dimVal"])
