@@ -49,6 +49,10 @@ Array.prototype.forEach.call(controlItemInner, (div) => {
         div.querySelector('span').innerHTML = event.target.value;
         if (event.target.value < 1) {
             div.querySelector('input[type=checkbox]').checked = false;
+            Object.assign(emitter, {
+                [controlId + 'PWR']: false,
+            });
+
         } else if (event.target.value > 1) {
             div.querySelector('input[type=checkbox]').checked = true;
         }
