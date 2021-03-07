@@ -10,7 +10,7 @@ class Stepper():
         self.enable = gpiozero.OutputDevice(gpioEna)
         self.direction = gpiozero.OutputDevice(gpioDir)
         self.pulse = gpiozero.OutputDevice(gpioPul)
-        self.location = 0
+        #self.location = 0
 
     def Callibrate(self):
         self.location = 0
