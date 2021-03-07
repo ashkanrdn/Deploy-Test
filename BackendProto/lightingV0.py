@@ -3,6 +3,7 @@ from gpiozero import DigitalOutputDevice
 from gpiozero import PWMLED
 import time
 
+<<<<<<< HEAD
 #TEMPORARY GPIO ASSIGNMENTS UNTIL CONFIG FILE COMPLETE
 gpioledODMainPwr = 18 #MAIN PWR GPIO ASSIGNMENT
 gpioledPWMMainDim = 25 #MAIN LED GPIO ASSIGNMENT
@@ -15,6 +16,12 @@ gpioIDendArmLt = 8 #PROXIMITY LEFT SENSOR ASSIGNMENT
 gpioIDendArmRt = 11 #PROXIMITY RIGHT GPIO ASSIGNMENT
 ledSuppOnePercentage = 0.50 #Supplemental One LED percentage of main from calibration
 ledSuppTwoPercentage = 0.50 #Supplemental Two LED percentage of main from calibration
+=======
+
+
+hello=5555555555554444
+#Lighting Control Basic Function
+>>>>>>> cf33557cde7663b51e292e49bf1eee86839d2213
 
 #Lighting Control Basic Function
 
