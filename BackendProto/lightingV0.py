@@ -6,6 +6,8 @@ import time
 #Lighting Control Basic Function
 
 ledMainPwr = DigitalOutputDevice(18)
+#need to add comments
+
 
 class LedMain(PWMLED):
     
