@@ -17,10 +17,7 @@ class LedMain(PWMLED):
         if ledMainPwr.is_active == False:
             ledMainPwr.on()
         self.Dim(level)
-    def source(self,source):
-        if ledMainPwr.is_active == False:
-            ledMainPwr.on()
-        self.source(source)
+  
     def off(self):
         ledMainPwr.off()
    
