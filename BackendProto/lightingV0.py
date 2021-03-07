@@ -3,6 +3,9 @@ from gpiozero import DigitalOutputDevice
 from gpiozero import PWMLED
 import time
 
+
+
+hello=5555555
 #Lighting Control Basic Function
 
 ledMainPwr = DigitalOutputDevice(18)
