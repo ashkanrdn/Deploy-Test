@@ -114,6 +114,7 @@ class Stepper():
         self.pulse.off()
     
     def toHome(self):
+        '''Move the arm to the dock location'''
         self.toLocation(0)
 
    
