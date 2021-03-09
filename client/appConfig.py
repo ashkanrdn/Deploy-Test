@@ -9,11 +9,6 @@ LEDGrowMainPWR = PWMLED(17)
 LEDGrowSup1PWR = PWMLED(27)
 LEDGrowSup2PWR = PWMLED(22)
 
-toggleID = {
-    "LEDGrowMainPWR": {"controller": LEDGrowMainPWR, "state": False},
-    "LEDGrowSup1PWR": {"controller": LEDGrowSup1PWR, "state": False},
-    "LEDGrowSup2PWR": {"controller": LEDGrowSup2PWR, "state": False},
-}
 
 dimID = {
     "LEDGrowMain": {"controller": LEDGrowMainPWR, "dimVal": 0},

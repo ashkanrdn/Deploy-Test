@@ -23,7 +23,7 @@ import appConfig as config
 
 server_url = config.serverUrl  # connection server URL
 controlsIO = config.toggleID  # toggle controlers ID dict
-controlsDim = config.dimID  # dimmer controllers ID dict
+controlsDimID = config.dimID  # dimmer controllers ID dict
 
 
 # socket-io connections
@@ -53,21 +53,12 @@ def rangeChanged(data):
     # a json containing controller ids and their values
     dashValues = json.loads(data)
     # looping through all the keys(controller ids) in the json emitted from server
-    for controlIDServer in dashValues:
-        # selecting toggle controllers by comparing keys from server with
-        #  a dictionary containing all the toggle controllers
-        if controlIDServer in controlsIO:
-            controlsIO[controlIDServer]["state"] = dashValues[controlIDServer]
-            lightBool(
-                controlsIO[controlIDServer]["controller"],
-                controlsIO[controlIDServer]["state"],
-            )
-        elif controlIDServer in controlsDim:
-            controlsDim[controlIDServer]["dimVal"] = dashValues[controlIDServer]
+    for controlerIDServer in dashValues:
 
-            lightBool(
-                controlsDim[controlIDServer]["controller"],
-                controlsDim[controlIDServer]["dimVal"],
-            )
+        controlsDimID[controlerIDServer]["dimVal"] = dashValues[controlerIDServer]
 
-            print(controlsDim[controlIDServer]["dimVal"])
+        controlsDimID[controlerIDServer]["controller"].value = controlsDimID[
+            controlerIDServer
+        ]["dimVal"]
+
+        print(controlsDimID[controlerIDServer]["dimVal"])
