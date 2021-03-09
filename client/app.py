@@ -22,7 +22,7 @@ import appConfig as config
 # Config file variable
 
 server_url = config.serverUrl  # connection server URL
-controlsIO = config.toggleID  # toggle controlers ID dict
+
 controlsDimID = config.dimID  # dimmer controllers ID dict
 
 
