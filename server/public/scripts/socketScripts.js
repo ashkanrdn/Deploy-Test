@@ -19,7 +19,7 @@ Array.prototype.forEach.call(controlItemInner, (div) => {
 
         // getting the ID of the control by it's classname
         let controlId = event.target.className;
-        // remaping the value to be between 0 - 1
+        // remapping the value to be between 0 - 1
         let controlValue = event.target.value * 0.01;
         // we make the check box off if the dimmer is 0 and off it is not
 

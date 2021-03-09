@@ -17,7 +17,7 @@ gpioIDendArmRt = 11
 
 class Stepper():
     '''Stepper Class is to control the stepper motor using stepper controller DM322E
-    
+
     gpioEna: set the raspberry pi pin for Enable on controller
     gpioDir: set the raspberry pi pin for Direction on controller
     gpioPul: set the raspberry pi pin for Pulse on controller
@@ -34,8 +34,8 @@ class Stepper():
         self.location = 0
         self.maxStep = 100000
 
-    
-    
+
+
     def Callibrate(self):
         '''Callibration routine to set the zero position and max step position.
         Note: zero postion gets callibrated everytime left proximity is triggered.'''
@@ -52,9 +52,9 @@ class Stepper():
             moveTo = 0
         else:
             moveTo = int((toPosition/100) * self.maxStep)
-        
+
         if moveTo == self.location:
-           print("already there") 
+           print("already there")
         elif moveTo < self.location:
             self.Left((self.location - moveTo), speed)
         elif moveTo > self.location:
@@ -110,9 +110,9 @@ class Stepper():
             else:
                 print("reached far right, please recallibrate")
         print(self.location)
-        
+
         self.pulse.off()
-    
+
     def toHome(self):
         '''Move the arm to the dock location'''
         self.toLocation(0)
@@ -123,8 +123,8 @@ class LedMain(PWMLED):
         gpioDim is the raspberry pi pin assignment for Main LED Dim controller
         gpioSupp1 is the raspberry pi pin assignment for Supplemental 1 controller
         gpioSupp2 is the raspberry pi pin assignment for Supplemental 2 controller
-        
-        on: turns all on 
+
+        on: turns all on
         dim: controls the dim level of the MainLED
             level: the level of dim for MainLED 0 min. 1 max.
             all supplemental LEDs arelevels are assigned as percentage of main
@@ -154,7 +154,7 @@ class LedMain(PWMLED):
         self.on()
         self.ledSuppOne.on()
         self.ledSuppTwo.on()
-  
+
     def off(self):
         '''Powers off the main PWR, main LED and supplemental LED's at last set levels'''
         self.off()
@@ -172,14 +172,15 @@ class LedMain(PWMLED):
         ledSuppOnePercentage = suppOneLevel
         ledSuppTwoPercentage = suppTwoLevel
 
-   
+
 class Lighting():
     def __init__(self, gpioPwr, gpioDim, gpioSupp1, gpioSupp2, gpioEna, gpioDir, gpioPul, gpioEndLt, gpioEndRt):
         self.lights = LedMain(gpioPwr,gpioDim,gpioSupp1,gpioSupp2)
         self.stepper = Stepper(gpioEna,gpioDir,gpioPul,gpioEndLt,gpioEndRt)
     def Callibrate(self, Lights = False, Arm = False):
         if Lights == True:
-            self.
+            # self.
+            print('test')
         elif Arm == True:
             self.stepper.Callibrate()
 
@@ -206,7 +207,7 @@ class Lighting():
         self.stepper.toLocation(0,speed)
 
 
-    
+
 
 
 #testing functionality
