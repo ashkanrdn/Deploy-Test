@@ -1,7 +1,7 @@
 import socketio
 import json
 
-from gpiozero import LED
+# from gpiozero import LED
 from time import sleep
 
 import appConfig as config
