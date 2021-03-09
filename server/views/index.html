@@ -26,7 +26,7 @@
             </li>
             <li class="nav-item h1" role="presentation">
                 <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">
-            Water Controls
+            Irrigation Controls
           </button>
             </li>
         </ul>
@@ -154,11 +154,11 @@
 
                     <!-- ============================ First Row 1  ============================  -->
                     <div class="controlsItem controlSystem">
-                        <!-- ============================ Lighting Primary Header ============================  -->
+                        <!-- ============================ Swing Primary Header ============================  -->
                         <div>
                             <h5>Main Power</h5>
                         </div>
-                        <!-- ============================ Lighting Primary Toggle Switch ============================  -->
+                        <!-- ============================ Swing Primary Toggle Switch ============================  -->
                         <div class="controlsItemInner">
                             <!-- ============================ Toggle Div wrapper (toggle and title) ============================  -->
                             <div class="ControlContainer">
@@ -168,10 +168,10 @@
                                 </div>
                                 <!-- Toggle Title -->
                                 <div>
-                                    <h3>LED</h3>
+                                    <h3>Swing Arm</h3>
                                 </div>
                             </div>
-                            <!-- ============================ Lighting Primary Range Slider ============================  -->
+                            <!-- ============================ Swing Primary Range Slider ============================  -->
                             <div class="ControlContainer sliderDom">
                                 <!-- Range Slider -->
                                 <div><input type="range" id="STPRMainDIM" min="-100" max="100" /></div>
@@ -183,11 +183,101 @@
                                     </h3>
                                 </div>
                             </div>
+                            <!-- ============================ Left And Right Controls ============================  -->
+
+                            <div class="ControlContainer">
+                                <!-- Left Control -->
+                                <div>
+                                    <button type="button" class="btn btn-primary btn-lg"><<</button>
+                                </div>
+                                <!-- Right Control -->
+                                <div>
+                                    <button type="button" class="btn btn-primary btn-lg">>></button>
+                                </div>
+                            </div>
+
+                            <!-- ============================ Left And Right indicator lights ============================  -->
+
+                            <div class="ControlContainer">
+                                <!-- Left Control -->
+                                <div>
+                                    <span class="badge rounded-pill bg-danger">Left</span>
+                                </div>
+                                <!-- Right Control -->
+                                <div>
+                                    <span class="badge rounded-pill bg-danger">Right</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">3</div>
+
+            <!-- /////////////////////////////////////////////////////// TAB 3 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
+            <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+                <!-- ============================ All Swing  Controllers  ============================  -->
+                <div class="allControls">
+                    <!-- ============================ Control Panel Title  ============================  -->
+                    <div class="controlsItem">
+                        <h2>Irrigation Controls</h2>
+                    </div>
+
+                    <!-- ============================ First Row 1  ============================  -->
+                    <div class="controlsItem controlSystem">
+                        <!-- ============================ Swing Primary Toggle Switch ============================  -->
+                        <div class="controlsItemInner">
+                            <!-- ============================ Toggle Div wrapper (toggle and title) ============================  -->
+                            <div class="ControlContainer">
+                                <!-- Toggle Div -->
+                                <div>
+                                    <input class="toggle" type="checkbox" id="STPRMainPWR" />
+                                </div>
+                                <!-- Toggle Title -->
+                                <div>
+                                    <h3>Swing Arm</h3>
+                                </div>
+                            </div>
+                            <!-- ============================ Swing Primary Range Slider ============================  -->
+                            <div class="ControlContainer sliderDom">
+                                <!-- Range Slider -->
+                                <div><input type="range" id="STPRMainDIM" min="-100" max="100" /></div>
+
+                                <!-- Range Slider Value -->
+                                <div>
+                                    <h3>
+                                        <span></span>
+                                    </h3>
+                                </div>
+                            </div>
+                            <!-- ============================ Left And Right Controls ============================  -->
+
+                            <div class="ControlContainer">
+                                <!-- Left Control -->
+                                <div>
+                                    <button type="button" class="btn btn-primary btn-lg"><<</button>
+                                </div>
+                                <!-- Right Control -->
+                                <div>
+                                    <button type="button" class="btn btn-primary btn-lg">>></button>
+                                </div>
+                            </div>
+
+                            <!-- ============================ Left And Right indicator lights ============================  -->
+
+                            <div class="ControlContainer">
+                                <!-- Left Control -->
+                                <div>
+                                    <span class="badge rounded-pill bg-danger">Left</span>
+                                </div>
+                                <!-- Right Control -->
+                                <div>
+                                    <span class="badge rounded-pill bg-danger">Right</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- /// -->
