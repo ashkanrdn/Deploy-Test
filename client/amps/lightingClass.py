@@ -84,7 +84,7 @@ class Stepper():
             else:
                 self.location = 0
                 print("reached far left")
-        print(self.location)
+        # print(self.location)
         self.pulse.off()
 
     def Right(self, steps, speed=100):
@@ -109,7 +109,7 @@ class Stepper():
                 self.location = self.location + 1
             else:
                 print("reached far right, please recallibrate")
-        print(self.location)
+        # print(self.location)
 
         self.pulse.off()
 
@@ -117,7 +117,7 @@ class Stepper():
         '''Move the arm to the dock location'''
         self.toLocation(0)
 
-class LedMain(PWMLED):
+class LedMain():
     ''' The LedMain class controls the main LED grow light:
         gpioPwr is the raspberry pi pin assignment for Main LED Power on/off
         gpioDim is the raspberry pi pin assignment for Main LED Dim controller
@@ -130,30 +130,37 @@ class LedMain(PWMLED):
             all supplemental LEDs arelevels are assigned as percentage of main
         off: turns all off'''
 
-    def __init__(self, gpioPwr, gpioDim, gpioSupp1, gpioSupp2, ledSuppOnePercentage = 50, ledSuppTwoPercentage = 50):
-        super().__init__(gpioDim) #inherit PMWLED class
-        self.power = gpiozero.DigitalOutputDevice(gpioPwr) #assign MainLED power on/off
-        self.ledSuppOne = gpiozero.PWMLED(gpioSupp1) #assign suppOne as PWMLED
-        self.ledSuppTwo = gpiozero.PWMLED(gpioSupp2) #assign suppTwo as PWMLED
+    def __init__(self, gpioPwr, gpioDim, gpioSupp1, gpioSupp2, ledSuppOnePercentage = 0.5, ledSuppTwoPercentage = 0.5):
 
+        self.lightingLedMainpower = gpiozero.DigitalOutputDevice(gpioPwr) #assign MainLED power on/off
+        self.lightingLedMain = gpiozero.PWMLED(gpioDim) #assign lightingLedMain
+        self.lightingLedSuppOne = gpiozero.PWMLED(gpioSupp1) #assign lightingLedSuppOne as PWMLED
+        self.lightingLedSuppTwo = gpiozero.PWMLED(gpioSupp2) #assign lightingLedSuppTwo as PWMLED
+        self.lightingLedSuppOnePercentage = ledSuppOnePercentage # setting the initial Dim value for lightingLedSuppOne
+        self.lightingLedSuppTwoPercentage =ledSuppTwoPercentage #setting the initial Dim value for lightingLedSuppTwo
+        print('Class Initiated')
     def on(self):
         '''Powers on the main PWR, main LED and supplemental LED's at last set levels'''
-        self.power.on()
+        self.lightingLedMainpower.on()
         time.sleep(.5)
         self.on()
         self.ledSuppOne.on()
         self.ledSuppTwo.on()
+        print('on')
 
     def dim(self,level):
         '''Set the dim level for the main LED. The supplemental LED's are asigned based on the configuration file data as a percentage of the MainLED level'''
         if self.power.is_active == False:
             self.power.on()
+        print(level)
         self.value = level
-        self.ledSuppOne.value = (level * ledSuppOnePercentage)
-        self.ledSuppTwo.value = (level * ledSuppTwoPercentage)
+        self.ledSuppOne.value = 1
+        self.ledSuppTwo.value = 1
+
         self.on()
         self.ledSuppOne.on()
         self.ledSuppTwo.on()
+        print('on')
 
     def off(self):
         '''Powers off the main PWR, main LED and supplemental LED's at last set levels'''
@@ -165,12 +172,12 @@ class LedMain(PWMLED):
     def Callibrate(self, suppOneLevel,suppTwoLevel):
         #figure out how to callibrate supp leds
         self.power.on()
-        self.dim(100)
+        self.dim(1)
         #set supplemental one level:
-        self.ledSuppTwo.value = suppOneLevel
-        self.ledSuppTwo.value = suppTwoLevel
-        ledSuppOnePercentage = suppOneLevel
-        ledSuppTwoPercentage = suppTwoLevel
+        self.ledSuppOne.value = sliderValueOne
+        self.ledSuppTwo.value = sliderValueTwo
+        self.ledSuppOnePercentage = (self.ledSuppOne.value/self.value)
+        self.ledSuppTwoPercentage = (self.ledSuppTwo.value/self.value)
 
 
 class Lighting():
@@ -210,19 +217,20 @@ class Lighting():
 
 
 
-#testing functionality
-sleep(1)
-stepper = Stepper(gpioODEnable,gpioODDir,gpioODPul,gpioIDendArmLt,gpioIDendArmRt)
-stepper.Right(12800)
-stepper.Right(1600)
-stepper.Left(12800, 50)
-stepper.toLocation(50)
-#button push while loop might look like this
-count = 1
-while True:
-    count = count + 1
-    stepper.Left(10,200)
-    if count > 600:
-        break
+# #testing functionality
+# sleep(1)
+# stepper = Stepper(gpioODEnable,gpioODDir,gpioODPul,gpioIDendArmLt,gpioIDendArmRt)
+# stepper.Right(12800)
+# stepper.Right(1600)
+# stepper.Left(12800, 50)
+# stepper.toLocation(50)
+# #button push while loop might look like this
+# count = 1
+# while True:
+#     count = count + 1
+#     stepper.Left(10,200)
+#     if count > 600:
+#         break
 
-stepper.toHome()
+# stepper.toHome()
+
