@@ -108,6 +108,8 @@
           </button>
         </li>
       </ul>
+      <!-- /////////////////////////////////////////////////////// CONTROL PANELS  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
+
       <div class="tab-content" id="pills-tabContent">
         <!-- /////////////////////////////////////////////////////// TAB 1 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
         <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
@@ -309,7 +311,7 @@
 
         <!-- /////////////////////////////////////////////////////// TAB 3 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
         <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-          <!-- ============================ All Swing  Controllers  ============================  -->
+          <!-- ============================ All Irrigation  Controllers  ============================  -->
           <div class="allControls">
             <!-- ============================ Control Panel Title  ============================  -->
             <div class="controlsItem">
@@ -318,54 +320,97 @@
 
             <!-- ============================ First Row 1  ============================  -->
             <div class="controlsItem controlSystem">
-              <!-- ============================ Swing Primary Toggle Switch ============================  -->
-              <div class="controlsItemInner">
-                <!-- ============================ Toggle Div wrapper (toggle and title) ============================  -->
+              <!-- ============================ IRG PUMP MAIN SWITCH     ============================  -->
+              <div class="controlsItemInner airCtrl">
+                <!-- ============================ IRG PUMP MAIN // LVL5 SWITCH  (toggle and title) ============================  -->
                 <div class="ControlContainer">
-                  <!-- Toggle Div -->
-                  <div>
-                    <input class="toggle" type="checkbox" id="STPRMainPWR" />
+                  <!-- Toggle Pump Main -->
+                  <div class="stackedToggle">
+                    <input class="IRGMainPump toggle" type="checkbox" />
+                    <h3>PUMP MAIN</h3>
                   </div>
-                  <!-- Toggle Title -->
-                  <div>
-                    <h3>Swing Arm</h3>
+                  <!-- Toggle LVL 5 -->
+                  <div class="stackedToggle">
+                    <input class="IRGlvl5 toggle" type="checkbox" />
+                    <h3>lvl 5</h3>
                   </div>
                 </div>
-                <!-- ============================ Swing Primary Range Slider ============================  -->
-                <div class="ControlContainer sliderDom">
-                  <!-- Range Slider -->
-                  <div><input type="range" id="STPRMainDIM" min="-100" max="100" /></div>
+              </div>
+            </div>
 
-                  <!-- Range Slider Value -->
-                  <div>
-                    <h3>
-                      <span></span>
-                    </h3>
+            <!-- ============================ SECOND ROW 2 ============================  -->
+            <div class="controlsItem controlSystem">
+              <!-- ============================ IRG PUMP MAIN SWITCH     ============================  -->
+              <div class="controlsItemInner airCtrl">
+                <!-- ============================ IRG PUMP MAIN // LVL5 SWITCH  (toggle and title) ============================  -->
+                <div class="ControlContainer">
+                  <!-- Toggle Pump Main -->
+                  <div class="stackedToggle">
+                    <input class="IRGWtrPump toggle" type="checkbox" />
+                    <h3>H2O</h3>
+                  </div>
+                  <!-- Toggle LVL 5 -->
+                  <div class="stackedToggle">
+                    <input class="IRGlvl4 toggle" type="checkbox" />
+                    <h3>lvl 4</h3>
                   </div>
                 </div>
-                <!-- ============================ Left And Right Controls ============================  -->
-
+              </div>
+            </div>
+            <!-- ============================ Third ROW 3 ============================  -->
+            <div class="controlsItem controlSystem">
+              <!-- ============================ IRG PUMP MAIN SWITCH     ============================  -->
+              <div class="controlsItemInner airCtrl">
+                <!-- ============================ IRG PUMP MAIN // LVL5 SWITCH  (toggle and title) ============================  -->
                 <div class="ControlContainer">
-                  <!-- Left Control -->
-                  <div>
-                    <button type="button" class="btn btn-primary btn-lg"><<</button>
+                  <!-- Toggle Pump Main -->
+                  <div class="stackedToggle">
+                    <input class="IRGNtrPump toggle" type="checkbox" />
+                    <h3>Nutrient</h3>
                   </div>
-                  <!-- Right Control -->
-                  <div>
-                    <button type="button" class="btn btn-primary btn-lg">>></button>
+                  <!-- Toggle LVL 5 -->
+                  <div class="stackedToggle">
+                    <input class="IRGlvl3 toggle" type="checkbox" />
+                    <h3>lvl 3</h3>
                   </div>
                 </div>
-
-                <!-- ============================ Left And Right indicator lights ============================  -->
-
+              </div>
+            </div>
+            <!-- ============================ SECOND ROW 2 ============================  -->
+            <div class="controlsItem controlSystem">
+              <!-- ============================ IRG PUMP MAIN SWITCH     ============================  -->
+              <div class="controlsItemInner airCtrl">
+                <!-- ============================ IRG PUMP MAIN // LVL5 SWITCH  (toggle and title) ============================  -->
                 <div class="ControlContainer">
-                  <!-- Left Control -->
-                  <div>
-                    <span class="badge rounded-pill bg-danger">Left</span>
+                  <!-- Toggle Pump Main -->
+                  <div class="stackedToggle">
+                    <input class="IRGTransPump toggle" type="checkbox" />
+                    <h3>Transfer</h3>
                   </div>
-                  <!-- Right Control -->
-                  <div>
-                    <span class="badge rounded-pill bg-danger">Right</span>
+                  <!-- Toggle LVL 5 -->
+                  <div class="stackedToggle">
+                    <input class="IRGlvl2 toggle" type="checkbox" />
+                    <h3>lvl 2</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ============================ FIRST ROW 1 ============================  -->
+            <div class="controlsItem controlSystem">
+              <!-- ============================ IRG PUMP MAIN SWITCH     ============================  -->
+              <div class="controlsItemInner airCtrl">
+                <!-- ============================ IRG PUMP MAIN // LVL5 SWITCH  (toggle and title) ============================  -->
+                <div class="ControlContainer">
+                  <!-- Toggle Pump Main -->
+                  <div class="stackedToggle">
+                    <input class="IRGTransPump toggle" type="checkbox" />
+                    <h3>Lights</h3>
+                  </div>
+                  <!-- Toggle LVL 5 -->
+                  <div class="stackedToggle">
+                    <input class="IRGlvl1 toggle" type="checkbox" />
+                    <h3>lvl 1</h3>
                   </div>
                 </div>
               </div>

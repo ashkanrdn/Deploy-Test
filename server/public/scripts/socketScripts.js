@@ -19,7 +19,6 @@ Array.prototype.forEach.call(controlItemInner, (div) => {
     div.querySelector('input[type=range]').addEventListener('click', (event) => {
       // Showing the Dim Value
       div.querySelector('span').innerHTML = event.target.value;
-
       // getting the ID of the control by it's classname
       let controlId = event.target.className;
       // remapping the value to be between 0 - 1
@@ -75,49 +74,20 @@ LEDMain.addEventListener('change', (toggle) => {
 
 //////////////////////////////////////////////////////// Swing Arm \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-// // getting the divs with controlsItemInner this is a div that has controls for each control module
-// let controlItemInnerSwing = document.querySelectorAll('.controlsItemInner.swingCtrl');
+let controlItemInnerAir = document.querySelectorAll('.controlsItemInner.airCtrl');
 
-// Array.prototype.forEach.call(controlItemInner, (div) => {
-//   //looping through divs and getting the sliders
-//   if (div.querySelector('input[type=range]') !== null) {
-//     div.querySelector('input[type=range]').addEventListener('click', (event) => {
-//       // Showing the Dim Value
-//       div.querySelector('span').innerHTML = event.target.value;
+Array.prototype.forEach.call(controlItemInnerAir, (div) => {
+  let airToggle = div.querySelectorAll('input[type=checkbox]');
 
-//       // getting the ID of the control by it's classname
-//       let controlId = event.target.className;
-//       // remapping the value to be between 0 - 1
-//       let controlValue = event.target.value * 0.01;
-
-//       // The message object
-//       Object.assign(emitter, {
-//         [controlId]: controlValue,
-//       });
-
-//       // custom message and values are now being emitted
-//       socket.emit('rangeChanged', JSON.stringify(emitter));
-//     });
-//   }
-
-//   div.querySelector('input[type=checkbox]').addEventListener('click', (event) => {
-//     // getting the ID of the control by it's classname
-//     let controlId = event.target.className.split(' ')[0];
-
-//     let dimval = event.target.checked ? 1 : 0;
-
-//     console.log(controlId);
-//     if (div.querySelector('input[type=range]') !== null) {
-//       div.querySelector('input[type=range]').value = event.target.checked ? 100 : 0;
-
-//       div.querySelector('span').innerHTML = dimval * 100;
-//     }
-
-//     Object.assign(emitter, {
-//       [controlId]: dimval,
-//     });
-
-//     // custom message and values are now being emitted
-//     socket.emit('rangeChanged', JSON.stringify(emitter));
-//   });
-// });
+  Array.prototype.forEach.call(airToggle, (toggle) => {
+    toggle.addEventListener('change', (toggleChanged) => {
+      let controlId = toggleChanged.target.className.split(' ')[0];
+      let pumpVal = toggleChanged.target.checked ? 1 : 0;
+      console.log(controlId, pumpVal);
+      Object.assign(emitter, {
+        [controlId]: pumpVal,
+      });
+    });
+    socket.emit('rangeChanged', JSON.stringify(emitter));
+  });
+});
