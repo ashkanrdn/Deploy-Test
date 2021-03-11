@@ -3,7 +3,8 @@ from gpiozero import DigitalOutputDevice
 import time
 
 
-
+#   IRGMainPump, IRGWtrPump, IRGTrnsPump, IRGNutrPump ,
+            # IRGlvl1Sol, IRGlvl2Sol, IRGlvl3Sol, IRGlvl4Sol, IRGlvl5Sol
 
 
 
