@@ -30,15 +30,6 @@ gpioLedPWMSup2Dim= config.gpioLedPWMSupTWoDim
 
 lightingControls = LedMain(gpioPwr = gpioLedODMainPwr , gpioDim = gpioLedPWMMainDim , gpioSupp1 = gpioLedPWMSup1Dim, gpioSupp2 = gpioLedPWMSup2Dim)
 
-dimID = {
-
-
-    "LEDGrowMainPwr": {"controller": lightingControls.lightingLedMainPWR, "dimVal": 0},
-
-    "LEDGrowMain": {"controller": lightingControls.lightingLedMain, "dimVal": 0},
-    "LEDGrowSup1": {"controller": lightingControls.lightingLedSuppOne, "dimVal": 0},
-    "LEDGrowSup2": {"controller": lightingControls.lightingLedSuppTwo, "dimVal": 0},
-}
 
 
 # socket-io connections
@@ -66,36 +57,3 @@ def rangeChanged(data):
 
     else:
         lightingControls.off()
-    # looping through all the keys(controller ids) in the json emitted from server
-
-    # for controlerIDServer in dashValues:
-    print(dashValues)
-
-    # if(dashValues['LEDGrowMainPwr'] == 0):
-    #     lightingControls.off()
-    # print(dashValues['lightingMainControls'],'shab')
-
-
-
-
-        # dimVal= dashValues[controlerIDServer]
-        # if controlerIDServer == 'lightingMainControls':
-        #     # lightingControls.dim(dimVal)
-        #     lightingControls.on()
-
-        # elif (controlerIDServer == 'LEDGrowMain'):
-        #     if (dashValues['LEDGrowMain'] > 0):
-        #         dimID['LEDGrowMainPwr']['controller'].on()
-        #         dimID['LEDGrowMain']['controller'].value= dimVal
-        #     elif (dashValues['LEDGrowMain'] == 0):
-        #         dimID['LEDGrowMainPwr']['controller'].off()
-        #         dimID['LEDGrowMain']['controller'].value= dimVal
-        # else:
-
-
-        #     # updating the values in the controller dictionary
-        #     dimID[controlerIDServer]["dimVal"] =dimVal
-        #     # changing the dim value
-        #     dimID[controlerIDServer]["controller"].value = dimID[controlerIDServer]["dimVal"]
-
-        #     print(dimID[controlerIDServer]["dimVal"])
