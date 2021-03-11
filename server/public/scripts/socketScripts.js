@@ -7,7 +7,7 @@ let emitter = {
     LEDGrowMain: 0,
     LEDGrowSup1: 0,
     LEDGrowSup2: 0,
-
+    lightingMainControls: 1,
     LEDGrowMainPwr: 0
 };
 

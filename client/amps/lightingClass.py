@@ -146,7 +146,7 @@ class LedMain():
         '''Powers on the main PWR, main LED and supplemental LED's at last set levels'''
         self.lightingLedMainPWR.on()
         time.sleep(.5)
-        self.on()
+        self.lightingLedMain.on()
         self.lightingLedSuppOneDim.on()
         self.lightingLedSuppTwoDim.on()
         print('on')
@@ -160,18 +160,18 @@ class LedMain():
         self.lightingLedMain.value = mainDim
         self.lightingLedSuppOne.value = sup1Dim
         self.lightingLedSuppTwo.value = sup2Dim
-        time.sleep(5)
+
 
         print('on')
 
     def off(self):
         '''Powers off the main PWR, main LED and supplemental LED's at last set levels'''
-        self.off()
+        self.lightingLedMain.off()
         self.lightingLedSuppOne.off()
         self.lightingLedSuppTwo.off()
-        time.sleep(0.5)
-        self.lightingLedMainPWR.power.off()
 
+        self.lightingLedMainPWR.off()
+        print('off')
 
 
 

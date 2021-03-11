@@ -57,12 +57,16 @@ def rangeChanged(data):
     # a json containing controller ids and their values
     dashValues = json.loads(data)
     # looping through all the keys(controller ids) in the json emitted from server
-    # mainDim =dashValues['LEDGrowMain']
-    # sup1Dim =dashValues['LEDGrowSup1']
-    # sup2Dim =dashValues['LEDGrowSup2']
-    # lightingControls.dim(mainDim,sup1Dim,sup2Dim)
+    mainDim =dashValues['LEDGrowMain']
+    sup1Dim =dashValues['LEDGrowSup1']
+    sup2Dim =dashValues['LEDGrowSup2']
+    lightingControls.dim(mainDim,sup1Dim,sup2Dim)
     # for controlerIDServer in dashValues:
     print(dashValues)
+
+    if(dashValues['lightingMainControls'] == 0):
+        lightingControls.off()
+    # print(dashValues['lightingMainControls'],'shab')
 
 
 
