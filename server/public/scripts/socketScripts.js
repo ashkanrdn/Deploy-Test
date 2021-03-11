@@ -3,7 +3,13 @@ var socket = io.connect('/');
 // Show the dim value in the Dash
 
 // making the emitter object
-let emitter = {};
+let emitter = {
+    LEDGrowMain: 0,
+    LEDGrowSup1: 0,
+    LEDGrowSup2: 0,
+
+    LEDGrowMainPwr: 0
+};
 
 // getting the divs with controlsItemInner this is a div that has controls for each control module
 let controlItemInner = document.querySelectorAll('.controlsItemInner');
