@@ -31,12 +31,15 @@ gpioLedPWMSup2Dim= config.gpioLedPWMSupTWoDim
 lightingControls = LedMain(gpioPwr = gpioLedODMainPwr , gpioDim = gpioLedPWMMainDim , gpioSupp1 = gpioLedPWMSup1Dim, gpioSupp2 = gpioLedPWMSup2Dim)
 
 dimID = {
+
+  ,
     "LEDGrowMainPwr": {"controller": lightingControls.lightingLedMainPWR, "dimVal": 0},
 
     "LEDGrowMain": {"controller": lightingControls.lightingLedMain, "dimVal": 0},
     "LEDGrowSup1": {"controller": lightingControls.lightingLedSuppOne, "dimVal": 0},
     "LEDGrowSup2": {"controller": lightingControls.lightingLedSuppTwo, "dimVal": 0},
 }
+
 
 # socket-io connections
 
@@ -54,10 +57,13 @@ def rangeChanged(data):
     # a json containing controller ids and their values
     dashValues = json.loads(data)
     # looping through all the keys(controller ids) in the json emitted from server
-    for controlerIDServer in dashValues:
-        # updating the values in the controller dictionary
-        dimID[controlerIDServer]["dimVal"] = dashValues[controlerIDServer]
-        # changing the dim value
-        dimID[controlerIDServer]["controller"].value = dimID[controlerIDServer]["dimVal"]
+    if controlerIDServer == 'lightingMainControls':
+        lightingControls.dim([controlerIDServer]["dimVal"])
+    else:
+        for controlerIDServer in dashValues:
+            # updating the values in the controller dictionary
+            dimID[controlerIDServer]["dimVal"] = dashValues[controlerIDServer]
+            # changing the dim value
+            dimID[controlerIDServer]["controller"].value = dimID[controlerIDServer]["dimVal"]
 
-        print(dimID[controlerIDServer]["dimVal"])
+            print(dimID[controlerIDServer]["dimVal"])
