@@ -147,19 +147,19 @@ class LedMain():
         self.lightingLedMainPWR.on()
         time.sleep(.5)
         self.on()
-        self.ledSuppOne.on()
-        self.ledSuppTwo.on()
+        self.lightingLedSuppOneDim.on()
+        self.lightingLedSuppTwoDim.on()
         print('on')
 
-    def dim(self,level):
+    def dim(self,mainDim=0,sup1Dim=0,sup2Dim=0):
         '''Set the dim level for the main LED. The supplemental LED's are asigned based on the configuration file data as a percentage of the MainLED level'''
         if self.lightingLedMainPWR.is_active == False:
             self.lightingLedMainPWR.on()
             print('pwr on')
-        print(level)
-        self.lightingLedMain.value = level
-        self.lightingLedSuppOne.value = level
-        self.lightingLedSuppTwo.value = level
+
+        self.lightingLedMain.value = mainDim
+        self.lightingLedSuppOne.value = sup1Dim
+        self.lightingLedSuppTwo.value = sup2Dim
         time.sleep(5)
 
         print('on')
@@ -167,19 +167,24 @@ class LedMain():
     def off(self):
         '''Powers off the main PWR, main LED and supplemental LED's at last set levels'''
         self.off()
-        self.ledSuppOne.off()
-        self.ledSuppTwo.off()
+        self.lightingLedSuppOne.off()
+        self.lightingLedSuppTwo.off()
         time.sleep(0.5)
-        self.power.off()
+        self.lightingLedMainPWR.power.off()
+
+
+
+
+
     def Callibrate(self, suppOneLevel,suppTwoLevel):
         #figure out how to callibrate supp leds
-        self.power.on()
-        self.dim(1)
+        self.lightingLedMainPWR.power.on()
+
         #set supplemental one level:
-        self.ledSuppOne.value = sliderValueOne
-        self.ledSuppTwo.value = sliderValueTwo
-        self.ledSuppOnePercentage = (self.ledSuppOne.value/self.value)
-        self.ledSuppTwoPercentage = (self.ledSuppTwo.value/self.value)
+        self.lightingLedSuppOne.value = suppOneLevel
+        self.lightingLedSuppTwo.value = suppTwoLevel
+        self.ledSuppOnePercentage = (self.lightingLedSuppOne.value/self.lightingLedMain)
+        self.ledSuppTwoPercentage = (self.lightingLedSuppTwo.value/self.lightingLedMain)
 
 
 # class Lighting():

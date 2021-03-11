@@ -57,23 +57,33 @@ def rangeChanged(data):
     # a json containing controller ids and their values
     dashValues = json.loads(data)
     # looping through all the keys(controller ids) in the json emitted from server
-    for controlerIDServer in dashValues:
-        dimVal= dashValues[controlerIDServer]
-        if controlerIDServer == 'lightingMainControls':
-            lightingControls.dim(dimVal)
-        elif (controlerIDServer == 'LEDGrowMain'):
-            if (dashValues['LEDGrowMain'] > 0):
-                dimID['LEDGrowMainPwr']['controller'].on()
-                dimID['LEDGrowMain']['controller'].value= dimVal
-            elif (dashValues['LEDGrowMain'] == 0):
-                dimID['LEDGrowMainPwr']['controller'].off()
-                dimID['LEDGrowMain']['controller'].value= dimVal
-        else:
+    mainDim =dashValues['LEDGrowMain']
+    sup1Dim =dashValues['LEDGrowSup1']
+    mainDim =dashValues['LEDGrowSup2']
+    lightingControls.dim(mainDim,sup1Dim,sup2Dim)
+    # for controlerIDServer in dashValues:
 
 
-            # updating the values in the controller dictionary
-            dimID[controlerIDServer]["dimVal"] =dimVal
-            # changing the dim value
-            dimID[controlerIDServer]["controller"].value = dimID[controlerIDServer]["dimVal"]
 
-            print(dimID[controlerIDServer]["dimVal"])
+
+        # dimVal= dashValues[controlerIDServer]
+        # if controlerIDServer == 'lightingMainControls':
+        #     # lightingControls.dim(dimVal)
+        #     lightingControls.on()
+
+        # elif (controlerIDServer == 'LEDGrowMain'):
+        #     if (dashValues['LEDGrowMain'] > 0):
+        #         dimID['LEDGrowMainPwr']['controller'].on()
+        #         dimID['LEDGrowMain']['controller'].value= dimVal
+        #     elif (dashValues['LEDGrowMain'] == 0):
+        #         dimID['LEDGrowMainPwr']['controller'].off()
+        #         dimID['LEDGrowMain']['controller'].value= dimVal
+        # else:
+
+
+        #     # updating the values in the controller dictionary
+        #     dimID[controlerIDServer]["dimVal"] =dimVal
+        #     # changing the dim value
+        #     dimID[controlerIDServer]["controller"].value = dimID[controlerIDServer]["dimVal"]
+
+        #     print(dimID[controlerIDServer]["dimVal"])
