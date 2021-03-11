@@ -36,7 +36,6 @@ dimID = {
     "LEDGrowSup2": {"controller": lightingControls.lightingLedSuppTwo, "dimVal": 0},
 }
 
-
 # socket-io connections
 
 sio = socketio.Client()
