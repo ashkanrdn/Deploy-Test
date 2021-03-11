@@ -33,7 +33,6 @@ Array.prototype.forEach.call(controlItemInner, (div) => {
 
     let doubleToggle = div.querySelectorAll('input[type=checkbox]');
     Array.prototype.forEach.call(doubleToggle, (toggle) => {
-        console.log(toggle, 'toggle');
         toggle.addEventListener('click', (event) => {
             // getting the ID of the control by it's classname
             let controlId = event.target.className.split(' ')[0];
