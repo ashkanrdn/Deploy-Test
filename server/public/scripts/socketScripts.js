@@ -19,8 +19,8 @@ Array.prototype.forEach.call(controlItemInner, (div) => {
         // remapping the value to be between 0 - 1
         let controlValue = event.target.value * 0.01;
         // we make the check box off if the dimmer is 0 and off it is not
-
         div.querySelector('input[type=checkbox]').checked = event.target.value < 1 ? false : true;
+
         let dimval = event.target.value < 1 ? 0 : 100;
         // The message object
         Object.assign(emitter, {
@@ -36,11 +36,16 @@ Array.prototype.forEach.call(controlItemInner, (div) => {
         toggle.addEventListener('click', (event) => {
             // getting the ID of the control by it's classname
             let controlId = event.target.className.split(' ')[0];
-            console.log(controlId);
-            let dimval = event.target.checked ? 1 : 0;
-            div.querySelector('input[type=range]').value = event.target.checked ? 100 : 0;
 
-            div.querySelector('span').innerHTML = dimval * 100;
+            let dimval = event.target.checked ? 1 : 0;
+
+            if (controlId !== 'LEDGrowMainPwr') {
+
+                console.log(controlId);
+                div.querySelector('input[type=range]').value = event.target.checked ? 100 : 0;
+
+                div.querySelector('span').innerHTML = dimval * 100;
+            }
             Object.assign(emitter, {
                 [controlId]: dimval,
             });
@@ -49,4 +54,21 @@ Array.prototype.forEach.call(controlItemInner, (div) => {
             socket.emit('rangeChanged', JSON.stringify(emitter));
         });
     });
+
+
+
 });
+
+let LEDMain = document.getElementById('LEDGrowMainID')
+let LEDMainPwr = document.getElementById('LEDGrowPowerID')
+LEDMain.addEventListener('change', (toggle) => {
+    ischecked = toggle.target.checked
+    if (ischecked) {
+        LEDMainPwr.checked = true
+        Object.assign(emitter, {
+            'LEDGrowMainPwr': 1,
+        });
+        socket.emit('rangeChanged', JSON.stringify(emitter));
+    }
+
+})
