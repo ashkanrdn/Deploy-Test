@@ -23,14 +23,15 @@ class Irrigation():
         self.IRGlvl3Sol = DigitalOutputDevice(gpiolvl3Sol)
         self.IRGlvl4Sol = DigitalOutputDevice(gpiolvl4Sol)
         self.IRGlvl5Sol = DigitalOutputDevice(gpiolvl5Sol)
-        self.IRGPumps = [self.IRGMainPump,self.IRGWtrPump,self.IRGTrnsPump,self.IRGNutrPump]
+        self.IRGPumps = [self.IRGlvl1Sol, self.IRGlvl2Sol,self.IRGlvl3Sol,self.IRGlvl4Sol,self.IRGlvl5Sol]
 
     def waterCycle(self, cycleTime):
         self.IRGMainPump.on()
         time.sleep(1)
-        self.IRGWtrPump()
+        self.IRGWtrPump.on()
         time.sleep(1)
         for pump in self.IRGPumps:
+            print(pump)
             pump.on()
             time.sleep(cycleTime)
             pump.off()
@@ -42,7 +43,7 @@ class Irrigation():
     def nutrientCycle(self,cycleTime):
         self.IRGMainPump.on()
         time.sleep(1)
-        self.IRGNutrPump()
+        self.IRGNutrPump.on()
         time.sleep(1)
         for pump in self.IRGPumps:
             pump.on()
@@ -59,4 +60,4 @@ class Irrigation():
 Wtring =Irrigation(gpioMainPump=14, gpioWtrPump=15,gpioTrnsPump=18, gpioNutrPump=23,
                 gpiolvl1Sol=24, gpiolvl2Sol=25, gpiolvl3Sol=8, gpiolvl4Sol=7, gpiolvl5Sol=1)
 
-Wtring.waterCycle(0.1)
+Wtring.waterCycle(3)
