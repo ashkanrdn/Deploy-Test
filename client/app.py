@@ -1,4 +1,7 @@
-# # Modify PATH so we can import files from elsewhere in this repo
+
+import os
+import sys
+ # Modify PATH so we can import files from elsewhere in this repo
 from os.path import dirname, join, abspath
 sys.path.insert(0, abspath(join(dirname(__file__), '..')))
 
@@ -18,9 +21,20 @@ from amps.lightingClass import LedMain
 
 server_url = config.serverUrl  # connection server URL
 
-controlsDimID = config.dimID  # dimmer controllers ID dict
-lightingControls = LedMain(gpioPwr = , gpioDim, gpioSupp1, gpioSupp2, ledSuppOneDim = 0.5, ledSuppTwoDim = 0.5 , ledMainDim = 0.5):
 
+
+gpioLedODMainPwr =  config.gpioLedODMainPwr
+gpioLedPWMMainDim =  config.gpioLedPWMMainDim
+gpioLedPWMSup1Dim = config.gpioLedPWMSupOneDim
+gpioLedPWMSup2Dim= config.gpioLedPWMSupTWoDim
+
+lightingControls = LedMain(gpioPwr = gpioLedODMainPwr , gpioDim = gpioLedPWMMainDim , gpioSupp1 = gpioLedPWMSup1Dim, gpioSupp2 = gpioLedPWMSup2Dim)
+
+dimID = {
+    "LEDGrowMain": {"controller": lightingControls.gpioLedPWMMainDim, "dimVal": 0},
+    "LEDGrowSup1": {"controller": lightingControls.gpioLedPWMSup1Dim, "dimVal": 0},
+    "LEDGrowSup2": {"controller": lightingControls.gpioLedPWMSup2Dim, "dimVal": 0},
+}
 
 
 # socket-io connections
