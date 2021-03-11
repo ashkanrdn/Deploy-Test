@@ -135,7 +135,7 @@ class LedMain():
 
     def __init__(self, gpioPwr, gpioDim, gpioSupp1, gpioSupp2, ledSuppOneDim = 0.5, ledSuppTwoDim = 0.5 , ledMainDim = 0.5):
 
-        self.lightingLedMainpower = gpiozero.DigitalOutputDevice(gpioPwr) #assign MainLED power on/off
+        self.lightingLedMainPWR = gpiozero.DigitalOutputDevice(gpioPwr) #assign MainLED power on/off
         self.lightingLedMain = gpiozero.PWMLED(gpioDim) #assign lightingLedMain
         self.lightingLedSuppOne = gpiozero.PWMLED(gpioSupp1) #assign lightingLedSuppOne as PWMLED
         self.lightingLedSuppTwo = gpiozero.PWMLED(gpioSupp2) #assign lightingLedSuppTwo as PWMLED

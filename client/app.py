@@ -31,6 +31,8 @@ gpioLedPWMSup2Dim= config.gpioLedPWMSupTWoDim
 lightingControls = LedMain(gpioPwr = gpioLedODMainPwr , gpioDim = gpioLedPWMMainDim , gpioSupp1 = gpioLedPWMSup1Dim, gpioSupp2 = gpioLedPWMSup2Dim)
 
 dimID = {
+    "LEDGrowMainPwr": {"controller": lightingControls.lightingLedMainPWR, "dimVal": 0},
+
     "LEDGrowMain": {"controller": lightingControls.lightingLedMain, "dimVal": 0},
     "LEDGrowSup1": {"controller": lightingControls.lightingLedSuppOne, "dimVal": 0},
     "LEDGrowSup2": {"controller": lightingControls.lightingLedSuppTwo, "dimVal": 0},
