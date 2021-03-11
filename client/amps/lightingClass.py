@@ -147,8 +147,8 @@ class LedMain():
         self.lightingLedMainPWR.on()
         time.sleep(.5)
         self.lightingLedMain.on()
-        self.lightingLedSuppOneDim.on()
-        self.lightingLedSuppTwoDim.on()
+        self.lightingLedSuppOne.on()
+        self.lightingLedSuppTwo.on()
         print('on')
 
     def dim(self,mainDim=0,sup1Dim=0,sup2Dim=0):
