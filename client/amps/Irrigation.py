@@ -26,26 +26,33 @@ class Irrigation():
         self.IRGPumps = [self.IRGMainPump,self.IRGWtrPump,self.IRGTrnsPump,self.IRGNutrPump]
 
     def waterCycle(self, cycleTime):
-        # self.IRGMainPump.on()
-        # time.sleep(1)
-        # self.IRGNutrPump()
-        # time.sleep(1)
-        for i in self.IRGPumps:
+        self.IRGMainPump.on()
+        time.sleep(1)
+        self.IRGWtrPump()
+        time.sleep(1)
+        for pump in self.IRGPumps:
+            pump.on()
+            time.sleep(cycleTime)
+            pump.off()
+        time.sleep(1)
+        self.IRGWtrPump.off()
+        time.sleep(1)
+        self.IRGMainPump.off()
 
-            print(i)
-            self.IRGMainPump.on()
-            self.IRGWtrPump.on()
-            self.IRGTrnsPump.on()
-            self.IRGNutrPump.on()
-            self.IRGlvl1Sol.on()
-            self.IRGlvl2Sol.on()
-            self.IRGlvl3Sol.on()
-            self.IRGlvl4Sol.on()
-            self.IRGlvl5Sol.on()
-            time.sleep(2)
+    def nutrientCycle(self,cycleTime):
+        self.IRGMainPump.on()
+        time.sleep(1)
+        self.IRGNutrPump()
+        time.sleep(1)
+        for pump in self.IRGPumps:
+            pump.on()
+            time.sleep(cycleTime)
+            pump.off()
+        time.sleep(1)
+        self.IRGNutrPump.off()
+        time.sleep(1)
+        self.IRGMainPump.off()
 
-            # pump.on()
-            # time.sleep(cycleTime)
 
 
 
