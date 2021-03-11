@@ -64,8 +64,8 @@ def rangeChanged(data):
     # for controlerIDServer in dashValues:
     print(dashValues)
 
-    if(dashValues['lightingMainControls'] == 0):
-        lightingControls.off()
+    # if(dashValues['LEDGrowMainPwr'] == 0):
+    #     lightingControls.off()
     # print(dashValues['lightingMainControls'],'shab')
 
 
