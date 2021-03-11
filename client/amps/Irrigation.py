@@ -57,7 +57,3 @@ class Irrigation():
 
 
 
-Wtring =Irrigation(gpioMainPump=14, gpioWtrPump=15,gpioTrnsPump=18, gpioNutrPump=23,
-                gpiolvl1Sol=24, gpiolvl2Sol=25, gpiolvl3Sol=8, gpiolvl4Sol=7, gpiolvl5Sol=1)
-
-Wtring.waterCycle(3)

@@ -15,6 +15,8 @@ from time import sleep
 import appConfig as config
 
 from amps.lightingClass import LedMain
+from amps.Irrigation import Irrigation
+
 
 
 # Config file variable
@@ -27,10 +29,22 @@ gpioLedODMainPwr =  config.gpioLedODMainPwr
 gpioLedPWMMainDim =  config.gpioLedPWMMainDim
 gpioLedPWMSup1Dim = config.gpioLedPWMSupOneDim
 gpioLedPWMSup2Dim= config.gpioLedPWMSupTWoDim
+gpioMainPump =config.gpioMainPump
+gpioWtrPump=config.gpioWtrPump
+gpioTrnsPump=config.gpioTrnsPump
+gpioNutrPump=config.gpioNutrPump
+gpiolvl1Sol=config.gpiolvl1Sol
+gpiolvl2Sol=config.gpiolvl2Sol
+gpiolvl3Sol=config.gpiolvl3Sol
+gpiolvl4Sol=config.gpiolvl4Sol
+gpiolvl5Sol=config.gpiolvl5Sol
+
+
 
 lightingControls = LedMain(gpioPwr = gpioLedODMainPwr , gpioDim = gpioLedPWMMainDim , gpioSupp1 = gpioLedPWMSup1Dim, gpioSupp2 = gpioLedPWMSup2Dim)
-
-
+Wtring =Irrigation(gpioMainPump, gpioWtrPump,gpioTrnsPump, gpioNutrPump,
+                gpiolvl1Sol, gpiolvl2Sol, gpiolvl3Sol, gpiolvl4Sol, gpiolvl5Sol)
+Wtring.waterCycle(3)
 
 # socket-io connections
 

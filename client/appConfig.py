@@ -14,10 +14,19 @@ from gpiozero import PWMLED
 
 
 
-gpioLedODMainPwr = 23
-gpioLedPWMMainDim = 22
-gpioLedPWMSupOneDim =17
-gpioLedPWMSupTWoDim=27
+gpioLedODMainPwr = 20
+gpioLedPWMMainDim = 21
+gpioLedPWMSupOneDim =16
+gpioLedPWMSupTWoDim=12
+gpioMainPump = 14
+gpioWtrPump=15
+gpioTrnsPump=18
+gpioNutrPump=23
+gpiolvl1Sol=24
+gpiolvl2Sol=25
+gpiolvl3Sol=8
+gpiolvl4Sol=7
+gpiolvl5Sol=1
 
 # serverUrl = "https://amps-dash.herokuapp.com/"
 serverUrl = "http://localhost:3000/"
