@@ -2,9 +2,6 @@ var socket = io.connect('/');
 
 // Show the dim value in the Dash
 
-//selecting all the inputs
-let inputs = document.querySelectorAll('input');
-
 // making the emitter object
 let emitter = {};
 
@@ -34,18 +31,23 @@ Array.prototype.forEach.call(controlItemInner, (div) => {
         socket.emit('rangeChanged', JSON.stringify(emitter));
     });
 
-    div.querySelector('input[type=checkbox]').addEventListener('click', (event) => {
-        // getting the ID of the control by it's classname
-        let controlId = event.target.className.split(' ')[0];
-        let dimval = event.target.checked ? 1 : 0;
-        div.querySelector('input[type=range]').value = event.target.checked ? 100 : 0;
+    let doubleToggle = div.querySelectorAll('input[type=checkbox]');
+    Array.prototype.forEach.call(doubleToggle, (toggle) => {
+        console.log(toggle, 'toggle');
+        toggle.addEventListener('click', (event) => {
+            // getting the ID of the control by it's classname
+            let controlId = event.target.className.split(' ')[0];
+            console.log(controlId);
+            let dimval = event.target.checked ? 1 : 0;
+            div.querySelector('input[type=range]').value = event.target.checked ? 100 : 0;
 
-        div.querySelector('span').innerHTML = dimval * 100;
-        Object.assign(emitter, {
-            [controlId]: dimval,
+            div.querySelector('span').innerHTML = dimval * 100;
+            Object.assign(emitter, {
+                [controlId]: dimval,
+            });
+
+            // custom message and values are now being emitted
+            socket.emit('rangeChanged', JSON.stringify(emitter));
         });
-
-        // custom message and values are now being emitted
-        socket.emit('rangeChanged', JSON.stringify(emitter));
     });
 });
