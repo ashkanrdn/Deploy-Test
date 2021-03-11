@@ -40,6 +40,7 @@ dimID = {
     "LEDGrowSup2": {"controller": lightingControls.lightingLedSuppTwo, "dimVal": 0},
 }
 
+
 # socket-io connections
 
 sio = socketio.Client()
@@ -57,9 +58,13 @@ def rangeChanged(data):
     dashValues = json.loads(data)
     # looping through all the keys(controller ids) in the json emitted from server
     for controlerIDServer in dashValues:
-        # updating the values in the controller dictionary
-        dimID[controlerIDServer]["dimVal"] = dashValues[controlerIDServer]
-        # changing the dim value
-        dimID[controlerIDServer]["controller"].value = dimID[controlerIDServer]["dimVal"]
+        if controlerIDServer == 'lightingMainControls':
+            lightingControls.dim([controlerIDServer]["dimVal"])
+        else:
 
-        print(dimID[controlerIDServer]["dimVal"])
+            # updating the values in the controller dictionary
+            dimID[controlerIDServer]["dimVal"] = dashValues[controlerIDServer]
+            # changing the dim value
+            dimID[controlerIDServer]["controller"].value = dimID[controlerIDServer]["dimVal"]
+
+            print(dimID[controlerIDServer]["dimVal"])
