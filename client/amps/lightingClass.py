@@ -144,7 +144,7 @@ class LedMain():
         print('Class Initiated')
     def on(self):
         '''Powers on the main PWR, main LED and supplemental LED's at last set levels'''
-        self.lightingLedMainpower.on()
+        self.lightingLedMainPWR.on()
         time.sleep(.5)
         self.on()
         self.ledSuppOne.on()
@@ -153,8 +153,8 @@ class LedMain():
 
     def dim(self,level):
         '''Set the dim level for the main LED. The supplemental LED's are asigned based on the configuration file data as a percentage of the MainLED level'''
-        if self.lightingLedMainpower.is_active == False:
-            self.lightingLedMainpower.on()
+        if self.lightingLedMainPWR.is_active == False:
+            self.lightingLedMainPWR.on()
             print('pwr on')
         print(level)
         self.lightingLedMain.value = level
