@@ -130,14 +130,14 @@ class LedMain():
             all supplemental LEDs arelevels are assigned as percentage of main
         off: turns all off'''
 
-    def __init__(self, gpioPwr, gpioDim, gpioSupp1, gpioSupp2, ledSuppOnePercentage = 0.5, ledSuppTwoPercentage = 0.5):
+    def __init__(self, gpioPwr, gpioDim, gpioSupp1, gpioSupp2, ledSuppOneDim = 0.5, ledSuppTwoDim = 0.5 , ledMainDim = 0.5):
 
         self.lightingLedMainpower = gpiozero.DigitalOutputDevice(gpioPwr) #assign MainLED power on/off
         self.lightingLedMain = gpiozero.PWMLED(gpioDim) #assign lightingLedMain
         self.lightingLedSuppOne = gpiozero.PWMLED(gpioSupp1) #assign lightingLedSuppOne as PWMLED
         self.lightingLedSuppTwo = gpiozero.PWMLED(gpioSupp2) #assign lightingLedSuppTwo as PWMLED
-        self.lightingLedSuppOnePercentage = ledSuppOnePercentage # setting the initial Dim value for lightingLedSuppOne
-        self.lightingLedSuppTwoPercentage =ledSuppTwoPercentage #setting the initial Dim value for lightingLedSuppTwo
+        self.lightingLedSuppOneDim = ledSuppOneDim # setting the initial Dim value for lightingLedSuppOne
+        self.lightingLedSuppTwoDim =ledSuppTwoDim #setting the initial Dim value for lightingLedSuppTwo
         print('Class Initiated')
     def on(self):
         '''Powers on the main PWR, main LED and supplemental LED's at last set levels'''
@@ -150,16 +150,15 @@ class LedMain():
 
     def dim(self,level):
         '''Set the dim level for the main LED. The supplemental LED's are asigned based on the configuration file data as a percentage of the MainLED level'''
-        if self.power.is_active == False:
-            self.power.on()
+        if self.lightingLedMainpower.is_active == False:
+            self.lightingLedMainpower.on()
+            print('pwr on')
         print(level)
-        self.value = level
-        self.ledSuppOne.value = 1
-        self.ledSuppTwo.value = 1
+        self.lightingLedMain.value = level
+        self.lightingLedSuppOne.value = level
+        self.lightingLedSuppTwo.value = level
 
-        self.on()
-        self.ledSuppOne.on()
-        self.ledSuppTwo.on()
+
         print('on')
 
     def off(self):

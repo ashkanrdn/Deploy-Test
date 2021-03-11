@@ -1,11 +1,17 @@
+# # Modify PATH so we can import files from elsewhere in this repo
+from os.path import dirname, join, abspath
+sys.path.insert(0, abspath(join(dirname(__file__), '..')))
+
+
 import socketio
 import json
 
-# from gpiozero import LED
+from gpiozero import LED
 from time import sleep
 
 import appConfig as config
 
+from amps.lightingClass import LedMain
 
 
 # Config file variable
@@ -13,6 +19,8 @@ import appConfig as config
 server_url = config.serverUrl  # connection server URL
 
 controlsDimID = config.dimID  # dimmer controllers ID dict
+lightingControls = LedMain(gpioPwr = , gpioDim, gpioSupp1, gpioSupp2, ledSuppOneDim = 0.5, ledSuppTwoDim = 0.5 , ledMainDim = 0.5):
+
 
 
 # socket-io connections

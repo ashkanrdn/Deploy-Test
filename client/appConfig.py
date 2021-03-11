@@ -1,25 +1,22 @@
+
+# Modify PATH so we can import files from elsewhere in this repo
+from os.path import dirname, join, abspath
+sys.path.insert(0, abspath(join(dirname(__file__), '..')))
+
+
+
+
 import os
 import sys
 from gpiozero import PWMLED
 
 
 
-# # Modify PATH so we can import files from elsewhere in this repo
-from os.path import dirname, join, abspath
-sys.path.insert(0, abspath(join(dirname(__file__), '..')))
 
 
-from amps.lightingClass import LedMain
-# from amps.testAshkan import hello
+gpioledODMainPwr = 23
 
 
-# hello()
-
-
-
-lighting= LedMain(gpioPwr = 23, gpioDim = 22, gpioSupp1=17, gpioSupp2=27)
-# lighting.on()
-lighting.dim(1)
 # serverUrl = "https://amps-dash.herokuapp.com/"
 serverUrl = "http://localhost:3000/"
 
