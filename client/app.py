@@ -71,3 +71,10 @@ def rangeChanged(data):
 
     else:
         lightingControls.off()
+
+
+@sio.on("IRG")
+def IRGChanged(data):
+    # a json containing controller ids and their values
+    dashValues = json.loads(data)
+    print(dashValues)

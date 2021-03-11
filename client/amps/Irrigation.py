@@ -10,7 +10,8 @@ import time
 
 class Irrigation():
     def __init__(self,gpioMainPump, gpioWtrPump,gpioTrnsPump, gpioNutrPump,
-                gpiolvl1Sol, gpiolvl2Sol, gpiolvl3Sol, gpiolvl4Sol, gpiolvl5Sol): #add level sensor GOPIO and level Sensor Input
+                gpiolvl1Sol, gpiolvl2Sol, gpiolvl3Sol, gpiolvl4Sol, gpiolvl5Sol,
+                ): #add level sensor GOPIO and level Sensor Input
 
 
 

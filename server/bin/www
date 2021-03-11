@@ -5,30 +5,29 @@ var app = require('../app');
 
 app.set('port', process.env.PORT || 3000);
 
-var server = app.listen(app.get('port'), function() {
-    debug('Express server listening on port ' + server.address().port);
-    console.log('Express server listening on port ' + server.address().port);
+var server = app.listen(app.get('port'), function () {
+  debug('Express server listening on port ' + server.address().port);
+  console.log('Express server listening on port ' + server.address().port);
 });
 
 const io = require('socket.io')(server);
 
 io.on('connection', (socket) => {
-    console.log('Client Connected');
+  console.log('Client Connected');
 
-    socket.on('stateChanged', (state) => {
-        console.log('State Changed: ' + state);
+  socket.on('IRGChanged', (state) => {
+    console.log('State Changed: ' + state);
 
-        io.emit('updateState', state);
-    });
+    io.emit('IRG', state);
+  });
 
-    socket.on('rangeChanged', (rangeX) => {
-        console.log('range Changed: ' + rangeX);
+  socket.on('rangeChanged', (rangeX) => {
+    console.log('range Changed: ' + rangeX);
 
-        io.emit('rangeChanged', rangeX);
-    });
+    io.emit('rangeChanged', rangeX);
+  });
 
-
-    socket.on('disconnect', () => {
-        console.log('user disconnected');
-    });
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
 });
