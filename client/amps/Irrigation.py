@@ -55,6 +55,13 @@ class Irrigation():
         time.sleep(1)
         self.IRGMainPump.off()
 
+    def IRGControls(self,controlIds,controlVal):
+
+
+        for control in controlIds:
+            if controlIds[control]
+
+
 
 
 
