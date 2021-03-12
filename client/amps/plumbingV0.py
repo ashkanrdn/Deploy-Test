@@ -14,7 +14,7 @@ class Solenoid(gpiozero.OutputDevice):
         time.sleep(t)
         self.off()
 
-#Assign GPIO's refer to master list 
+#Assign GPIO's refer to master list
 
 pumpPWR = DigitalOutputDevice(7)
 waterSolenoid = Solenoid(22)
@@ -26,18 +26,19 @@ levelFourSolenoid = Solenoid(15)
 levelFiveSolenoid = Solenoid(4)
 #transferSolenoid = Solenoid()
 
-#solenoidTimeOpen = 
+#solenoidTimeOpen =
 
 def waterCycle(solenoids, cycleTime):
-    
-    #check tank levels
-    #need to add a constant check for tank level 
+
+    #need to add a constant check for tank level
     #if it hits empty stop cycle
     pumpPWR.on()
     time.sleep(1)
     waterSolenoid.on()
     time.sleep(1)
     for i in solenoids:
+    #check tank levels
+
         i.timedon(cycleTime)
     time.sleep(1)
     waterSolenoid.off()
@@ -49,7 +50,7 @@ def waterCycle(solenoids, cycleTime):
     #check tank levels
 
 def nutrientCycle(solenoids, cycleTime):
-    
+
     #check tank levels
 
     pumpPWR.on()
@@ -70,7 +71,7 @@ def tankTransfer():
     time.sleep(XXX)
     transferSolenoid.off()
     #check tank levels
-        
+
 
 
 

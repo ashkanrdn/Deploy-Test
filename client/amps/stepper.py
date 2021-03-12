@@ -2,29 +2,19 @@ import gpiozero
 import time
 from time import sleep
 
-#TEMPORARY GPIO ASSIGNMENTS UNTIL CONFIG FILE COMPLETE
-gpioledODMainPwr = 18
-gpioledPWMMainDim = 25
-gpioledPWMSuppOneDIm = 13
-gpioLedPWMSuppTwoDIM = 12
-gpioODPul = 21
-gpioODDir = 24
-gpioODEnable = 10
-gpioIDendArmLt = 8
-gpioIDendArmRt = 11
 
 
 
 class Stepper():
     '''Stepper Class is to control the stepper motor using stepper controller DM322E
-    
+
     gpioEna: set the raspberry pi pin for Enable on controller
     gpioDir: set the raspberry pi pin for Direction on controller
     gpioPul: set the raspberry pi pin for Pulse on controller
     gpioEndLt: set the raspberry pi pin for Left Limit Sensor on controller
     gpioEndRt: set the raspberry pi pin for Right Limit Sensor on controller
     '''
-    def __init__(self, gpioEna, gpioDir, gpioPul, gpioEndLt, gpioEndRt):
+    def __init__(self, gpioEna, gpioDir, gpioPul, gpioEndLt, gpioEndRt,ARMRevolution):
         self.pins = [gpioEna, gpioDir, gpioPul]
         self.enable = gpiozero.OutputDevice(gpioEna)
         self.direction = gpiozero.OutputDevice(gpioDir)
@@ -33,9 +23,10 @@ class Stepper():
         self.endRight = gpiozero.InputDevice(gpioEndRt)
         self.location = 0
         self.maxStep = 100000
+        self.ARMRevolution = 400
 
-    
-    
+
+
     def Callibrate(self):
         '''Callibration routine to set the zero position and max step position.
         Note: zero postion gets callibrated everytime left proximity is triggered.'''
@@ -52,9 +43,9 @@ class Stepper():
             moveTo = 0
         else:
             moveTo = int((toPosition/100) * self.maxStep)
-        
+
         if moveTo == self.location:
-           print("already there") 
+           print("already there")
         elif moveTo < self.location:
             self.Left((self.location - moveTo), speed)
         elif moveTo > self.location:
@@ -110,14 +101,14 @@ class Stepper():
             else:
                 print("reached far right, please recallibrate")
         print(self.location)
-        
+
         self.pulse.off()
-    
+
     def toHome(self):
         '''Move the arm to the dock location'''
         self.toLocation(0)
 
-   
+
 
 #testing functionality
 sleep(1)
