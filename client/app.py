@@ -42,9 +42,9 @@ gpiolvl5Sol=config.gpiolvl5Sol
 
 
 lightingControls = LedMain(gpioPwr = gpioLedODMainPwr , gpioDim = gpioLedPWMMainDim , gpioSupp1 = gpioLedPWMSup1Dim, gpioSupp2 = gpioLedPWMSup2Dim)
-Wtring =Irrigation(gpioMainPump, gpioWtrPump,gpioTrnsPump, gpioNutrPump,
+IRGControls =Irrigation(gpioMainPump, gpioWtrPump,gpioTrnsPump, gpioNutrPump,
                 gpiolvl1Sol, gpiolvl2Sol, gpiolvl3Sol, gpiolvl4Sol, gpiolvl5Sol)
-Wtring.waterCycle(3)
+
 
 # socket-io connections
 
@@ -77,4 +77,10 @@ def rangeChanged(data):
 def IRGChanged(data):
     # a json containing controller ids and their values
     dashValues = json.loads(data)
+    IRGControls.IRGMainPump.on()
+    # for control in dashValues:
+    #     setattr(IRGControls,control,dashValues[control])
+    #     print(IRGControls)
+
+
     print(dashValues)
