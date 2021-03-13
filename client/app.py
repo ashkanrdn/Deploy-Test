@@ -89,7 +89,6 @@ def IRGChanged(data):
             IRGControl.on()
         else:
             IRGControl.off()
-    IRGControls.waterCycle(5)
 
     # dashValues = json.loads(data)
     # if dashValues['IRGMainPump'] == 1:
@@ -105,4 +104,5 @@ def IRGChanged(data):
 
 @sio.on('IRGCycle')
 def IRGCycleChanged(data):
+    IRGControls.waterCycle(5)
     print('hi')
