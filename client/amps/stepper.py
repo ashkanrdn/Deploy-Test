@@ -10,29 +10,29 @@ class Stepper():
 
     gpioEna: set the raspberry pi pin for Enable on controller
     gpioDir: set the raspberry pi pin for Direction on controller
-    gpioPul: set the raspberry pi pin for Pulse on controller
+    gpioARMPls: set the raspberry pi pin for Pulse on controller
     gpioEndLt: set the raspberry pi pin for Left Limit Sensor on controller
     gpioEndRt: set the raspberry pi pin for Right Limit Sensor on controller
     '''
-    def __init__(self, gpioEna, gpioDir, gpioPul, gpioEndLt, gpioEndRt,ARMRevolution):
-        self.pins = [gpioEna, gpioDir, gpioPul]
+    def __init__(self, gpioEna, gpioDir, gpioARMPls, gpioEndLt, gpioEndRt,ARMRevolution=400):
+        self.pins = [gpioEna, gpioDir, gpioARMPls]
         self.enable = gpiozero.OutputDevice(gpioEna)
         self.direction = gpiozero.OutputDevice(gpioDir)
-        self.pulse = gpiozero.OutputDevice(gpioPul)
+        self.pulse = gpiozero.OutputDevice(gpioARMPls)
         self.endLeft = gpiozero.InputDevice(gpioEndLt)
         self.endRight = gpiozero.InputDevice(gpioEndRt)
         self.location = 0
-        self.maxStep = 100000
-        self.ARMRevolution = 400
+        self.L2RTotalStps = 100000
+        self.ARMRevolution = ARMRevolution
 
 
 
     def Callibrate(self):
         '''Callibration routine to set the zero position and max step position.
         Note: zero postion gets callibrated everytime left proximity is triggered.'''
-        self.left(1000000)
+        self.left(1000000) #
         self.right(100000)
-        self.maxStep = self.location
+        self.L2RTotalStps = self.location
         self.location = 1
 
     def toLocation(self,toPosition, speed = 100):
@@ -42,7 +42,7 @@ class Stepper():
         if toPosition ==0:
             moveTo = 0
         else:
-            moveTo = int((toPosition/100) * self.maxStep)
+            moveTo = int((toPosition/100) * self.L2RTotalStps)
 
         if moveTo == self.location:
            print("already there")
