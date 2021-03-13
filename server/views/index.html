@@ -313,21 +313,16 @@
         <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
           <!-- ============================ All Irrigation  Controllers  ============================  -->
           <div class="allControls">
-            <!-- ============================ Control Panel Title  ============================  -->
-            <div class="controlsItem">
-              <h2>Irrigation Controls</h2>
-            </div>
-
             <!-- ============================ First Row 1  ============================  -->
             <div class="controlsItem controlSystem">
               <!-- ============================ IRG PUMP MAIN SWITCH     ============================  -->
-              <div class="controlsItemInner airCtrl">
+              <div class="controlsItemInner IRGCtrl">
                 <!-- ============================ IRG PUMP MAIN // LVL5 SWITCH  (toggle and title) ============================  -->
                 <div class="ControlContainer">
                   <!-- Toggle Pump Main -->
                   <div class="stackedToggle">
                     <input class="IRGMainPump toggle" type="checkbox" />
-                    <h3>PUMP MAIN</h3>
+                    <h3>MAIN</h3>
                   </div>
                   <!-- Toggle LVL 5 -->
                   <div class="stackedToggle">
@@ -341,7 +336,7 @@
             <!-- ============================ SECOND ROW 2 ============================  -->
             <div class="controlsItem controlSystem">
               <!-- ============================ IRG PUMP MAIN SWITCH     ============================  -->
-              <div class="controlsItemInner airCtrl">
+              <div class="controlsItemInner IRGCtrl">
                 <!-- ============================ IRG PUMP MAIN // LVL5 SWITCH  (toggle and title) ============================  -->
                 <div class="ControlContainer">
                   <!-- Toggle Pump Main -->
@@ -360,7 +355,7 @@
             <!-- ============================ Third ROW 3 ============================  -->
             <div class="controlsItem controlSystem">
               <!-- ============================ IRG PUMP MAIN SWITCH     ============================  -->
-              <div class="controlsItemInner airCtrl">
+              <div class="controlsItemInner IRGCtrl">
                 <!-- ============================ IRG PUMP MAIN // LVL5 SWITCH  (toggle and title) ============================  -->
                 <div class="ControlContainer">
                   <!-- Toggle Pump Main -->
@@ -376,10 +371,10 @@
                 </div>
               </div>
             </div>
-            <!-- ============================ SECOND ROW 2 ============================  -->
+            <!-- ============================ 4th ROW 4 ============================  -->
             <div class="controlsItem controlSystem">
               <!-- ============================ IRG PUMP MAIN SWITCH     ============================  -->
-              <div class="controlsItemInner airCtrl">
+              <div class="controlsItemInner IRGCtrl">
                 <!-- ============================ IRG PUMP MAIN // LVL5 SWITCH  (toggle and title) ============================  -->
                 <div class="ControlContainer">
                   <!-- Toggle Pump Main -->
@@ -396,10 +391,10 @@
               </div>
             </div>
 
-            <!-- ============================ FIRST ROW 1 ============================  -->
+            <!-- ============================ 5th ROW 5 ============================  -->
             <div class="controlsItem controlSystem">
               <!-- ============================ IRG PUMP MAIN SWITCH     ============================  -->
-              <div class="controlsItemInner airCtrl">
+              <div class="controlsItemInner IRGCtrl">
                 <!-- ============================ IRG PUMP MAIN // LVL5 SWITCH  (toggle and title) ============================  -->
                 <div class="ControlContainer">
                   <!-- Toggle Pump Main -->
@@ -411,6 +406,64 @@
                   <div class="stackedToggle">
                     <input class="IRGlvl1Sol toggle" type="checkbox" />
                     <h3>lvl 1</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- ============================ Water Cycler ROW 6 ============================  -->
+            <div class="controlsItem controlSystem">
+              <!-- ============================ IRG PUMP MAIN SWITCH     ============================  -->
+              <div class="controlsItemInner IRGCtrl">
+                <!-- ============================ Toggle Div wrapper (toggle and title) ============================  -->
+                <div class="ControlContainer">
+                  <!-- Toggle Div -->
+                  <div>
+                    <input class="IRGWtrCycle toggle" type="checkbox" />
+                  </div>
+                  <!-- Toggle Title -->
+                  <div>
+                    <h3>Water Cycle</h3>
+                  </div>
+                </div>
+                <!-- ============================ IRG Water Cycle Time ============================  -->
+                <div class="ControlContainer sliderDom">
+                  <!-- Range Slider -->
+                  <div><input class="IRGWtrCycleTime" type="range" value="0" min="0" max="10" /></div>
+
+                  <!-- Range Slider Value -->
+                  <div>
+                    <h3>
+                      <span></span>
+                    </h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- ============================ Nutrient Cycler ROW 6 ============================  -->
+            <div class="controlsItem controlSystem">
+              <!-- ============================ IRG PUMP MAIN SWITCH     ============================  -->
+              <div class="controlsItemInner IRGCtrl">
+                <!-- ============================ Toggle Div wrapper (toggle and title) ============================  -->
+                <div class="ControlContainer">
+                  <!-- Toggle Div -->
+                  <div>
+                    <input class="IRGNutrCycle toggle" type="checkbox" />
+                  </div>
+                  <!-- Toggle Title -->
+                  <div>
+                    <h3>Nutrient Cycle</h3>
+                  </div>
+                </div>
+                <!-- ============================ IRG Water Cycle Time ============================  -->
+                <div class="ControlContainer sliderDom">
+                  <!-- Range Slider -->
+                  <div><input class="IRGNutrCycleTime" type="range" value="0" min="0" max="10" /></div>
+
+                  <!-- Range Slider Value -->
+                  <div>
+                    <h3>
+                      <span></span>
+                    </h3>
                   </div>
                 </div>
               </div>

@@ -10,6 +10,7 @@ let emitter = {
   LEDGrowMainPwr: 0,
 };
 
+//////////////////////////////////////////////////////// Light Controls \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 // getting the divs with controlsItemInner this is a div that has controls for each control module
 let controlItemInner = document.querySelectorAll('.controlsItemInner.lightingCtrl');
 
@@ -36,14 +37,14 @@ Array.prototype.forEach.call(controlItemInner, (div) => {
       socket.emit('rangeChanged', JSON.stringify(emitter));
     });
   }
-
+  // getting all the checkboxes whitin the div
   div.querySelector('input[type=checkbox]').addEventListener('click', (event) => {
     // getting the ID of the control by it's classname
     let controlId = event.target.className.split(' ')[0];
-
+    // setting dimval if it is check or not
     let dimval = event.target.checked ? 1 : 0;
 
-    console.log(controlId);
+    // if the div has range slider change it values accordingly
     if (div.querySelector('input[type=range]') !== null) {
       div.querySelector('input[type=range]').value = event.target.checked ? 100 : 0;
 
@@ -59,6 +60,7 @@ Array.prototype.forEach.call(controlItemInner, (div) => {
   });
 });
 
+// sepratly for the main power
 let LEDMain = document.getElementById('LEDGrowMainID');
 let LEDMainPwr = document.getElementById('LEDGrowPowerID');
 LEDMain.addEventListener('change', (toggle) => {
@@ -72,15 +74,36 @@ LEDMain.addEventListener('change', (toggle) => {
   }
 });
 
+//////////////////////////////////////////////////////// Irrigation Controls \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+let controlItemInnerIRG = document.querySelectorAll('.controlsItemInner.IRGCtrl');
 Irrigation = {};
-//////////////////////////////////////////////////////// Swing Arm \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+Array.prototype.forEach.call(controlItemInnerIRG, (div) => {
+  if (div.querySelector('input[type=range]') !== null) {
+    div.querySelector('input[type=range]').addEventListener('click', (event) => {
+      // Showing the Dim Value
 
-let controlItemInnerAir = document.querySelectorAll('.controlsItemInner.airCtrl');
+      div.querySelector('span').innerHTML = event.target.value;
+      // getting the ID of the control by it's classname
+      let controlId = event.target.className;
+      // remapping the value to be between 0 - 1
+      let controlValue = event.target.value;
+      // we make the check box off if the dimmer is 0 and off it is not
+      div.querySelector('input[type=checkbox]').checked = event.target.value < 1 ? false : true;
+      console.log(controlId, 'irg');
+      let dimval = event.target.value < 1 ? 0 : 100;
+      // The message object
+      Object.assign(Irrigation, {
+        [controlId]: controlValue,
+      });
 
-Array.prototype.forEach.call(controlItemInnerAir, (div) => {
-  let airToggle = div.querySelectorAll('input[type=checkbox]');
+      // custom message and values are now being emitted
+      socket.emit('IRGChanged', JSON.stringify(Irrigation));
+    });
+  }
+  let IRGToggle = div.querySelectorAll('input[type=checkbox]');
 
-  Array.prototype.forEach.call(airToggle, (toggle) => {
+  Array.prototype.forEach.call(IRGToggle, (toggle) => {
     toggle.addEventListener('change', (toggleChanged) => {
       let controlId = toggleChanged.target.className.split(' ')[0];
       let pumpVal = toggleChanged.target.checked ? 1 : 0;

@@ -52,13 +52,16 @@ body {
   border-radius: 15px;
   box-shadow: 5px 10px 20px #00000073;
 }
+.controlsItemInner {
+  width: 90%;
+}
 
 .controlsItem h2 {
   color: white;
 }
 
 .spacer {
-  min-width: 470px;
+  min-width: 440px;
 }
 
 /*Nav Bar  */
@@ -71,7 +74,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 420px;
+  padding: 5px 60px;
 }
 
 .stackedToggle h3 {
