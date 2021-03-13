@@ -73,14 +73,33 @@ def rangeChanged(data):
         lightingControls.off()
 
 
+# def hamid():
+
+#     while temstate:
+#         print('hi')
 @sio.on("IRG")
 def IRGChanged(data):
-    # a json containing controller ids and their values
-    dashValues = json.loads(data)
-    IRGControls.IRGMainPump.on()
-    # for control in dashValues:
-    #     setattr(IRGControls,control,dashValues[control])
-    #     print(IRGControls)
 
+    # a json containing controller ids and their values
+
+    dashValues = json.loads(data)
+    for controlId in dashValues:
+        IRGControl=getattr(IRGControls,controlId)
+        if dashValues[controlId] == 1:
+            IRGControl.on()
+        else:
+            IRGControl.off()
+    IRGControls.waterCycle(5)
+
+    # dashValues = json.loads(data)
+    # if dashValues['IRGMainPump'] == 1:
+    #     global temstate
+    #     temstate = True
+    # else :
+    #     global temstate
+    #     temstate = False
+    # # print(temstate)
+    # hamid()
 
     print(dashValues)
+
