@@ -104,5 +104,25 @@ def IRGChanged(data):
 
 @sio.on('IRGCycle')
 def IRGCycleChanged(data):
+    dashValues = json.loads(data)
+    for controlId in dashValues:
+        # Water Cycle
+        if controlId == 'IRGWtrCycle':
+            if dashValues['IRGWtrCycleTime']:
+                cycleTime =dashValues['IRGWtrCycleTime']
+                IRGControls.waterCycle(cycleTime)
+            else:
+                IRGControls.waterCycle()
+        # Nutrient Cycle
+        elif controlId == 'IRGNutrCycle':
+            if dashValues['IRGNutrCycleTime']:
+                cycleTime =dashValues['IRGNutrCycleTime']
+                IRGControls.nutrientCycle(cycleTime)
+            else:
+                IRGControls.nutrientCycle()
+
+
+
+
     IRGControls.waterCycle(5)
     print('hi')
