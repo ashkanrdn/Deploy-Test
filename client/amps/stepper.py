@@ -110,19 +110,19 @@ class Stepper():
 
 
 
-#testing functionality
-sleep(1)
-stepper = Stepper(gpioODEnable,gpioODDir,gpioODPul,gpioIDendArmLt,gpioIDendArmRt)
-stepper.Right(12800)
-stepper.Right(1600)
-stepper.Left(12800, 50)
-stepper.toLocation(50)
-#button push while loop might look like this
-count = 1
-while True:
-    count = count + 1
-    stepper.Left(10,200)
-    if count > 600:
-        break
+# #testing functionality
+# sleep(1)
+# stepper = Stepper(gpioODEnable,gpioODDir,gpioODPul,gpioIDendArmLt,gpioIDendArmRt)
+# stepper.Right(12800)
+# stepper.Right(1600)
+# stepper.Left(12800, 50)
+# stepper.toLocation(50)
+# #button push while loop might look like this
+# count = 1
+# while True:
+#     count = count + 1
+#     stepper.Left(10,200)
+#     if count > 600:
+#         break
 
-stepper.toHome()
+# stepper.toHome()

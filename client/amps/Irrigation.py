@@ -1,5 +1,6 @@
 import gpiozero
 from gpiozero import DigitalOutputDevice
+from gpiozero import DigitalInputDevice
 import time
 
 
@@ -10,9 +11,9 @@ import time
 
 class Irrigation():
     def __init__(self,gpioMainPump, gpioWtrSol,gpioTrnsPump, gpioNutrSol,
-                gpiolvl1Sol, gpiolvl2Sol, gpiolvl3Sol, gpiolvl4Sol, gpiolvl5Sol,
+                gpiolvl1Sol, gpiolvl2Sol, gpiolvl3Sol, gpiolvl4Sol, gpiolvl5Sol
                 ): #add level sensor GOPIO and level Sensor Input
-
+                # ,gpioIRGMainTankSensor,gpioIRGDrainTankSensor
 
 
         self.IRGMainPump = DigitalOutputDevice(gpioMainPump)
@@ -25,6 +26,8 @@ class Irrigation():
         self.IRGlvl4Sol = DigitalOutputDevice(gpiolvl4Sol)
         self.IRGlvl5Sol = DigitalOutputDevice(gpiolvl5Sol)
         self.IRGlvlSols = [self.IRGlvl1Sol, self.IRGlvl2Sol,self.IRGlvl3Sol,self.IRGlvl4Sol,self.IRGlvl5Sol]
+        # self.IRGMainTankSensor = DigitalInputDevice(gpioIRGMainTankSensor)
+        # self.IRGDrainTankSensor = DigitalInputDevice(gpioIRGDrainTankSensor)
 
     def waterCycle(self, cycleTime=5):
         self.IRGMainPump.on()
@@ -56,6 +59,14 @@ class Irrigation():
         self.IRGNutrSol.off()
         time.sleep(1)
         self.IRGMainPump.off()
+
+    # def gotWater(self):
+    #     if(self.IRGMainTankSensor):
+    #         self.IRGWtrSol.on()
+    #         self.
+    #     elif (self.IRGMainTankSensor ==False and self.IRGDrainTankSensor == True):
+
+
 
 # define transfer routine
 
