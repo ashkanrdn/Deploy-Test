@@ -107,22 +107,20 @@ def IRGCycleChanged(data):
     dashValues = json.loads(data)
     for controlId in dashValues:
         # Water Cycle
-        if controlId == 'IRGWtrCycle':
-            if dashValues['IRGWtrCycleTime']:
-                cycleTime =dashValues['IRGWtrCycleTime']
-                IRGControls.waterCycle(cycleTime)
+        if ((controlId == 'IRGWtrCycle' )and (dashValues['IRGWtrCycle'] != 0 )):
+            if( (dashValues['IRGWtrCycleTime']!= 0)):
+                print (dashValues['IRGWtrCycleTime'],'noy')
             else:
-                IRGControls.waterCycle()
+                print ('yoo')
+
+
+            # IRGControls.waterCycle()
         # Nutrient Cycle
-        elif controlId == 'IRGNutrCycle':
-            if dashValues['IRGNutrCycleTime']:
-                cycleTime =dashValues['IRGNutrCycleTime']
-                IRGControls.nutrientCycle(cycleTime)
-            else:
-                IRGControls.nutrientCycle()
+        elif ((controlId == 'IRGNutrCycle' )and (dashValues['IRGNutrCycle'] != 0 )):
 
 
+            print('NutrCycle')
+            # IRGControls.nutrientCycle()
 
 
-    IRGControls.waterCycle(5)
     print('hi')
