@@ -16,9 +16,15 @@ io.on('connection', (socket) => {
   console.log('Client Connected');
 
   socket.on('IRGChanged', (state) => {
-    console.log('State Changed: ' + state);
+    console.log('IRGToggle Changed: ' + state);
 
     io.emit('IRG', state);
+  });
+
+  socket.on('IRGCycleChanged', (state) => {
+    console.log('IRG Cycle Changed: ' + state);
+
+    io.emit('IRGCycle', state);
   });
 
   socket.on('rangeChanged', (rangeX) => {

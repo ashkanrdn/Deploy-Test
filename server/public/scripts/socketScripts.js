@@ -79,28 +79,28 @@ LEDMain.addEventListener('change', (toggle) => {
 let controlItemInnerIRG = document.querySelectorAll('.controlsItemInner.IRGCtrl');
 Irrigation = {};
 Array.prototype.forEach.call(controlItemInnerIRG, (div) => {
-  if (div.querySelector('input[type=range]') !== null) {
-    div.querySelector('input[type=range]').addEventListener('click', (event) => {
-      // Showing the Dim Value
+  // if (div.querySelector('input[type=range]') !== null) {
+  //   div.querySelector('input[type=range]').addEventListener('click', (event) => {
+  //     // Showing the Dim Value
+  //     let timeStr = ' min';
+  //     div.querySelector('span').innerHTML = event.target.value + timeStr;
+  //     // getting the ID of the control by it's classname
+  //     let controlId = event.target.className;
+  //     // remapping the value to be between 0 - 1
+  //     let controlValue = event.target.value;
+  //     // we make the check box off if the dimmer is 0 and off it is not
+  //     div.querySelector('input[type=checkbox]').checked = event.target.value < 1 ? false : true;
+  //     console.log(controlId, 'irg');
+  //     let dimval = event.target.value < 1 ? 0 : 100;
+  //     // The message object
+  //     Object.assign(Irrigation, {
+  //       [controlId]: controlValue,
+  //     });
 
-      div.querySelector('span').innerHTML = event.target.value;
-      // getting the ID of the control by it's classname
-      let controlId = event.target.className;
-      // remapping the value to be between 0 - 1
-      let controlValue = event.target.value;
-      // we make the check box off if the dimmer is 0 and off it is not
-      div.querySelector('input[type=checkbox]').checked = event.target.value < 1 ? false : true;
-      console.log(controlId, 'irg');
-      let dimval = event.target.value < 1 ? 0 : 100;
-      // The message object
-      Object.assign(Irrigation, {
-        [controlId]: controlValue,
-      });
-
-      // custom message and values are now being emitted
-      socket.emit('IRGChanged', JSON.stringify(Irrigation));
-    });
-  }
+  //     // custom message and values are now being emitted
+  //     socket.emit('IRGChanged', JSON.stringify(Irrigation));
+  //   });
+  // }
   let IRGToggle = div.querySelectorAll('input[type=checkbox]');
 
   Array.prototype.forEach.call(IRGToggle, (toggle) => {
@@ -113,6 +113,53 @@ Array.prototype.forEach.call(controlItemInnerIRG, (div) => {
       });
       socket.emit('IRGChanged', JSON.stringify(Irrigation));
       console.log(Irrigation);
+    });
+  });
+});
+
+//////////////////////////////////////////////////////// Irrigation Controls Cycles\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+let controlItemInnerIRGCycle = document.querySelectorAll('.controlsItemInner.IRGCycles');
+IRGCycles = {};
+Array.prototype.forEach.call(controlItemInnerIRGCycle, (div) => {
+  div.querySelector('input[type=range]').addEventListener('click', (event) => {
+    // Showing the Dim Value
+
+    div.querySelector('span').innerHTML = event.target.value;
+    // getting the ID of the control by it's classname
+    let controlId = event.target.className;
+    // remapping the value to be between 0 - 1
+    let controlValue = event.target.value;
+    // we make the check box off if the dimmer is 0 and off it is not
+    // div.querySelector('input[type=checkbox]').checked = event.target.value < 1 ? false : true;
+    console.log(controlId, 'irg');
+    let dimval = event.target.value < 1 ? 0 : 10;
+    // The message object
+    Object.assign(IRGCycles, {
+      [controlId]: controlValue,
+    });
+
+    // custom message and values are now being emitted
+    socket.emit('IRGCycleChanged', JSON.stringify(IRGCycles));
+  });
+
+  let IRGToggle = div.querySelectorAll('input[type=checkbox]');
+
+  Array.prototype.forEach.call(IRGToggle, (toggle) => {
+    toggle.addEventListener('click', (toggleChanged) => {
+      let controlId = toggleChanged.target.className.split(' ')[0];
+      let pumpVal = toggleChanged.target.checked ? 1 : 0;
+      // if (div.querySelector('input[type=range]') !== null) {
+      //   div.querySelector('input[type=range]').value = toggleChanged.target.checked ? 10 : 0;
+
+      //   div.querySelector('span').innerHTML = dimval;
+      // }
+
+      Object.assign(IRGCycles, {
+        [controlId]: pumpVal,
+      });
+      socket.emit('IRGCycleChanged', JSON.stringify(IRGCycles));
+      console.log(IRGCycles);
     });
   });
 });

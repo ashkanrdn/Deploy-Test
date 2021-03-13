@@ -103,3 +103,6 @@ def IRGChanged(data):
 
     print(dashValues)
 
+@sio.on('IRGCycle')
+def IRGCycleChanged(data):
+    print('hi')
