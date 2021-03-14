@@ -109,13 +109,18 @@ def IRGCycleChanged(data):
         # Water Cycle
         if ((controlId == 'IRGWtrCycle' )and (dashValues['IRGWtrCycle'] != 0 )):
             if( 'IRGWtrCycleTime' in dashValues ):
-                IRGControls.waterCycle(dashValues['IRGWtrCycleTime'])
+                print(dashValues['IRGWtrCycleTime'])
+                IRGControls.waterCycle(int(dashValues['IRGWtrCycleTime']))
+
             else:
+                print('h')
                 IRGControls.waterCycle()
         elif ((controlId == 'IRGNutrCycle' )and (dashValues['IRGNutrCycle'] != 0 )):
             if( 'IRGNutrCycleTime' in dashValues ):
-                IRGControls.nutrientCycle(dashValues['IRGNutrCycleTime'])
+                print('cycle nutr recivied')
+                IRGControls.nutrientCycle(int(dashValues['IRGNutrCycleTime']))
             else:
+                print('default cycle nutr')
                 IRGControls.nutrientCycle()
             # IRGControls.nutrientCycle()
 
