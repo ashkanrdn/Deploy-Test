@@ -100,7 +100,6 @@ def IRGChanged(data):
     # # print(temstate)
     # hamid()
 
-    print(dashValues)
 
 @sio.on('IRGCycle')
 def IRGCycleChanged(data):
@@ -109,20 +108,19 @@ def IRGCycleChanged(data):
         # Water Cycle
         if ((controlId == 'IRGWtrCycle' )and (dashValues['IRGWtrCycle'] != 0 )):
             if( 'IRGWtrCycleTime' in dashValues ):
-                print(dashValues['IRGWtrCycleTime'])
                 IRGControls.waterCycle(int(dashValues['IRGWtrCycleTime']))
 
             else:
-                print('h')
+
                 IRGControls.waterCycle()
         elif ((controlId == 'IRGNutrCycle' )and (dashValues['IRGNutrCycle'] != 0 )):
             if( 'IRGNutrCycleTime' in dashValues ):
-                print('cycle nutr recivied')
+
                 IRGControls.nutrientCycle(int(dashValues['IRGNutrCycleTime']))
             else:
-                print('default cycle nutr')
+
                 IRGControls.nutrientCycle()
             # IRGControls.nutrientCycle()
 
 
-    print('hi')
+
