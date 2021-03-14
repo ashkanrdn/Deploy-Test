@@ -79,28 +79,6 @@ LEDMain.addEventListener('change', (toggle) => {
 let controlItemInnerIRG = document.querySelectorAll('.controlsItemInner.IRGCtrl');
 Irrigation = {};
 Array.prototype.forEach.call(controlItemInnerIRG, (div) => {
-  // if (div.querySelector('input[type=range]') !== null) {
-  //   div.querySelector('input[type=range]').addEventListener('click', (event) => {
-  //     // Showing the Dim Value
-  //     let timeStr = ' min';
-  //     div.querySelector('span').innerHTML = event.target.value + timeStr;
-  //     // getting the ID of the control by it's classname
-  //     let controlId = event.target.className;
-  //     // remapping the value to be between 0 - 1
-  //     let controlValue = event.target.value;
-  //     // we make the check box off if the dimmer is 0 and off it is not
-  //     div.querySelector('input[type=checkbox]').checked = event.target.value < 1 ? false : true;
-  //     console.log(controlId, 'irg');
-  //     let dimval = event.target.value < 1 ? 0 : 100;
-  //     // The message object
-  //     Object.assign(Irrigation, {
-  //       [controlId]: controlValue,
-  //     });
-
-  //     // custom message and values are now being emitted
-  //     socket.emit('IRGChanged', JSON.stringify(Irrigation));
-  //   });
-  // }
   let IRGToggle = div.querySelectorAll('input[type=checkbox]');
 
   Array.prototype.forEach.call(IRGToggle, (toggle) => {
@@ -112,7 +90,6 @@ Array.prototype.forEach.call(controlItemInnerIRG, (div) => {
         [controlId]: pumpVal,
       });
       socket.emit('IRGChanged', JSON.stringify(Irrigation));
-      console.log(Irrigation);
     });
   });
 });
@@ -130,10 +107,7 @@ Array.prototype.forEach.call(controlItemInnerIRGCycle, (div) => {
     let controlId = event.target.className;
     // remapping the value to be between 0 - 1
     let controlValue = event.target.value;
-    // we make the check box off if the dimmer is 0 and off it is not
-    // div.querySelector('input[type=checkbox]').checked = event.target.value < 1 ? false : true;
-    console.log(controlId, 'irg');
-    let dimval = event.target.value < 1 ? 0 : 10;
+
     // The message object
     Object.assign(IRGCycles, {
       [controlId]: controlValue,
@@ -149,17 +123,68 @@ Array.prototype.forEach.call(controlItemInnerIRGCycle, (div) => {
     toggle.addEventListener('click', (toggleChanged) => {
       let controlId = toggleChanged.target.className.split(' ')[0];
       let pumpVal = toggleChanged.target.checked ? 1 : 0;
-      // if (div.querySelector('input[type=range]') !== null) {
-      //   div.querySelector('input[type=range]').value = toggleChanged.target.checked ? 10 : 0;
-
-      //   div.querySelector('span').innerHTML = dimval;
-      // }
 
       Object.assign(IRGCycles, {
         [controlId]: pumpVal,
       });
       socket.emit('IRGCycleChanged', JSON.stringify(IRGCycles));
       console.log(IRGCycles);
+    });
+  });
+});
+
+//////////////////////////////////////////////////////// ARM CONTROLS\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+let controlItemInnerARM = document.querySelectorAll('.controlsItemInner.swingCtrl');
+
+ArmCtrl = {};
+Array.prototype.forEach.call(controlItemInnerARM, (div) => {
+  div.querySelector('input[type=range]').addEventListener('click', (event) => {
+    // Showing the Dim Value
+    div.querySelector('span').innerHTML = event.target.value;
+    // getting the ID of the control by it's classname
+    let controlId = event.target.className;
+    // remapping the value to be between 0 - 1
+    let controlValue = event.target.value;
+
+    // The message object
+    Object.assign(ArmCtrl, {
+      [controlId]: controlValue,
+    });
+    console.log(ArmCtrl);
+    // custom message and values are now being emitted
+    socket.emit('ArmChanged', JSON.stringify(ArmCtrl));
+  });
+  let ARMToggle = div.querySelectorAll('input[type=checkbox]');
+  Array.prototype.forEach.call(ARMToggle, (toggle) => {
+    toggle.addEventListener('click', (toggleChanged) => {
+      let controlId = toggleChanged.target.className.split(' ')[0];
+      let armVal = toggleChanged.target.checked ? 1 : 0;
+      Object.assign(ArmCtrl, {
+        [controlId]: armVal,
+      });
+      console.log(ArmCtrl);
+      socket.emit('ArmChanged', JSON.stringify(ArmCtrl));
+    });
+  });
+  let ARMBtn = div.querySelectorAll('button[type="button"]');
+  console.log(ARMBtn);
+  Array.prototype.forEach.call(ARMBtn, (btn) => {
+    console.log(btn);
+    btn.addEventListener('mousedown', (btnChanged) => {
+      let controlId = btnChanged.target.className.split(' ')[0];
+      Object.assign(ArmCtrl, {
+        [controlId]: true,
+      });
+      socket.emit('ArmChanged', JSON.stringify(ArmCtrl));
+    });
+
+    btn.addEventListener('mouseup', (btnChanged) => {
+      let controlId = btnChanged.target.className.split(' ')[0];
+      Object.assign(ArmCtrl, {
+        [controlId]: false,
+      });
+      socket.emit('ArmChanged', JSON.stringify(ArmCtrl));
     });
   });
 });

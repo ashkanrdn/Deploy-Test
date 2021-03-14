@@ -27,6 +27,12 @@ io.on('connection', (socket) => {
     io.emit('IRGCycle', state);
   });
 
+  socket.on('ArmChanged', (state) => {
+    console.log('ArmChanged Changed: ' + state);
+
+    io.emit('Arm', state);
+  });
+
   socket.on('rangeChanged', (rangeX) => {
     console.log('range Changed: ' + rangeX);
 
