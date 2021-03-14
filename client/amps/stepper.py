@@ -15,14 +15,14 @@ class Stepper():
     gpioEndRt: set the raspberry pi pin for Right Limit Sensor on controller
     '''
     def __init__(self, gpioEna, gpioDir, gpioARMPls, gpioEndLt, gpioEndRt,ARMRevolution=400):
-        self.pins = [gpioEna, gpioDir, gpioARMPls]
-        self.enable = gpiozero.OutputDevice(gpioEna)
-        self.direction = gpiozero.OutputDevice(gpioDir)
-        self.pulse = gpiozero.OutputDevice(gpioARMPls)
-        self.endLeft = gpiozero.InputDevice(gpioEndLt)
-        self.endRight = gpiozero.InputDevice(gpioEndRt)
-        self.location = 0
-        self.L2RTotalStps = 100000
+        self.ARMPins = [gpioEna, gpioDir, gpioARMPls]
+        self.ARMNbl = gpiozero.OutputDevice(gpioEna)
+        self.ARMDir = gpiozero.OutputDevice(gpioDir)
+        self.ARMPls = gpiozero.OutputDevice(gpioARMPls)
+        self.ARMEndL = gpiozero.InputDevice(gpioEndLt)
+        self.ARMEndR = gpiozero.InputDevice(gpioEndRt)
+        self.ARMLoc = 0
+        self.ARML2RTotalStps = 100000
         self.ARMRevolution = ARMRevolution
 
 
@@ -30,82 +30,82 @@ class Stepper():
     def Callibrate(self):
         '''Callibration routine to set the zero position and max step position.
         Note: zero postion gets callibrated everytime left proximity is triggered.'''
-        self.left(1000000) #
-        self.right(100000)
-        self.L2RTotalStps = self.location
-        self.location = 1
+        self.Left(1000000) #
+        self.Right(100000)
+        self.ARML2RTotalStps = self.ARMLoc
+        self.ARMLoc = 1
 
     def toLocation(self,toPosition, speed = 100):
-        ''' Move the swing arm to desired location as a percentage along the entire distance
-        toPosition: the step location to move the arm as a percentage of total(0-100)
+        ''' Move the swing arm to desired ARMLoc as a percentage along the entire distance
+        toPosition: the step ARMLoc to move the arm as a percentage of total(0-100)
         speed: default = 100, set between 1-100'''
         if toPosition ==0:
             moveTo = 0
         else:
-            moveTo = int((toPosition/100) * self.L2RTotalStps)
+            moveTo = int((toPosition/100) * self.ARML2RTotalStps)
 
-        if moveTo == self.location:
+        if moveTo == self.ARMLoc:
            print("already there")
-        elif moveTo < self.location:
-            self.Left((self.location - moveTo), speed)
-        elif moveTo > self.location:
-            self.Right((moveTo - self.location), speed)
+        elif moveTo < self.ARMLoc:
+            self.Left((self.ARMLoc - moveTo), speed)
+        elif moveTo > self.ARMLoc:
+            self.Right((moveTo - self.ARMLoc), speed)
 
 
     def Left(self, steps, speed = 100):
         '''Move arm left a desired number of motor steps.
-        steps: how many motor steps to move, 1600 steps is one rotation
+        steps: how many motor steps to move, 400 steps is one rotation
         speed: how fast to move between 1 and 100'''
         if speed <= 0:
             speed = 1
         elif speed > 200:
             speed = 200
         pause = (0.00025)/speed
-        if self.direction.is_active == False:
+        if self.ARMDir.is_active == False:
             sleep(0.25)
-            self.direction.on()
+            self.ARMDir.on()
             sleep(0.25)
         for i in range(steps):
-            if self.endLeft.is_active == False:
-                self.pulse.off()
+            if self.ARMEndL.is_active == False:
+                self.ARMPls.off()
                 sleep(pause)
-                self.pulse.on()
+                self.ARMPls.on()
                 sleep(pause)
-                self.location = self.location - 1
+                self.ARMLoc = self.ARMLoc - 1
             else:
-                self.location = 0
+                self.ARMLoc = 0
                 print("reached far left")
-        print(self.location)
-        self.pulse.off()
+        print(self.ARMLoc)
+        self.ARMPls.off()
 
     def Right(self, steps, speed=100):
         '''Move arm right a desired number of motor steps.
-        steps: how many motor steps to move, 1600 steps is one rotation
+        steps: how many motor steps to move, 400 steps is one rotation
         speed: how fast to move between 1 and 100'''
         if speed <= 0:
             speed = 1
         elif speed > 200:
             speed = 200
         pause = (0.00025)/speed
-        if self.direction.is_active == True:
+        if self.ARMDir.is_active == True:
             sleep(0.25)
-            self.direction.off()
+            self.ARMDir.off()
             sleep(0.25)
         for i in range(steps):
-            if self.endLeft.is_active == False:
-                self.pulse.off()
+            if self.ARMEndL.is_active == False:
+                self.ARMPls.off()
                 sleep(pause)
-                self.pulse.on()
+                self.ARMPls.on()
                 sleep(pause)
-                self.location = self.location + 1
+                self.ARMLoc = self.ARMLoc + 1
             else:
                 print("reached far right, please recallibrate")
-        print(self.location)
+        print(self.ARMLoc)
 
-        self.pulse.off()
+        self.ARMPls.off()
 
     def toHome(self):
-        '''Move the arm to the dock location'''
+        '''Move the arm to the dock ARMLoc'''
         self.toLocation(0)
 
 
