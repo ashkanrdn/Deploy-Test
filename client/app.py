@@ -1,3 +1,11 @@
+
+import os
+import sys
+ # Modify PATH so we can import files from elsewhere in this repo
+from os.path import dirname, join, abspath
+sys.path.insert(0, abspath(join(dirname(__file__), '..')))
+
+
 import socketio
 import json
 
@@ -6,41 +14,42 @@ from time import sleep
 
 import appConfig as config
 
-# servo =Servo(17)
+from amps.lightingClass import LedMain
+from amps.Irrigation import Irrigation
 
-# while True:
-#     servo.mid()
-#     print("mid")
-#     sleep(0.5)
-#     servo.max()
-
-
-# while True:
-#
 
 
 # Config file variable
 
 server_url = config.serverUrl  # connection server URL
-controlsIO = config.toggleID  # toggle controlers ID dict
-controlsDim = config.dimID  # dimmer controllers ID dict
+
+
+
+gpioLedODMainPwr =  config.gpioLedODMainPwr
+gpioLedPWMMainDim =  config.gpioLedPWMMainDim
+gpioLedPWMSup1Dim = config.gpioLedPWMSupOneDim
+gpioLedPWMSup2Dim= config.gpioLedPWMSupTWoDim
+gpioMainPump =config.gpioMainPump
+gpioWtrPump=config.gpioWtrPump
+gpioTrnsPump=config.gpioTrnsPump
+gpioNutrPump=config.gpioNutrPump
+gpiolvl1Sol=config.gpiolvl1Sol
+gpiolvl2Sol=config.gpiolvl2Sol
+gpiolvl3Sol=config.gpiolvl3Sol
+gpiolvl4Sol=config.gpiolvl4Sol
+gpiolvl5Sol=config.gpiolvl5Sol
+
+
+
+lightingControls = LedMain(gpioPwr = gpioLedODMainPwr , gpioDim = gpioLedPWMMainDim , gpioSupp1 = gpioLedPWMSup1Dim, gpioSupp2 = gpioLedPWMSup2Dim)
+IRGControls =Irrigation(gpioMainPump, gpioWtrPump,gpioTrnsPump, gpioNutrPump,
+                gpiolvl1Sol, gpiolvl2Sol, gpiolvl3Sol, gpiolvl4Sol, gpiolvl5Sol)
 
 
 # socket-io connections
 
 sio = socketio.Client()
 sio.connect(server_url)
-
-
-def lightBool(light, lightValue):
-    if type(lightValue) == bool:
-        if lightValue:
-            light.value = 1
-        else:
-            light.value = 0
-    else:
-        light.value = lightValue
-        print(lightValue)
 
 
 @sio.event
@@ -52,22 +61,66 @@ def connect():
 def rangeChanged(data):
     # a json containing controller ids and their values
     dashValues = json.loads(data)
-    # looping through all the keys(controller ids) in the json emitted from server
-    for controlIDServer in dashValues:
-        # selecting toggle controllers by comparing keys from server with
-        #  a dictionary containing all the toggle controllers
-        if controlIDServer in controlsIO:
-            controlsIO[controlIDServer]["state"] = dashValues[controlIDServer]
-            lightBool(
-                controlsIO[controlIDServer]["controller"],
-                controlsIO[controlIDServer]["state"],
-            )
-        elif controlIDServer in controlsDim:
-            controlsDim[controlIDServer]["dimVal"] = dashValues[controlIDServer]
+    if dashValues['LEDGrowMainPwr'] == 1:
 
-            lightBool(
-                controlsDim[controlIDServer]["controller"],
-                controlsDim[controlIDServer]["dimVal"],
-            )
+        lightingControls.on()
+        mainDim =dashValues['LEDGrowMain']
+        sup1Dim =dashValues['LEDGrowSup1']
+        sup2Dim =dashValues['LEDGrowSup2']
+        lightingControls.dim(mainDim,sup1Dim,sup2Dim)
 
-            print(controlsDim[controlIDServer]["dimVal"])
+    else:
+        lightingControls.off()
+
+
+# def hamid():
+
+#     while temstate:
+#         print('hi')
+@sio.on("IRG")
+def IRGChanged(data):
+
+    # a json containing controller ids and their values
+
+    dashValues = json.loads(data)
+    for controlId in dashValues:
+        IRGControl=getattr(IRGControls,controlId)
+        if dashValues[controlId] == 1:
+            IRGControl.on()
+        else:
+            IRGControl.off()
+
+    # dashValues = json.loads(data)
+    # if dashValues['IRGMainPump'] == 1:
+    #     global temstate
+    #     temstate = True
+    # else :
+    #     global temstate
+    #     temstate = False
+    # # print(temstate)
+    # hamid()
+
+
+@sio.on('IRGCycle')
+def IRGCycleChanged(data):
+    dashValues = json.loads(data)
+    for controlId in dashValues:
+        # Water Cycle
+        if ((controlId == 'IRGWtrCycle' )and (dashValues['IRGWtrCycle'] != 0 )):
+            if( 'IRGWtrCycleTime' in dashValues ):
+                IRGControls.waterCycle(int(dashValues['IRGWtrCycleTime']))
+
+            else:
+
+                IRGControls.waterCycle()
+        elif ((controlId == 'IRGNutrCycle' )and (dashValues['IRGNutrCycle'] != 0 )):
+            if( 'IRGNutrCycleTime' in dashValues ):
+
+                IRGControls.nutrientCycle(int(dashValues['IRGNutrCycleTime']))
+            else:
+
+                IRGControls.nutrientCycle()
+            # IRGControls.nutrientCycle()
+
+
+
