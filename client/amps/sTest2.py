@@ -13,13 +13,12 @@ pauseTime = 0.0000025
 #run stepper forward. 1600 steps is one full rotation. 
 def move(move):
 
-    while move:
+    while move == True:
         pulse.on()
         time.sleep(pauseTime)
         pulse.off()
         time.sleep(pauseTime)
-        if i == 12000:
-            break
+        
     
 time.sleep(.25)
 # direction.on()
