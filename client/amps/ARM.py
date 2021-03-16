@@ -3,24 +3,26 @@ import time
 from time import sleep
 
 
+
+
 class Stepper():
     '''Stepper Class is to control the stepper motor using stepper controller DM322E
 
-    gpioARMNbl: set the raspberry pi pin for Enable on controller
+    gpioARMEna: set the raspberry pi pin for Enable on controller
     gpioARMDir: set the raspberry pi pin for Direction on controller
-    gpioARMPls: set the raspberry pi pin for Pulse on controller
+    gpioARMPul: set the raspberry pi pin for Pulse on controller
     gpioARMEndL: set the raspberry pi pin for Left Limit Sensor on controller
     gpioARMEndR: set the raspberry pi pin for Right Limit Sensor on controller
     '''
     ARMSleepTime = 0.25 # internal sleep variable
 
-    def __init__(self,gpioARMNbl,gpioARMDir,gpioARMPls,gpioARMEndL,gpioARMEndR,ARMLoc=0,ARML2RTotalStps=100000,ARMRevolution=400):
-        self.ARMPins = [gpioARMNbl, gpioARMDir, gpioARMPls]
-        self.ARMNbl = gpiozero.OutputDevice(gpioARMNbl)
+    def __init__(self,gpioARMEna,gpioARMDir,gpioARMPul,gpioARMEndL,gpioARMEndR,ARMLoc=0,ARML2RTotalStps=100000,ARMRevolution=400):
+        self.ARMPins = [gpioARMEna, gpioARMDir, gpioARMPul]
+        self.ARMEna = gpiozero.OutputDevice(gpioARMEna)
         self.ARMDir = gpiozero.OutputDevice(gpioARMDir)
-        self.ARMPls = gpiozero.OutputDevice(gpioARMPls)
-        self.ARMEndL = gpiozero.InputDevice(gpioARMEndL)
-        self.ARMEndR = gpiozero.InputDevice(gpioARMEndR)
+        self.ARMPul = gpiozero.OutputDevice(gpioARMPul)
+        self.ARMEndL = gpiozero.InputDevice(gpioARMEndL ,pull_up= True)
+        self.ARMEndR = gpiozero.InputDevice(gpioARMEndR ,pull_up= True)
         self.ARMLoc = ARMLoc
         self.ARML2RTotalStps = ARML2RTotalStps
         self.ARMRevolution = ARMRevolution
@@ -46,7 +48,7 @@ class Stepper():
 
     def Pulsate(self,dir):
         '''to move the stepper one step in a direction assigned every time it is called'''
-        self.ARMNbl.on()
+        self.ARMEna.on()
         if dir == 'L':
             if (self.ARMEndL == False): # Check if ARM has reached far left
                 if self.ARMDir.is_active == False: #check the status of direction pin and set it accordingly
@@ -54,9 +56,9 @@ class Stepper():
                     self.ARMDir.on()
                     sleep(0.25)
                     # set pulse pin on and off
-                self.ARMPls.off()
+                self.ARMPul.off()
                 sleep(Stepper.ARMSleepTime)
-                self.ARMPls.on()
+                self.ARMPul.on()
                 self.ARMLoc -= 1
                 sleep(Stepper.ARMSleepTime)
         if dir == 'R':
@@ -65,9 +67,9 @@ class Stepper():
                     sleep(Stepper.ARMSleepTime)
                     self.ARMDir.off()
                     sleep(Stepper.ARMSleepTime)
-                self.ARMPls.off()
+                self.ARMPul.off()
                 sleep(Stepper.ARMSleepTime)
-                self.ARMPls.on()
+                self.ARMPul.on()
                 sleep(Stepper.ARMSleepTime)
                 self.ARMLoc += 1
 
@@ -121,4 +123,10 @@ class Stepper():
     #     pause = (0.00025)/speed
 
 
+gpioARMEna = 10
+gpioARMDir = 24
+gpioARMPul = 21
+gpioARMEndL = 8
+gpioARMEndR = 11
 
+armMaker = Stepper(gpioARMEna,gpioARMDir,gpioARMPul,gpioARMEndL,gpioARMEndR)
