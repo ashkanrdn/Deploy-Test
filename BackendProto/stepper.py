@@ -29,9 +29,9 @@ class Stepper():
         self.enable = gpiozero.OutputDevice(gpioEna)
         self.direction = gpiozero.OutputDevice(gpioDir)
         self.pulse = gpiozero.OutputDevice(gpioPul)
-        self.endLeft = gpiozero.InputDevice(gpioEndLt)
-        self.endRight = gpiozero.InputDevice(gpioEndRt)
-        self.location = 0
+        self.endLeft = gpiozero.InputDevice(gpioEndLt, pull_up=True)
+        self.endRight = gpiozero.InputDevice(gpioEndRt, pull_up=True)
+        self.location = 1
         self.maxStep = 100000
 
     
@@ -39,8 +39,8 @@ class Stepper():
     def Callibrate(self):
         '''Callibration routine to set the zero position and max step position.
         Note: zero postion gets callibrated everytime left proximity is triggered.'''
-        self.left(1000000)
-        self.right(100000)
+        self.Left(1000000)
+        self.Right(100000)
         self.maxStep = self.location
         self.location = 1
 

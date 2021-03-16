@@ -3,8 +3,8 @@ import time
 from time import sleep
 
 #TEMPORARY GPIO ASSIGNMENTS UNTIL CONFIG FILE COMPLETE
-gpioledODMainPwr = 18
-gpioledPWMMainDim = 25
+gpioledODMainPwr = 22#18
+gpioledPWMMainDim = 18#22
 gpioledPWMSuppOneDim = 13
 gpioLedPWMSuppTwoDiM = 12
 gpioODPul = 21
@@ -39,8 +39,8 @@ class Stepper():
     def Callibrate(self):
         '''Callibration routine to set the zero position and max step position.
         Note: zero postion gets callibrated everytime left proximity is triggered.'''
-        self.left(1000000)
-        self.right(100000)
+        self.Left(1000000)
+        self.Right(100000)
         self.maxStep = self.location
         self.location = 1
 
@@ -117,7 +117,7 @@ class Stepper():
         '''Move the arm to the dock location'''
         self.toLocation(0)
 
-class LedMain(PWMLED):
+class LedMain(gpiozero.PWMLED):
     ''' The LedMain class controls the main LED grow light:
         gpioPwr is the raspberry pi pin assignment for Main LED Power on/off
         gpioDim is the raspberry pi pin assignment for Main LED Dim controller
@@ -130,11 +130,13 @@ class LedMain(PWMLED):
             all supplemental LEDs arelevels are assigned as percentage of main
         off: turns all off'''
 
-    def __init__(self, gpioPwr, gpioDim, gpioSupp1, gpioSupp2, ledSuppOnePercentage = 50, ledSuppTwoPercentage = 50):
+    def __init__(self, gpioPwr, gpioDim, gpioSupp1, gpioSupp2, ledSuppOnePercentage = 0.50, ledSuppTwoPercentage = 0.50):
         super().__init__(gpioDim) #inherit PMWLED class
         self.power = gpiozero.DigitalOutputDevice(gpioPwr) #assign MainLED power on/off
         self.ledSuppOne = gpiozero.PWMLED(gpioSupp1) #assign suppOne as PWMLED
         self.ledSuppTwo = gpiozero.PWMLED(gpioSupp2) #assign suppTwo as PWMLED
+        self.ledSuppOnePercentage = ledSuppOnePercentage
+        self.ledSuppTwoPercentage = ledSuppTwoPercentage
 
     def on(self):
         '''Powers on the main PWR, main LED and supplemental LED's at last set levels'''
@@ -149,8 +151,8 @@ class LedMain(PWMLED):
         if self.power.is_active == False:
             self.power.on()
         self.value = level
-        self.ledSuppOne.value = (level * ledSuppOnePercentage)
-        self.ledSuppTwo.value = (level * ledSuppTwoPercentage)
+        self.ledSuppOne.value = (level * self.ledSuppOnePercentage)
+        self.ledSuppTwo.value = (level * self.ledSuppTwoPercentage)
         self.on()
         self.ledSuppOne.on()
         self.ledSuppTwo.on()
@@ -162,36 +164,31 @@ class LedMain(PWMLED):
         self.ledSuppTwo.off()
         time.sleep(0.5)
         self.power.off()
-    def Callibrate(self, suppOneLevel,suppTwoLevel):
+    def Callibrate(self, suppOneLevel = 50,suppTwoLevel = 50):
         #figure out how to callibrate supp leds
         self.power.on()
         self.dim(100)
         #set supplemental one level:
         self.ledSuppTwo.value = suppOneLevel
         self.ledSuppTwo.value = suppTwoLevel
-        ledSuppOnePercentage = suppOneLevel
-        ledSuppTwoPercentage = suppTwoLevel
-
-   
-class Lighting():
+        self.ledSuppOnePercentage = suppOneLevel
+        self.ledSuppTwoPercentage = suppTwoLevel
+ 
+class LightingArm():
     def __init__(self, gpioPwr, gpioDim, gpioSupp1, gpioSupp2, gpioEna, gpioDir, gpioPul, gpioEndLt, gpioEndRt):
         self.lights = LedMain(gpioPwr,gpioDim,gpioSupp1,gpioSupp2)
         self.stepper = Stepper(gpioEna,gpioDir,gpioPul,gpioEndLt,gpioEndRt)
-    def Callibrate(self, Lights = False, Arm = False):
-        if Lights == True:
-            self.
-        elif Arm == True:
-            self.stepper.Callibrate()
-
-        else:
-            print('nothing to callibrate, select either Lights or Arm to callibrate')
+    # def CallibrateLights(self, suppOneLevel = 50, suppTwoLevel):
+    #     self.lights.Callibrate(suppOneLevel,suppTwoLevel)
+    # def CallibrateArm(self)
+    #     self.stepper.Callibrate()
     def on(self):
-        self.LedMain.on()
+        self.lights.on()
     def dim(self, dimSetting):
-        self.LedMain.dim(dimSetting)
+        self.lights.dim(dimSetting)
     def off(self):
-        self.LedMain.off()
-    def moveTo(self, postion, ledOn = True):
+        self.lights.off()
+    def moveTo(self, position, ledOn = True):
         if ledOn == True:
             self.on()
         elif ledOn == False:
@@ -199,7 +196,7 @@ class Lighting():
         self.stepper.toLocation(position)
     def home(self):
         self.stepper.toHome()
-        self.LedMain.off()
+        self.lights.off()
     def SweepLight(self, speed = 100):
         self.on()
         self.stepper.toLocation(100,speed)
@@ -210,18 +207,7 @@ class Lighting():
 
 
 #testing functionality
-sleep(1)
-stepper = Stepper(gpioODEnable,gpioODDir,gpioODPul,gpioIDendArmLt,gpioIDendArmRt)
-stepper.Right(12800)
-stepper.Right(1600)
-stepper.Left(12800, 50)
-stepper.toLocation(50)
-#button push while loop might look like this
-count = 1
-while True:
-    count = count + 1
-    stepper.Left(10,200)
-    if count > 600:
-        break
-
-stepper.toHome()
+test = LedMain(gpioledODMainPwr,gpioledPWMMainDim,gpioledPWMSuppOneDim,gpioLedPWMSuppTwoDiM)
+test.dim(1)
+print(test.value)
+time.sleep(5)
