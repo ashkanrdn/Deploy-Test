@@ -164,7 +164,7 @@ Array.prototype.forEach.call(controlItemInnerARM, (div) => {
         [controlId]: armVal,
       });
       console.log(ArmCtrl);
-      socket.emit('ArmChanged', JSON.stringify(ArmCtrl));
+      socket.emit('ArmLocChanged', JSON.stringify(ArmCtrl));
     });
   });
   let ARMBtn = div.querySelectorAll('button[type="button"]');

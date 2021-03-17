@@ -33,6 +33,12 @@ io.on('connection', (socket) => {
     io.emit('Arm', state);
   });
 
+  socket.on('ArmLocChanged', (state) => {
+    console.log('ArmLoc Changed: ' + state);
+
+    io.emit('ArmLoc', state);
+  });
+
   socket.on('rangeChanged', (rangeX) => {
     console.log('range Changed: ' + rangeX);
 
