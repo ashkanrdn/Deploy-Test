@@ -16,7 +16,7 @@ import appConfig as config
 
 from amps.lightingClass import LedMain
 from amps.Irrigation import Irrigation
-from amps.Arm import Arm
+from amps.Arm import ArmMaker
 
 
 
@@ -27,21 +27,21 @@ from amps.Arm import Arm
 server_url = config.serverUrl  # connection server URL
 
 
-gpioLedODMainPwr =  config.gpioLedODMainPwr
-gpioLedPWMMainDim =  config.gpioLedPWMMainDim
-gpioLedPWMSup1Dim = config.gpioLedPWMSupOneDim
-gpioLedPWMSup2Dim= config.gpioLedPWMSupTWoDim
+# gpioLedODMainPwr =  config.gpioLedODMainPwr
+# gpioLedPWMMainDim =  config.gpioLedPWMMainDim
+# gpioLedPWMSup1Dim = config.gpioLedPWMSupOneDim
+# gpioLedPWMSup2Dim= config.gpioLedPWMSupTWoDim
 
-gpioIRGMainPump =config.gpioIRGMainPump
-gpioIRGWtrSol=config.gpioIRGWtrSol
-gpioIRGNutrSol=config.gpioIRGNutrSol
-gpioIRGTankSwitchSol=config.gpioIRGTankSwitchSol
+# gpioIRGMainPump =config.gpioIRGMainPump
+# gpioIRGWtrSol=config.gpioIRGWtrSol
+# gpioIRGNutrSol=config.gpioIRGNutrSol
+# gpioIRGTankSwitchSol=config.gpioIRGTankSwitchSol
 
-gpioIRGlvl1Sol=config.gpioIRGlvl1Sol
-gpioIRGlvl2Sol=config.gpioIRGlvl2Sol
-gpioIRGlvl3Sol=config.gpioIRGlvl3Sol
-gpioIRGlvl4Sol=config.gpioIRGlvl4Sol
-gpioIRGlvl5Sol=config.gpioIRGlvl5Sol
+# gpioIRGlvl1Sol=config.gpioIRGlvl1Sol
+# gpioIRGlvl2Sol=config.gpioIRGlvl2Sol
+# gpioIRGlvl3Sol=config.gpioIRGlvl3Sol
+# gpioIRGlvl4Sol=config.gpioIRGlvl4Sol
+# gpioIRGlvl5Sol=config.gpioIRGlvl5Sol
 
 gpioARMEna = config.gpioARMEna
 gpioARMDir = config.gpioARMDir
@@ -50,10 +50,10 @@ gpioARMEndL = config.gpioARMEndL
 gpioARMEndR = config.gpioARMEndR
 
 
-lightingControls = LedMain(gpioPwr = gpioLedODMainPwr , gpioDim = gpioLedPWMMainDim , gpioSupp1 = gpioLedPWMSup1Dim, gpioSupp2 = gpioLedPWMSup2Dim)
-IRGControls =Irrigation(gpioIRGMainPump, gpioIRGWtrSol,gpioIRGTankSwitchSol, gpioIRGNutrSol,
-                gpioIRGlvl1Sol, gpioIRGlvl2Sol, gpioIRGlvl3Sol, gpioIRGlvl4Sol, gpioIRGlvl5Sol)
-ARMControls = Arm(gpioARMEna,gpioARMDir,gpioARMPul,gpioARMEndL,gpioARMEndR)
+# lightingControls = LedMain(gpioPwr = gpioLedODMainPwr , gpioDim = gpioLedPWMMainDim , gpioSupp1 = gpioLedPWMSup1Dim, gpioSupp2 = gpioLedPWMSup2Dim)
+# IRGControls =Irrigation(gpioIRGMainPump, gpioIRGWtrSol,gpioIRGTankSwitchSol, gpioIRGNutrSol,
+#                 gpioIRGlvl1Sol, gpioIRGlvl2Sol, gpioIRGlvl3Sol, gpioIRGlvl4Sol, gpioIRGlvl5Sol)
+ARMControls = ArmMaker(gpioARMEna,gpioARMDir,gpioARMPul,gpioARMEndL,gpioARMEndR)
 
 
 # socket-io connections
@@ -141,7 +141,7 @@ def ArmChanged(data):
     dashValues = json.loads(data)
     global stateStepperL
     global stateStepperR
-    print(dashValues)
+
     if('swingArmL' in dashValues):
 
         stateStepperL = dashValues['swingArmL']
@@ -149,26 +149,17 @@ def ArmChanged(data):
 
     if('swingArmR' in dashValues):
         stateStepperR = dashValues['swingArmR']
+    
+   
 
 
 while True:
-    while stateStepperL == False:
+    while stateStepperL == True:
         ARMControls.Pulsate('L')
-        print(' runningL')
+       
 
-    while stateStepperR == False:
+    while stateStepperR == True:
         ARMControls.Pulsate('R')
 
-
-
-    print('not running')
-    sleep(1)
-
-    # if (stateStepperL):
-    #     print('running L')
-    #     sleep(1)
-    # elif(stateStepperR):
-    #     print('running R')
-    #     sleep(1)
 
 

@@ -22,14 +22,14 @@ gpioLedPWMSupTWoDim=12
 
 gpioIRGMainPump = 14
 gpioIRGWtrSol = 15
-gpioIRGTankSwitchSol = 18
+gpioIRGTankSwitchSol = 27
 gpioIRGNutrSol = 23
 
-gpioIRGlvl1Sol=24
+gpioIRGlvl1Sol=17
 gpioIRGlvl2Sol=4
-gpioIRGlvl3Sol=8
+gpioIRGlvl3Sol=15
 gpioIRGlvl4Sol=3
-gpioIRGlvl5Sol=17
+gpioIRGlvl5Sol=14
 
 gpioARMEna = 10
 gpioARMDir = 24
