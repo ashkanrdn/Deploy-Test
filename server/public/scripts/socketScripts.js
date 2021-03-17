@@ -138,7 +138,7 @@ Array.prototype.forEach.call(controlItemInnerIRGCycle, (div) => {
 let controlItemInnerARM = document.querySelectorAll('.controlsItemInner.swingCtrl');
 
 ArmCtrl = {};
-ArmCtrlLoc;
+ArmCtrlLoc = {};
 Array.prototype.forEach.call(controlItemInnerARM, (div) => {
   div.querySelector('input[type=range]').addEventListener('click', (event) => {
     // Showing the Dim Value
@@ -154,8 +154,10 @@ Array.prototype.forEach.call(controlItemInnerARM, (div) => {
     });
     console.log(ArmCtrlLoc);
     // custom message and values are now being emitted
-    socket.emit('ArmChanged', JSON.stringify(ArmCtrlLoc));
+    socket.emit('ArmLocChanged', JSON.stringify(ArmCtrlLoc));
   });
+
+  // ---------------------------------------------------------
   let ARMToggle = div.querySelectorAll('input[type=checkbox]');
   Array.prototype.forEach.call(ARMToggle, (toggle) => {
     toggle.addEventListener('click', (toggleChanged) => {
@@ -165,9 +167,11 @@ Array.prototype.forEach.call(controlItemInnerARM, (div) => {
         [controlId]: armVal,
       });
       console.log(ArmCtrl);
-      socket.emit('ArmLocChanged', JSON.stringify(ArmCtrl));
+      socket.emit('ArmChanged', JSON.stringify(ArmCtrl));
     });
   });
+  // ---------------------------------------------------------
+
   let ARMBtn = div.querySelectorAll('button[type="button"]');
   console.log(ARMBtn);
   Array.prototype.forEach.call(ARMBtn, (btn) => {
@@ -179,6 +183,7 @@ Array.prototype.forEach.call(controlItemInnerARM, (div) => {
       });
       socket.emit('ArmChanged', JSON.stringify(ArmCtrl));
     });
+    // ---------------------------------------------------------
 
     btn.addEventListener('mouseup', (btnChanged) => {
       let controlId = btnChanged.target.className.split(' ')[0];
