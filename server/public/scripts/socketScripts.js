@@ -138,6 +138,7 @@ Array.prototype.forEach.call(controlItemInnerIRGCycle, (div) => {
 let controlItemInnerARM = document.querySelectorAll('.controlsItemInner.swingCtrl');
 
 ArmCtrl = {};
+ArmCtrlLoc;
 Array.prototype.forEach.call(controlItemInnerARM, (div) => {
   div.querySelector('input[type=range]').addEventListener('click', (event) => {
     // Showing the Dim Value
@@ -148,12 +149,12 @@ Array.prototype.forEach.call(controlItemInnerARM, (div) => {
     let controlValue = event.target.value;
 
     // The message object
-    Object.assign(ArmCtrl, {
+    Object.assign(ArmCtrlLoc, {
       [controlId]: controlValue,
     });
-    console.log(ArmCtrl);
+    console.log(ArmCtrlLoc);
     // custom message and values are now being emitted
-    socket.emit('ArmChanged', JSON.stringify(ArmCtrl));
+    socket.emit('ArmChanged', JSON.stringify(ArmCtrlLoc));
   });
   let ARMToggle = div.querySelectorAll('input[type=checkbox]');
   Array.prototype.forEach.call(ARMToggle, (toggle) => {
