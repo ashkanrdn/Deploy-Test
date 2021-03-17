@@ -95,23 +95,23 @@ class ArmMaker():
             actualSteps = 0
         pause = 1
 
-        if speed == 0 :
-            pause = 1
-        elif speed>200:
-            pause = 200
-        else:
-            pause= speed
+        # if speed == 0 :
+        #     pause = 1
+        # elif speed>200:
+        #     pause = 200
+        # else:
+        #     pause= speed
 
-        pause= (0.00025)/pause
+        # pause= (0.00025)/pause
 
         if actualSteps > self.ARMLoc :
             while actualSteps >=  self.ARMLoc :
                 self.Pulsate(dir='R')
-                sleep(pause)
+                
         elif actualSteps < self.ARMLoc:
             while actualSteps <=  self.ARMLoc :
                 self.Pulsate(dir='L')
-                sleep(pause)
+              
 
     def toHome(self):
         self.goToLoc(0)
