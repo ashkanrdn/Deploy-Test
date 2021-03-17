@@ -18,15 +18,25 @@ gpioLedODMainPwr = 20
 gpioLedPWMMainDim = 21
 gpioLedPWMSupOneDim =16
 gpioLedPWMSupTWoDim=12
-gpioMainPump = 14
-gpioWtrPump=15
-gpioTrnsPump=18
-gpioNutrPump=23
-gpiolvl1Sol=24
-gpiolvl2Sol=25
-gpiolvl3Sol=8
-gpiolvl4Sol=7
-gpiolvl5Sol=1
+
+
+gpioIRGMainPump = 14
+gpioIRGWtrSol = 15
+gpioIRGTankSwitchSol = 18
+gpioIRGNutrSol = 23
+
+gpioIRGlvl1Sol=24
+gpioIRGlvl2Sol=4
+gpioIRGlvl3Sol=8
+gpioIRGlvl4Sol=3
+gpioIRGlvl5Sol=17
+
+gpioARMEna = 10
+gpioARMDir = 24
+gpioARMPul = 21
+gpioARMEndL = 8
+gpioARMEndR = 11
+
 
 # serverUrl = "https://amps-dash.herokuapp.com/"
 serverUrl = "http://localhost:3000/"

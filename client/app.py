@@ -1,49 +1,59 @@
 
-# import os
-# import sys
-#  # Modify PATH so we can import files from elsewhere in this repo
-# from os.path import dirname, join, abspath
-# sys.path.insert(0, abspath(join(dirname(__file__), '..')))
+import os
+import sys
+ # Modify PATH so we can import files from elsewhere in this repo
+from os.path import dirname, join, abspath
+sys.path.insert(0, abspath(join(dirname(__file__), '..')))
 
 
 import socketio
 import json
 
-# from gpiozero import LED
+from gpiozero import LED
 from time import sleep
 
-# import appConfig as config
+import appConfig as config
 
-# from amps.lightingClass import LedMain
-# from amps.Irrigation import Irrigation
+from amps.lightingClass import LedMain
+from amps.Irrigation import Irrigation
+from amps.Arm import Arm
+
+
 
 
 
 # # Config file variable
 
-# server_url = config.serverUrl  # connection server URL
-
-server_url = "http://localhost:3000/"
-
-# gpioLedODMainPwr =  config.gpioLedODMainPwr
-# gpioLedPWMMainDim =  config.gpioLedPWMMainDim
-# gpioLedPWMSup1Dim = config.gpioLedPWMSupOneDim
-# gpioLedPWMSup2Dim= config.gpioLedPWMSupTWoDim
-# gpioMainPump =config.gpioMainPump
-# gpioWtrPump=config.gpioWtrPump
-# gpioTrnsPump=config.gpioTrnsPump
-# gpioNutrPump=config.gpioNutrPump
-# gpiolvl1Sol=config.gpiolvl1Sol
-# gpiolvl2Sol=config.gpiolvl2Sol
-# gpiolvl3Sol=config.gpiolvl3Sol
-# gpiolvl4Sol=config.gpiolvl4Sol
-# gpiolvl5Sol=config.gpiolvl5Sol
+server_url = config.serverUrl  # connection server URL
 
 
+gpioLedODMainPwr =  config.gpioLedODMainPwr
+gpioLedPWMMainDim =  config.gpioLedPWMMainDim
+gpioLedPWMSup1Dim = config.gpioLedPWMSupOneDim
+gpioLedPWMSup2Dim= config.gpioLedPWMSupTWoDim
 
-# lightingControls = LedMain(gpioPwr = gpioLedODMainPwr , gpioDim = gpioLedPWMMainDim , gpioSupp1 = gpioLedPWMSup1Dim, gpioSupp2 = gpioLedPWMSup2Dim)
-# IRGControls =Irrigation(gpioMainPump, gpioWtrPump,gpioTrnsPump, gpioNutrPump,
-#                 gpiolvl1Sol, gpiolvl2Sol, gpiolvl3Sol, gpiolvl4Sol, gpiolvl5Sol)
+gpioIRGMainPump =config.gpioIRGMainPump
+gpioIRGWtrSol=config.gpioIRGWtrSol
+gpioIRGNutrSol=config.gpioIRGNutrSol
+gpioIRGTankSwitchSol=config.gpioIRGTankSwitchSol
+
+gpioIRGlvl1Sol=config.gpioIRGlvl1Sol
+gpioIRGlvl2Sol=config.gpioIRGlvl2Sol
+gpioIRGlvl3Sol=config.gpioIRGlvl3Sol
+gpioIRGlvl4Sol=config.gpioIRGlvl4Sol
+gpioIRGlvl5Sol=config.gpioIRGlvl5Sol
+
+gpioARMEna = config.gpioARMEna
+gpioARMDir = config.gpioARMDir
+gpioARMPul = config.gpioARMPul
+gpioARMEndL = config.gpioARMEndL
+gpioARMEndR = config.gpioARMEndR
+
+
+lightingControls = LedMain(gpioPwr = gpioLedODMainPwr , gpioDim = gpioLedPWMMainDim , gpioSupp1 = gpioLedPWMSup1Dim, gpioSupp2 = gpioLedPWMSup2Dim)
+IRGControls =Irrigation(gpioIRGMainPump, gpioIRGWtrSol,gpioIRGTankSwitchSol, gpioIRGNutrSol,
+                gpioIRGlvl1Sol, gpioIRGlvl2Sol, gpioIRGlvl3Sol, gpioIRGlvl4Sol, gpioIRGlvl5Sol)
+ARMControls = Arm(gpioARMEna,gpioARMDir,gpioARMPul,gpioARMEndL,gpioARMEndR)
 
 
 # socket-io connections
@@ -143,11 +153,13 @@ def ArmChanged(data):
 
 while True:
     while stateStepperL == False:
+        ARMControls.Pulsate('L')
         print(' runningL')
-        sleep(1)
+
     while stateStepperR == False:
-        print(' runningR')
-        sleep(1)
+        ARMControls.Pulsate('R')
+
+
 
     print('not running')
     sleep(1)

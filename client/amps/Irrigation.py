@@ -11,27 +11,27 @@ sys.path.insert(0, abspath(join(dirname(__file__), '..')))
 from amps.lightingClass import LedMain
 
 
-#   IRGMainPump, IRGWtrSol, IRGTrnsPump, IRGNutrSol ,
+#   IRGMainPump, IRGWtrSol, IRGTankSwitchSol, IRGNutrSol ,
             # IRGlvl1Sol, IRGlvl2Sol, IRGlvl3Sol, IRGlvl4Sol, IRGlvl5Sol
 
 
 
 class Irrigation():
-    def __init__(self,gpioMainPump, gpioWtrSol,gpioTrnsPump, gpioNutrSol,
-                gpiolvl1Sol, gpiolvl2Sol, gpiolvl3Sol, gpiolvl4Sol, gpiolvl5Sol
+    def __init__(self,gpioIRGMainPump, gpioIRGWtrSol,gpioIRGTankSwitchSol, gpioIRGNutrSol,
+                gpioIRGlvl1Sol, gpioIRGlvl2Sol, gpioIRGlvl3Sol, gpioIRGlvl4Sol, gpioIRGlvl5Sol
                 ): #add level sensor GOPIO and level Sensor Input
-                # ,gpioIRGMainTankSensor,gpioIRGDrainTankSensor
+                # ,gpioIRGIRGMainTankSensor,gpioIRGIRGDrainTankSensor
 
 
-        self.IRGMainPump = DigitalOutputDevice(gpioMainPump)
-        self.IRGWtrSol = DigitalOutputDevice(gpioWtrSol)
-        self.IRGTrnsPump = DigitalOutputDevice(gpioTrnsPump)
-        self.IRGNutrSol = DigitalOutputDevice(gpioNutrSol)
-        self.IRGlvl1Sol = DigitalOutputDevice(gpiolvl1Sol)
-        self.IRGlvl2Sol = DigitalOutputDevice(gpiolvl2Sol)
-        self.IRGlvl3Sol = DigitalOutputDevice(gpiolvl3Sol)
-        self.IRGlvl4Sol = DigitalOutputDevice(gpiolvl4Sol)
-        self.IRGlvl5Sol = DigitalOutputDevice(gpiolvl5Sol)
+        self.IRGMainPump = DigitalOutputDevice(gpioIRGMainPump)
+        self.IRGWtrSol = DigitalOutputDevice(gpioIRGWtrSol)
+        self.IRGTankSwitchSol = DigitalOutputDevice(gpioIRGTankSwitchSol)
+        self.IRGNutrSol = DigitalOutputDevice(gpioIRGNutrSol)
+        self.IRGlvl1Sol = DigitalOutputDevice(gpioIRGlvl1Sol)
+        self.IRGlvl2Sol = DigitalOutputDevice(gpioIRGlvl2Sol)
+        self.IRGlvl3Sol = DigitalOutputDevice(gpioIRGlvl3Sol)
+        self.IRGlvl4Sol = DigitalOutputDevice(gpioIRGlvl4Sol)
+        self.IRGlvl5Sol = DigitalOutputDevice(gpioIRGlvl5Sol)
         self.IRGlvlSols = [self.IRGlvl1Sol, self.IRGlvl2Sol,self.IRGlvl3Sol,self.IRGlvl4Sol,self.IRGlvl5Sol]
         # self.IRGMainTankSensor = DigitalInputDevice(gpioIRGMainTankSensor)
         # self.IRGDrainTankSensor = DigitalInputDevice(gpioIRGDrainTankSensor)

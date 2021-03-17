@@ -111,22 +111,7 @@ class Stepper():
 
 
 
-    # def Left(self, steps, speed = 100):
-    # '''Move arm left a desired number of motor steps.
-    # steps: how many motor steps to move, 400 steps is one rotation
-    # speed: how fast to move between 1 and 100'''
-    # # Check for speed input speed will define the sleep time in the function
-    #     if speed <= 0:
-    #         speed = 1
-    #     elif speed > 200:
-    #         speed = 200
-    #     pause = (0.00025)/speed
 
 
-gpioARMEna = 10
-gpioARMDir = 24
-gpioARMPul = 21
-gpioARMEndL = 8
-gpioARMEndR = 11
 
-armMaker = Stepper(gpioARMEna,gpioARMDir,gpioARMPul,gpioARMEndL,gpioARMEndR)
+
