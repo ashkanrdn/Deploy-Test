@@ -4,10 +4,6 @@ import sys
 from os.path import dirname, join, abspath
 sys.path.insert(0, abspath(join(dirname(__file__), '..')))
 
-
-
-
-
 from gpiozero import PWMLED
 
 
@@ -33,7 +29,7 @@ gpioIRGTankSwitchSol = 14
 
 # Main Supply Sensors
 gpioIRGMainTankSensorFull = 20
-gpioIRGMainTankSensorEmpty = 21
+gpioIRGMainTankSensorEmpty = 5
 # Drain Supply Sensors
 gpioIRGDrainTankSensorFull = 16
 gpioIRGDrainTankSensorEmpty = 26
@@ -59,9 +55,7 @@ gpioARMEndR = 11
 serverUrl = "http://localhost:3000/"
 
 
-# LEDGrowMainPWR = PWMLED(17)
-# LEDGrowSup1PWR = PWMLED(27)
-# LEDGrowSup2PWR = PWMLED(22)
+
 
 
 
