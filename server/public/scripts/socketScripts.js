@@ -94,12 +94,12 @@ Array.prototype.forEach.call(controlItemInnerIRG, (div) => {
   });
 });
 
-//////////////////////////////////////////////////////// Irrigation Controls Cycles\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+//////////////////////////////////////////////////////// Irrigation Control Water Cycles\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 let controlItemInnerIRGCycle = document.querySelectorAll('.controlsItemInner.IRGCycles');
-IRGCycles = {};
+IRGCycles = { IRGWtrCycleTime: 3 };
 Array.prototype.forEach.call(controlItemInnerIRGCycle, (div) => {
-  div.querySelector('input[type=range]').addEventListener('click', (event) => {
+  div.querySelector('input[type=range].IRGWtrCycleTime').addEventListener('click', (event) => {
     // Showing the Dim Value
 
     div.querySelector('span').innerHTML = event.target.value;
@@ -114,10 +114,10 @@ Array.prototype.forEach.call(controlItemInnerIRGCycle, (div) => {
     });
 
     // custom message and values are now being emitted
-    socket.emit('IRGCycleChanged', JSON.stringify(IRGCycles));
+    // socket.emit('IRGCycleChanged', JSON.stringify(IRGCycles));
   });
 
-  let IRGToggle = div.querySelectorAll('input[type=checkbox]');
+  let IRGToggle = div.querySelectorAll('button[type="button"].IRGWtrCycle');
 
   Array.prototype.forEach.call(IRGToggle, (toggle) => {
     toggle.addEventListener('click', (toggleChanged) => {
@@ -129,6 +129,45 @@ Array.prototype.forEach.call(controlItemInnerIRGCycle, (div) => {
       });
       socket.emit('IRGCycleChanged', JSON.stringify(IRGCycles));
       console.log(IRGCycles);
+    });
+  });
+});
+
+//////////////////////////////////////////////////////// Irrigation Control Nutr Cycles\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+let controlItemInnerIRGCycleNutr = document.querySelectorAll('.controlsItemInner.IRGCyclesNutr');
+console.log(controlItemInnerIRGCycleNutr);
+IRGCyclesNutr = { IRGNutrCycleTime: 3 };
+Array.prototype.forEach.call(controlItemInnerIRGCycleNutr, (div) => {
+  div.querySelector('input[type=range].IRGNutrCycleTime').addEventListener('click', (event) => {
+    // Showing the Dim Value
+
+    div.querySelector('span').innerHTML = event.target.value;
+    // getting the ID of the control by it's classname
+    let controlId = event.target.className;
+    // remapping the value to be between 0 - 1
+    let controlValue = event.target.value;
+
+    // The message object
+    Object.assign(IRGCyclesNutr, {
+      [controlId]: controlValue,
+    });
+
+    // custom message and values are now being emitted
+    // socket.emit('IRGCycleChanged', JSON.stringify(IRGCycles));
+  });
+
+  let IRGToggle = div.querySelectorAll('button[type="button"].IRGNutrCycle');
+
+  Array.prototype.forEach.call(IRGToggle, (toggle) => {
+    toggle.addEventListener('click', (toggleChanged) => {
+      let controlId = toggleChanged.target.className.split(' ')[0];
+      let pumpVal = toggleChanged.target.checked ? 1 : 0;
+
+      Object.assign(IRGCyclesNutr, {
+        [controlId]: pumpVal,
+      });
+      socket.emit('IRGCycleChangedNutr', JSON.stringify(IRGCyclesNutr));
+      console.log(IRGCyclesNutr);
     });
   });
 });
@@ -158,7 +197,7 @@ Array.prototype.forEach.call(controlItemInnerARM, (div) => {
   });
 
   // ---------------------------------------------------------
-  let ARMToggle = div.querySelectorAll('input[type=checkbox]');
+  let ARMToggle = div.querySelectorAll('button[type="button"][name="calibrate"]');
   Array.prototype.forEach.call(ARMToggle, (toggle) => {
     toggle.addEventListener('click', (toggleChanged) => {
       let controlId = toggleChanged.target.className.split(' ')[0];
@@ -167,12 +206,12 @@ Array.prototype.forEach.call(controlItemInnerARM, (div) => {
         [controlId]: armVal,
       });
       console.log(ArmCtrl);
-      socket.emit('ArmChanged', JSON.stringify(ArmCtrl));
+      socket.emit('ArmCalibrate', JSON.stringify(ArmCtrl));
     });
   });
   // ---------------------------------------------------------
 
-  let ARMBtn = div.querySelectorAll('button[type="button"]');
+  let ARMBtn = div.querySelectorAll(' button[type="button"][name="pulsate"]');
   console.log(ARMBtn);
   Array.prototype.forEach.call(ARMBtn, (btn) => {
     console.log(btn);

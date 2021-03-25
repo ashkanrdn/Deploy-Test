@@ -19,7 +19,7 @@
     <div class="bodyContainer">
       <!-- /////////////////////////////////////////////////////// NAV BAR  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
 
-      <nav class="navbar navbar-expand-md navbar-dark bg-dark bg-gradient">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark bg-gradient">
         <div class="container-fluid">
           <a class="navbar-brand" href="/">AMPS</a>
           <button
@@ -96,12 +96,12 @@
         <li class="nav-item" role="presentation">
           <button
             class="nav-link"
-            id="pills-contact-tab"
+            id="pills-air-tab"
             data-bs-toggle="pill"
-            data-bs-target="#pills-contact"
+            data-bs-target="#pills-air"
             type="button"
             role="tab"
-            aria-controls="pills-contact"
+            aria-controls="pills-air"
             aria-selected="false"
           >
             Air
@@ -255,7 +255,7 @@
                 <div class="ControlContainer">
                   <!-- Toggle Div -->
                   <div>
-                    <input class="swingArmPWR toggle" type="checkbox" id="STPRMainPWR" />
+                    <button class="swingArmPWR btn btn-primary" name="calibrate" type="button">Calibrate</button>
                   </div>
                   <!-- Toggle Title -->
                   <div>
@@ -279,11 +279,11 @@
                 <div class="ControlContainer">
                   <!-- Left Control -->
                   <div>
-                    <button type="button" class="swingArmL btn btn-primary btn-lg"><<</button>
+                    <button type="button" name="pulsate" class="swingArmL pulsing btn btn-primary btn-lg"><<</button>
                   </div>
                   <!-- Right Control -->
                   <div>
-                    <button type="button" class="swingArmR btn btn-primary btn-lg">>></button>
+                    <button type="button" name="pulsate" class="swingArmR btn btn-primary btn-lg">>></button>
                   </div>
                 </div>
 
@@ -304,7 +304,7 @@
           </div>
         </div>
 
-        <!-- /////////////////////////////////////////////////////// TAB 3 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
+        <!-- /////////////////////////////////////////////////////// TAB 3 IRRIGATION  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
         <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
           <!-- ============================ All Irrigation  Controllers  ============================  -->
           <div class="allControls">
@@ -413,22 +413,22 @@
                 <div class="ControlContainer">
                   <!-- Toggle Div -->
                   <div>
-                    <input class="IRGWtrCycle toggle" type="checkbox" />
+                    <button class="IRGWtrCycle btn btn-primary" type="button">Run Cycle</button>
                   </div>
                   <!-- Toggle Title -->
                   <div>
                     <h3>WTR Cycle</h3>
                   </div>
                 </div>
-                <!-- ============================ Lighting Primary Range Slider ============================  -->
+                <!-- ============================ Cycle Time Range Slider ============================  -->
                 <div class="ControlContainer sliderDom">
                   <!-- Range Slider -->
-                  <div><input class="IRGWtrCycleTime" type="range" value="0" max="10" /></div>
+                  <div><input class="IRGWtrCycleTime" type="range" value="3" min="1" max="10" /></div>
 
                   <!-- Range Slider Value -->
                   <div>
                     <h3>
-                      <span></span>
+                      <span>3</span>
                     </h3>
                   </div>
                 </div>
@@ -438,28 +438,54 @@
             <!-- ============================ Nutr Cycler ROW 7 ============================  -->
             <div class="controlsItem controlSystem">
               <!-- ============================ IRG PUMP MAIN SWITCH     ============================  -->
-              <div class="controlsItemInner IRGCycles">
+              <div class="controlsItemInner IRGCyclesNutr">
                 <!-- ============================ Toggle Div wrapper (toggle and title) ============================  -->
                 <div class="ControlContainer">
                   <!-- Toggle Div -->
                   <div>
-                    <input class="IRGNutrCycle toggle" type="checkbox" />
+                    <button class="IRGNutrCycle btn btn-primary" type="button">Run Cycle</button>
                   </div>
                   <!-- Toggle Title -->
                   <div>
                     <h3>WTR Cycle</h3>
                   </div>
                 </div>
-                <!-- ============================ Lighting Primary Range Slider ============================  -->
+                <!-- ============================Cycle Time Slider ============================  -->
                 <div class="ControlContainer sliderDom">
                   <!-- Range Slider -->
-                  <div><input class="IRGNutrCycleTime" type="range" value="0" max="10" /></div>
+                  <div><input class="IRGNutrCycleTime" type="range" value="3" min="1" max="10" /></div>
 
                   <!-- Range Slider Value -->
                   <div>
                     <h3>
-                      <span></span>
+                      <span>3</span>
                     </h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- /////////////////////////////////////////////////////// TAB 4 AIR  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
+        <div class="tab-pane fade" id="pills-air" role="tabpanel" aria-labelledby="pills-air-tab">
+          <!-- ============================ All Irrigation  Controllers  ============================  -->
+          <div class="allControls">
+            <!-- ============================ First Row 1  ============================  -->
+            <div class="controlsItem controlSystem">
+              <!-- ============================ IRG PUMP MAIN SWITCH     ============================  -->
+              <div class="controlsItemInner IRGCtrl">
+                <!-- ============================ IRG PUMP MAIN // LVL5 SWITCH  (toggle and title) ============================  -->
+                <div class="ControlContainer">
+                  <!-- Toggle Pump Main -->
+                  <div class="stackedToggle">
+                    <input class="AIRMainPwr toggle" type="checkbox" />
+                    <h3>MAIN</h3>
+                  </div>
+                  <!-- Toggle LVL 5 -->
+                  <div class="stackedToggle">
+                    <input class="AIRSup1 toggle" type="checkbox" />
+                    <h3>Reserve</h3>
                   </div>
                 </div>
               </div>
@@ -468,6 +494,7 @@
         </div>
       </div>
     </div>
+
     <!-- ============================ Scripts ============================  -->
     <script src="/scripts/socketScripts.js"></script>
     <!-- BootStrap -->
