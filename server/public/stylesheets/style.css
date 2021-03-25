@@ -11,8 +11,9 @@ body {
 /* Containers */
 
 .bodyContainer {
-  width: 100vw;
   height: 100vh;
+  width: 100%;
+  min-width: 500px;
 }
 
 .allControls {
@@ -51,6 +52,7 @@ body {
   flex-grow: 5;
   border-radius: 15px;
   box-shadow: 5px 10px 20px #00000073;
+  min-width: 480px;
 }
 .controlsItemInner {
   width: 90%;

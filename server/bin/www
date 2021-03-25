@@ -27,10 +27,22 @@ io.on('connection', (socket) => {
     io.emit('IRGCycle', state);
   });
 
+  socket.on('IRGCycleChangedNutr', (state) => {
+    console.log('IRG Cycle Nutr Changed: ' + state);
+
+    io.emit('IRGCycleNutr', state);
+  });
+
   socket.on('ArmChanged', (state) => {
     console.log('ArmChanged Changed: ' + state);
 
     io.emit('Arm', state);
+  });
+
+  socket.on('ArmCalibrate', (state) => {
+    console.log('ArmCalibrate Changed: ' + state);
+
+    io.emit('ArmCalibrated', state);
   });
 
   socket.on('ArmLocChanged', (state) => {

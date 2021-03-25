@@ -13,23 +13,40 @@ from gpiozero import PWMLED
 
 
 
+#\\\\\\\\\\\\\\\\\\\\\\ LED GPIO SETUP //////////////////////
 
-gpioLedODMainPwr = 20
-gpioLedPWMMainDim = 21
-gpioLedPWMSupOneDim =16
-gpioLedPWMSupTWoDim=12
+gpioLedODMainPwr = 18
+gpioLedPWMMainDim = 25
+gpioLedPWMSupOneDim = 13
+gpioLedPWMSupTWoDim= 12
 
 
-gpioIRGMainPump = 14
-gpioIRGWtrSol = 15
-gpioIRGTankSwitchSol = 27
+#\\\\\\\\\\\\\\\\\\\\\\ IRRIGATION GPIO SETUP //////////////////////
+# <<<< Supply >>>>
+gpioIRGMainPump = 7
+gpioIRGWtrSol = 22
 gpioIRGNutrSol = 23
+gpioIRGTankSwitchSol = 14
 
-gpioIRGlvl1Sol=17
-gpioIRGlvl2Sol=4
-gpioIRGlvl3Sol=15
-gpioIRGlvl4Sol=3
-gpioIRGlvl5Sol=14
+
+# <<<< Tank Sensors >>>>
+
+# Main Supply Sensors
+gpioIRGMainTankSensorFull = 20
+gpioIRGMainTankSensorEmpty = 21
+# Drain Supply Sensors
+gpioIRGDrainTankSensorFull = 16
+gpioIRGDrainTankSensorEmpty = 26
+
+# <<<< Level Solonoids >>>>
+
+gpioIRGlvl1Sol = 27
+gpioIRGlvl2Sol = 17
+gpioIRGlvl3Sol = 3
+gpioIRGlvl4Sol = 15
+gpioIRGlvl5Sol = 4
+
+#\\\\\\\\\\\\\\\\\\\\\\ ARM CONTROL GPIO SETUP //////////////////////
 
 gpioARMEna = 10
 gpioARMDir = 24
