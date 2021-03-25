@@ -149,27 +149,28 @@ def ArmChanged(data):
 
     if('swingArmR' in dashValues):
         stateStepperR = dashValues['swingArmR']
+              
 
 globalLoc = 0
+globalCurrentLoc = 0
 
-# ARMControls.Callibrate()
 @sio.on('ArmLoc')
 def ArmLocChanged(data):
     dashValues = json.loads(data)
     global globalLoc
+    global globalCurrentLoc
+
     loc = int(dashValues['swingArmLoc'])
     globalLoc = loc
-    print(ARMControls.ARMLoc)
-    
-    ARMControls.goToLoc(loc)
-    print(ARMControls.ARMLoc)
-
 
     
-    # print(globalLoc)
+    
+
+
 
 
 while True:
+
     while stateStepperL == True:
         ARMControls.Pulsate('L')
 
@@ -177,6 +178,14 @@ while True:
 
     while stateStepperR == True:
         ARMControls.Pulsate('R')
+    
+    if (globalCurrentLoc != globalLoc):
+     
+ 
+
+        globalCurrentLoc = globalLoc 
+        ARMControls.goToLoc(globalCurrentLoc)
+
     
 
 
