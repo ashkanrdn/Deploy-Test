@@ -72,6 +72,10 @@ body {
   min-height: 100px;
 }
 
+.ControlContainer.sliderDom {
+  display: flex;
+  flex-direction: column;
+}
 .stackedToggle {
   display: flex;
   flex-direction: column;
@@ -79,7 +83,7 @@ body {
   padding: 5px 60px;
 }
 
-.stackedToggle h3 {
+.stackedToggle h6 {
   padding-top: 15px;
 }
 /* ------------------------------------------------------------------------------------------------ */

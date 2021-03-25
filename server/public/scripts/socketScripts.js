@@ -19,7 +19,7 @@ Array.prototype.forEach.call(controlItemInner, (div) => {
   if (div.querySelector('input[type=range]') !== null) {
     div.querySelector('input[type=range]').addEventListener('click', (event) => {
       // Showing the Dim Value
-      div.querySelector('span').innerHTML = event.target.value;
+      div.querySelector('span').innerHTML = 'Dim: ' + event.target.value + ' %';
       // getting the ID of the control by it's classname
       let controlId = event.target.className;
       // remapping the value to be between 0 - 1
@@ -102,7 +102,7 @@ Array.prototype.forEach.call(controlItemInnerIRGCycle, (div) => {
   div.querySelector('input[type=range].IRGWtrCycleTime').addEventListener('click', (event) => {
     // Showing the Dim Value
 
-    div.querySelector('span').innerHTML = event.target.value;
+    div.querySelector('span').innerHTML = 'Time interval: ' + event.target.value + ' sec';
     // getting the ID of the control by it's classname
     let controlId = event.target.className;
     // remapping the value to be between 0 - 1
@@ -141,7 +141,7 @@ Array.prototype.forEach.call(controlItemInnerIRGCycleNutr, (div) => {
   div.querySelector('input[type=range].IRGNutrCycleTime').addEventListener('click', (event) => {
     // Showing the Dim Value
 
-    div.querySelector('span').innerHTML = event.target.value;
+    div.querySelector('span').innerHTML = 'Time interval: ' + event.target.value + ' sec';
     // getting the ID of the control by it's classname
     let controlId = event.target.className;
     // remapping the value to be between 0 - 1
@@ -181,7 +181,7 @@ ArmCtrlLoc = {};
 Array.prototype.forEach.call(controlItemInnerARM, (div) => {
   div.querySelector('input[type=range]').addEventListener('click', (event) => {
     // Showing the Dim Value
-    div.querySelector('span').innerHTML = event.target.value;
+    div.querySelector('span').innerHTML = 'Position: ' + event.target.value;
     // getting the ID of the control by it's classname
     let controlId = event.target.className;
     // remapping the value to be between 0 - 1
