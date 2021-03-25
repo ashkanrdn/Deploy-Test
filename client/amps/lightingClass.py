@@ -2,16 +2,6 @@ import gpiozero
 import time
 from time import sleep
 
-#TEMPORARY GPIO ASSIGNMENTS UNTIL CONFIG FILE COMPLETE
-# gpioledODMainPwr = 18
-# gpioledPWMMainDim = 25
-# gpioledPWMSuppOneDim = 13
-# gpioLedPWMSuppTwoDiM = 12
-# gpioODPul = 21
-# gpioODDir = 24
-# gpioODEnable = 10
-# gpioIDendArmLt = 8
-# gpioIDendArmRt = 11
 
 
 
@@ -46,20 +36,20 @@ class LedMain():
         self.lightingLedMain.on()
         self.lightingLedSuppOne.on()
         self.lightingLedSuppTwo.on()
-        print('on')
+     
 
     def dim(self,mainDim=0,sup1Dim=0,sup2Dim=0):
         '''Set the dim level for the main LED. The supplemental LED's are asigned based on the configuration file data as a percentage of the MainLED level'''
         if self.lightingLedMainPWR.is_active == False:
             self.lightingLedMainPWR.on()
-            print('pwr on')
+     
 
         self.lightingLedMain.value = mainDim
         self.lightingLedSuppOne.value = sup1Dim
         self.lightingLedSuppTwo.value = sup2Dim
 
 
-        print('on')
+   
 
     def off(self):
         '''Powers off the main PWR, main LED and supplemental LED's at last set levels'''
@@ -68,7 +58,7 @@ class LedMain():
         self.lightingLedSuppTwo.off()
 
         self.lightingLedMainPWR.off()
-        print('off')
+  
 
 
 
