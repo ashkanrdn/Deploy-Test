@@ -1,0 +1,63 @@
+#!/usr/bin/env node
+
+var debug = require('debug')('server');
+var app = require('../app');
+
+app.set('port', process.env.PORT || 3000);
+
+var server = app.listen(app.get('port'), function () {
+  debug('Express server listening on port ' + server.address().port);
+  console.log('Express server listening on port ' + server.address().port);
+});
+
+const io = require('socket.io')(server);
+
+io.on('connection', (socket) => {
+  console.log('Client Connected');
+
+  socket.on('IRGChanged', (state) => {
+    console.log('IRGToggle Changed: ' + state);
+
+    io.emit('IRG', state);
+  });
+
+  socket.on('IRGCycleChanged', (state) => {
+    console.log('IRG Cycle Changed: ' + state);
+
+    io.emit('IRGCycle', state);
+  });
+
+  socket.on('IRGCycleChangedNutr', (state) => {
+    console.log('IRG Cycle Nutr Changed: ' + state);
+
+    io.emit('IRGCycleNutr', state);
+  });
+
+  socket.on('ArmChanged', (state) => {
+    console.log('ArmChanged Changed: ' + state);
+
+    io.emit('Arm', state);
+  });
+
+  socket.on('ArmCalibrate', (state) => {
+    console.log('ArmCalibrate Changed: ' + state);
+
+    io.emit('ArmCalibrated', state);
+  });
+
+  socket.on('ArmLocChanged', (state) => {
+    console.log('ArmLoc Changed: ' + state);
+
+    io.emit('ArmLoc', state);
+  });
+
+  socket.on('rangeChanged', (rangeX) => {
+    console.log('range Changed: ' + rangeX);
+
+    io.emit('rangeChanged', rangeX);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+});
