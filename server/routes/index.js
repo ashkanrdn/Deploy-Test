@@ -6,8 +6,8 @@ router.get('/', function(req, res) {
     res.render('index', { title: 'Maintenance Dashboard ' });
 });
 
-router.get('/about', function(req, res) {
-    res.render('about', { title: 'Express' });
+router.get('/schedule', function(req, res) {
+    res.render('schedule', { title: 'Express' });
 });
 
 
