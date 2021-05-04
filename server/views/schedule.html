@@ -10,10 +10,7 @@
       crossorigin="anonymous"
     />
     <link href="/stylesheets/style.css" rel="stylesheet" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
     <script src="socket.io/socket.io.js"></script>
   </head>
@@ -39,9 +36,7 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/"
-                  >Maintenance</a
-                >
+                <a class="nav-link active" aria-current="page" href="/">Maintenance</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Analytics</a>
@@ -56,7 +51,15 @@
       <!-- /////////////////////////////////////////////////////// CONTROL TABS  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
       <div class="allControls">
         <div class="controlsItem controlSystem">
-          <div class="controlsItemInner">
+          <!-- ============================ Watering Scheduling ============================  -->
+          <div>
+            <h5>Schedule Water Cycle</h5>
+          </div>
+          <!-- ============================ Scheduling Controls============================  -->
+
+          <div class="controlsItemInner waterSchedule">
+            <!-- ============================ Scheduling Week Day ============================  -->
+            <!-- Week Selector  -->
             <div class="ControlContainer">
               <div class="weekDays-selector">
                 <input type="checkbox" id="weekday-mon" class="weekday" />
@@ -75,29 +78,68 @@
                 <label for="weekday-sun">S</label>
               </div>
             </div>
-            <div class="controlsItemInner">
-              <div class="ControlContainer">
-                <!-- Toggle Div -->
-                <label for="appt">Choose a time for your meeting:</label>
-
-                <input
-                  type="time"
-                  id="appt"
-                  name="appt"
-                />
-
-                <small>Office hours are 9am to 6pm</small>
-                <!-- Toggle Title -->
-                <div>
-                  <h6>LED Main Power</h6>
-                </div>
+            <!-- Time Start-->
+            <div class="ControlContainer timers">
+              <div>
+                <h6><span>Time interval: 3 sec</span></h6>
               </div>
+              <div><input class="IRGWtrCycleTime" type="range" value="3" min="1" max="10" /></div>
+              <!-- Time Interval-->
+
+            <div>
+              <h6><span>Start At:</span></h6>
             </div>
+            <div><input type="time" id="Start" name="Start" /></div>
           </div>
         </div>
       </div>
-      <!-- /////////////////////////////////////////////////////// CONTROL PANELS  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
     </div>
+    <div class="controlsItem controlSystem">
+      <!-- ============================ Watering Scheduling ============================  -->
+      <div>
+        <h5>Schedule Nutrient Cycle</h5>
+      </div>
+      <!-- ============================ Scheduling Controls============================  -->
+
+      <div class="controlsItemInner waterSchedule">
+        <!-- ============================ Scheduling Week Day ============================  -->
+        <!-- Week Selector  -->
+        <div class="ControlContainer">
+          <div class="weekDays-selector">
+            <input type="checkbox" id="weekday-mon" class="weekday" />
+            <label for="weekday-mon">M</label>
+            <input type="checkbox" id="weekday-tue" class="weekday" />
+            <label for="weekday-tue">T</label>
+            <input type="checkbox" id="weekday-wed" class="weekday" />
+            <label for="weekday-wed">W</label>
+            <input type="checkbox" id="weekday-thu" class="weekday" />
+            <label for="weekday-thu">T</label>
+            <input type="checkbox" id="weekday-fri" class="weekday" />
+            <label for="weekday-fri">F</label>
+            <input type="checkbox" id="weekday-sat" class="weekday" />
+            <label for="weekday-sat">S</label>
+            <input type="checkbox" id="weekday-sun" class="weekday" />
+            <label for="weekday-sun">S</label>
+          </div>
+        </div>
+        <!-- Time Start-->
+        <div class="ControlContainer timers">
+          <div>
+            <h6><span>Time interval: 3 sec</span></h6>
+          </div>
+          <div><input class="IRGWtrCycleTime" type="range" value="3" min="1" max="10" /></div>
+          <!-- Time Interval-->
+
+        <div>
+          <h6><span>Start At:</span></h6>
+        </div>
+        <div><input type="time" id="Start" name="Start" /></div>
+      </div>
+    </div>
+  </div>
+</div>
+    <!-- /////////////////////////////////////////////////////// CONTROL PANELS  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
+
     <!-- /// -->
     <!-- /// -->
     <!-- /// -->
@@ -105,8 +147,7 @@
     <!-- /// -->
     <!-- /// -->
     <!-- ============================ Scripts ============================  -->
-    <script src="/scripts/socketScripts.js"></script>
-    <script src="/scripts/timepicker.js"></script>
+    <script src="/scripts/schedulescripts.js"></script>
     <!-- BootStrap -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"

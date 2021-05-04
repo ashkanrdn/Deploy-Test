@@ -2,15 +2,29 @@
 
 var debug = require('debug')('server');
 var app = require('../app');
+const mongoose = require('mongoose');
 
 app.set('port', process.env.PORT || 3000);
 
-var server = app.listen(app.get('port'), function () {
+
+var server =app.listen(app.get('port'), function (){
   debug('Express server listening on port ' + server.address().port);
   console.log('Express server listening on port ' + server.address().port);
-});
+})
 
 const io = require('socket.io')(server);
+
+// listen for requests
+var dbURL= 'mongodb://localhost:27017/AMPS'
+
+mongoose.connect(dbURL, { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true })
+    .then((result) => server)
+    .then((result)=> io)
+    .then((result)=> console.log('mongo'))
+    .catch((err) => console.log(error));
+
+
+
 
 io.on('connection', (socket) => {
   console.log('Client Connected');
@@ -57,6 +71,11 @@ io.on('connection', (socket) => {
     io.emit('rangeChanged', rangeX);
   });
 
+  socket.on('Test', (rangeX) => {
+    console.log('Test Changed: ' + rangeX);
+
+    io.emit('Test', rangeX);
+  });
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
