@@ -6,7 +6,7 @@ from time import sleep
 
 
 class ARM():
-    '''ArmMaker Class is to control the stepper motor using stepper controller DM322E
+    '''ARM Class is to control the stepper motor using stepper controller DM322E
 
     gpioARMEna: set the raspberry pi pin for Enable on controller
     gpioARMDir: set the raspberry pi pin for Direction on controller
@@ -64,20 +64,20 @@ class ARM():
                     self.ARMDir.on()
                     sleep(0.25)
                     # set pulse pin on and off
-                sleep(ArmMaker.ARMSleepTime)
+                sleep(ARM.ARMSleepTime)
                 self.ARMPul.off()
-                sleep(ArmMaker.ARMSleepTime)
+                sleep(ARM.ARMSleepTime)
                 self.ARMPul.on()
                 self.ARMLoc -= 1
         elif dir == 'R':
             if (self.ARMEndR.is_active == False):
                 if self.ARMDir.is_active == True:
-                    sleep(ArmMaker.ARMSleepTime)
+                    sleep(ARM.ARMSleepTime)
                     self.ARMDir.off()
-                    sleep(ArmMaker.ARMSleepTime)
-                sleep(ArmMaker.ARMSleepTime)
+                    sleep(ARM.ARMSleepTime)
+                sleep(ARM.ARMSleepTime)
                 self.ARMPul.off()
-                sleep(ArmMaker.ARMSleepTime)
+                sleep(ARM.ARMSleepTime)
                 self.ARMPul.on()
                 self.ARMLoc += 1
 
@@ -94,14 +94,6 @@ class ARM():
             actualSteps = 0
         pause = 1
 
-        # if speed == 0 :
-        #     pause = 1
-        # elif speed>200:
-        #     pause = 200
-        # else:
-        #     pause= speed
-
-        # pause= (0.00025)/pause
 
         if actualSteps > self.ARMLoc :
             while actualSteps >=  self.ARMLoc :
