@@ -46,12 +46,6 @@ class ArmMaker():
             self.Pulsate(dir='R')
             self.ARML2RTotalStps +=  1
             self.ARMLoc += 1
-<<<<<<< HEAD
-
-=======
-        
-        print('calibration done')
->>>>>>> 0a35f347bd14cd1bc82b9cd6e63bf34d894e1b4a
         # LEDMAIN(Alert)
 
         # moveTo(pos=0)
