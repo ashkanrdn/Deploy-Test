@@ -39,7 +39,7 @@ class ArmMaker():
         self.ARMLoc = 0
         sleep(1)
 
-
+        print('Far Left Reached')
         while(self.ARMEndR.is_active == False):
           
 
@@ -47,6 +47,7 @@ class ArmMaker():
             self.ARML2RTotalStps +=  1
             self.ARMLoc += 1
         
+        print('calibration done')
         # LEDMAIN(Alert)
 
         # moveTo(pos=0)

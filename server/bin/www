@@ -15,13 +15,13 @@ var server =app.listen(app.get('port'), function (){
 const io = require('socket.io')(server);
 
 // listen for requests
-var dbURL= 'mongodb://localhost:27017/AMPS'
+// var dbURL= 'mongodb://localhost:27017/AMPS'
 
-mongoose.connect(dbURL, { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true })
-    .then((result) => server)
-    .then((result)=> io)
-    .then((result)=> console.log('mongo'))
-    .catch((err) => console.log(error));
+// mongoose.connect(dbURL, { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true })
+//     .then((result) => server)
+//     .then((result)=> io)
+//     .then((result)=> console.log('mongo'))
+//     .catch((err) => console.log(error));
 
 
 
