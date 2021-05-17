@@ -8,15 +8,15 @@ import sys
  # Modify PATH so we can import files from elsewhere in this repo
 from os.path import dirname, join, abspath
 sys.path.insert(0, abspath(join(dirname(__file__), '..')))
-from amps.lightingClass import LedMain
+from amps.LED import LedMain
 
 class Irrigation():
 
-    
+
     def __init__(self,gpioIRGMainPump, gpioIRGWtrSol,gpioIRGTankSwitchSol, gpioIRGNutrSol,
                 gpioIRGlvl1Sol, gpioIRGlvl2Sol, gpioIRGlvl3Sol, gpioIRGlvl4Sol, gpioIRGlvl5Sol,
                 gpioIRGMainTankSensorFull,gpioIRGMainTankSensorEmpty,gpioIRGDrainTankSensorFull,gpioIRGDrainTankSensorEmpty
-                ): 
+                ):
         self.IRGMainPump = DigitalOutputDevice(gpioIRGMainPump)
         self.IRGWtrSol = DigitalOutputDevice(gpioIRGWtrSol)
         self.IRGTankSwitchSol = DigitalOutputDevice(gpioIRGTankSwitchSol)
@@ -87,7 +87,7 @@ class Irrigation():
                 self.panicMode() #Add the panic drill
                 LedMain.dim(0,0,0) # turn off lights
                 return False
-   
+
     def panicMode(self):
         ''' function for flashing all the lights'''
         for _ in range(30):
@@ -97,7 +97,7 @@ class Irrigation():
             time.sleep(1)
             LedMain.dim(0,0,0)
             time.sleep(1)
-    
+
     def tankFull(self):
         ''' function that checks when any of the water tanks get full and runs the panic drill
         if they are full'''
@@ -106,8 +106,7 @@ class Irrigation():
 
 
 
-
-
+#Main pump only can be on if water sol is on and lvl one sol is on
 
 
 

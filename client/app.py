@@ -11,9 +11,10 @@ from time import sleep
 #\\\\\\\\\\\\\\\\\\\\\\ AMPS IMPORTS //////////////////////
 
 import appConfig as config
-from amps.lightingClass import LedMain
-from amps.Irrigation import Irrigation
-from amps.Arm import ArmMaker
+from amps.LED import LED
+from amps.IRG import IRG
+from amps.ARM import ARM
+from amps.AIR import AIR
 # # Config file variable
 server_url = config.serverUrl  # connection server URL
 
@@ -56,17 +57,26 @@ gpioARMPul = config.gpioARMPul
 gpioARMEndL = config.gpioARMEndL
 gpioARMEndR = config.gpioARMEndR
 
+#AIR CONTROLS
+
+gpioAIRMain=config.gpioAIRMain
+
+
+
+
 #\\\\\\\\\\\\\\\\\\\\\\ CONTROL CLASS INSTANTIATE //////////////////////
 
-lightingControls = LedMain(gpioPwr = gpioLedODMainPwr , gpioDim = gpioLedPWMMainDim , gpioSupp1 = gpioLedPWMSup1Dim, gpioSupp2 = gpioLedPWMSup2Dim)
+lightingControls = LED(gpioPwr = gpioLedODMainPwr , gpioDim = gpioLedPWMMainDim , gpioSupp1 = gpioLedPWMSup1Dim, gpioSupp2 = gpioLedPWMSup2Dim)
 
-IRGControls =Irrigation(gpioIRGMainPump, gpioIRGWtrSol,gpioIRGTankSwitchSol, gpioIRGNutrSol,
+IRGControls =IRG(gpioIRGMainPump, gpioIRGWtrSol,gpioIRGTankSwitchSol, gpioIRGNutrSol,
                 gpioIRGlvl1Sol, gpioIRGlvl2Sol, gpioIRGlvl3Sol, gpioIRGlvl4Sol, gpioIRGlvl5Sol,
                 gpioIRGMainTankSensorFull,gpioIRGMainTankSensorEmpty,gpioIRGDrainTankSensorFull,gpioIRGDrainTankSensorEmpty
                 )
 
-ARMControls = ArmMaker(gpioARMEna,gpioARMDir,gpioARMPul,gpioARMEndL,gpioARMEndR)
+ARMControls = ARM(gpioARMEna,gpioARMDir,gpioARMPul,gpioARMEndL,gpioARMEndR)
 
+
+AIRControls = AIR(gpioAIRMain)
 #\\\\\\\\\\\\\\\\\\\\\\ SOCKET INIT //////////////////////
 
 sio = socketio.Client()
@@ -80,7 +90,23 @@ def connect():
     print("I'm connected!")
     ARMControls.Callibrate()
 
-#\\\\\\\\\\\\\\\\\\\\\\ SOCKET LED CONTROLS   //////////////////////
+
+
+#\\\\\\\\\\\\\\\\\\\\\\ AIR CONTROLS   //////////////////////
+@sio.on("AirChanged")
+def airChanged(data):
+    # a json containing controller ids and their values
+    dashValues = json.loads(data)
+    if dashValues['AIRMainPwr'] == 1:
+        AIRControls.on()
+    else:
+        AIRControls.off()
+
+
+
+
+
+#\\\\\\\\\\\\\\\\\\\\\\ LIGHT CONTROLS   //////////////////////
 
 
 @sio.on("rangeChanged")
@@ -141,7 +167,7 @@ def ArmChanged(data):
         stateStepperL = dashValues['swingArmL']
     if('swingArmR' in dashValues):
         stateStepperR = dashValues['swingArmR']
-              
+
 globalLoc = 0
 globalCurrentLoc = 0
 
@@ -167,11 +193,11 @@ while True:
     while stateStepperR == True:
         ARMControls.Pulsate('R')
 
-    if (globalCurrentLoc != globalLoc):     
-        globalCurrentLoc = globalLoc 
+    if (globalCurrentLoc != globalLoc):
+        globalCurrentLoc = globalLoc
         ARMControls.goToLoc(globalCurrentLoc)
 
-    
+
 
 
 

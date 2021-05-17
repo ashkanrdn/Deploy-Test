@@ -32,7 +32,7 @@ class ArmMaker():
         Note: zero postion gets callibrated everytime left proximity is triggered.'''
         # While State
         while ( self.ARMEndL.is_active == False):
-           
+
             self.Pulsate(dir='L')
         # LEDMAIN(Alert)
         self.ARML2RTotalStps =  0
@@ -41,12 +41,12 @@ class ArmMaker():
 
 
         while(self.ARMEndR.is_active == False):
-          
+
 
             self.Pulsate(dir='R')
             self.ARML2RTotalStps +=  1
             self.ARMLoc += 1
-        
+
         # LEDMAIN(Alert)
 
         # moveTo(pos=0)
@@ -57,9 +57,9 @@ class ArmMaker():
         '''to move the stepper one step in a direction assigned every time it is called'''
         # self.ARMEna.on()
         if dir == 'L':
-   
+
             if (self.ARMEndL.is_active == False): # Check if ARM has reached far left
-                
+
                 if self.ARMDir.is_active == False: #check the status of direction pin and set it accordingly
                     sleep(0.25)
                     self.ARMDir.on()
@@ -107,11 +107,11 @@ class ArmMaker():
         if actualSteps > self.ARMLoc :
             while actualSteps >=  self.ARMLoc :
                 self.Pulsate(dir='R')
-                
+
         elif actualSteps < self.ARMLoc:
             while actualSteps <=  self.ARMLoc :
                 self.Pulsate(dir='L')
-              
+
 
     def toHome(self):
         self.goToLoc(0)
