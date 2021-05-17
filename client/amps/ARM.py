@@ -5,7 +5,7 @@ from time import sleep
 
 
 
-class ArmMaker():
+class ARM():
     '''ArmMaker Class is to control the stepper motor using stepper controller DM322E
 
     gpioARMEna: set the raspberry pi pin for Enable on controller

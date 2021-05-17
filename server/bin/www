@@ -13,25 +13,7 @@ var server = app.listen(app.get('port'), function() {
 
 const io = require('socket.io')(server);
 
-<<
-<<
-<< < HEAD
 
-
-    ===
-    ===
-    =
-    // listen for requests
-    // var dbURL= 'mongodb://localhost:27017/AMPS'
-
-    // mongoose.connect(dbURL, { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true })
-    //     .then((result) => server)
-    //     .then((result)=> io)
-    //     .then((result)=> console.log('mongo'))
-    //     .catch((err) => console.log(error));
-    >>>
-    >>>
-    > 0 a35f347bd14cd1bc82b9cd6e63bf34d894e1b4a
 
 
 

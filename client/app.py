@@ -11,8 +11,8 @@ from time import sleep
 #\\\\\\\\\\\\\\\\\\\\\\ AMPS IMPORTS //////////////////////
 
 import appConfig as config
-from amps.LED import LED
-from amps.IRG import IRG
+from amps.LED import LedMain as LED
+from amps.IRG import Irrigation as IRG
 from amps.ARM import ARM
 from amps.AIR import AIR
 # # Config file variable

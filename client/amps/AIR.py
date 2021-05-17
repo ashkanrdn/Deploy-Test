@@ -2,7 +2,7 @@ import gpiozero
 from gpiozero import DigitalOutputDevice
 import time
 
-class Air():
+class AIR():
     def __init__(self,gpioAIRMain):
         self.AIRMain =DigitalOutputDevice(gpioAIRMain)
 
