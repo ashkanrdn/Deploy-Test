@@ -11,7 +11,7 @@ from gpiozero import PWMLED
 
 #\\\\\\\\\\\\\\\\\\\\\\ LED GPIO  //////////////////////
 
-gpioLedODMainPwr = 18
+gpioLedDMainPwr = 18
 gpioLedPWMMainDim = 25
 gpioLedPWMSupOneDim = 13
 gpioLedPWMSupTWoDim= 12
