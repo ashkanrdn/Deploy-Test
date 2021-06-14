@@ -36,6 +36,9 @@ class Irrigation():
         ''' runs the water cycle for given time. at end of each irrigation
         process for level solenoid it checks for the water supply and verifies
         available water sources'''
+        
+        '''Open all levels first, then open water/nutritent, then turn on pump for 5 seconds the pump off, then close water/nutirent, then close levels'''
+        
         self.IRGMainPump.on()
         time.sleep(1)
         self.IRGWtrSol.on()
@@ -104,7 +107,7 @@ class Irrigation():
         if (self.IRGMainTankSensorFull.is_active == True or self.IRGDrainTankSensorFull.is_active == True ):
             self.panicMode()
 
-
+''' Add a indicator on dashoboard tanks levels are full or empty. '''
 
 #Main pump only can be on if water sol is on and lvl one sol is on
 
