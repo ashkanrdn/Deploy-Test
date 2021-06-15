@@ -1,10 +1,11 @@
 var app = require('./app');
 var socket = require('socket.io');
 const mongoose = require('mongoose');
+// Connect to mongodb
+const dbURI = 'mongodb+srv://ashkan:12345ashkan@amps.sytdb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 
 
-
-let port = 4000
+let port = 3000
     // Server start
 var server = app.listen(port, function() {
     console.log('listening for requests on port ' + port);

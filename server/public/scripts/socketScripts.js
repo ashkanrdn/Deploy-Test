@@ -243,15 +243,9 @@ function IRGWtrSeq() {
 
 function IRGNutrSeq() {
     setTimeout(() => {
-
         console.log(new Date().toLocaleString(), 'nutr')
-
-
         socket.emit('IRGCycleNutr', JSON.stringify({ IRGNutrCycle: 5 }));
-
     }, 5000);
-
-
 }
 
 function mySeq() {
@@ -267,6 +261,8 @@ let IRGInterval = setInterval(mySeq, 30000)
 function myStopFunction() {
     clearInterval(IRGInterval);
 }
+
+
 Array.prototype.forEach.call(ScheduleControls, (div) => {
 
 
