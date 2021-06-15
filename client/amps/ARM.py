@@ -56,6 +56,7 @@ class ARM():
         '''to move the stepper one step in a direction assigned every time it is called'''
         # self.ARMEna.on()
         if dir == 'L':
+         
 
             if (self.ARMEndL.is_active == False): # Check if ARM has reached far left
 
@@ -70,6 +71,7 @@ class ARM():
                 self.ARMPul.on()
                 self.ARMLoc -= 1
         elif dir == 'R':
+           
             if (self.ARMEndR.is_active == False):
                 if self.ARMDir.is_active == True:
                     sleep(ARM.ARMSleepTime)
