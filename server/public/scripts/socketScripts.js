@@ -227,40 +227,35 @@ Array.prototype.forEach.call(AIRControls, (div) => {
 
 
 //////////////////////////////////////////////////////// SCHEDULE CONTROLS\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+let wtrTimeout = 10000
+let nutrTimeout = 10800000
+let intervalTime = 21600000
+let seqTime = 5000
+
+
+
 function IRGWtrSeq() {
-
     setTimeout(() => {
-        socket.emit('IRGCycleWtr', JSON.stringify({ IRGWtrCycle: 5 }));
-
-
+        socket.emit('IRGCycleWtr', JSON.stringify({ IRGWtrCycle: seqTime }));
         console.log(new Date().toLocaleString(), 'wtr')
-
-
-    }, 10000);
-
-
+    }, wtrTimeout);
 }
 
 function IRGNutrSeq() {
     setTimeout(() => {
-
         console.log(new Date().toLocaleString(), 'nutr')
-
-
-        socket.emit('IRGCycleNutr', JSON.stringify({ IRGNutrCycle: 5 }));
-
-    }, 5000);
-
-
+        socket.emit('IRGCycleNutr', JSON.stringify({ IRGNutrCycle: seqTime }));
+    }, nutrTimeout);
 }
 
 function mySeq() {
-    IRGNutrSeq();
-    console.log(new Date().toLocaleString())
     IRGWtrSeq();
+    console.log(new Date().toLocaleString())
+    IRGNutrSeq();
 }
 
-let IRGInterval = setInterval(mySeq, 30000)
+let IRGInterval = setInterval(mySeq, intervalTime)
 
 
 
@@ -276,8 +271,6 @@ Array.prototype.forEach.call(ScheduleControls, (div) => {
         btn.addEventListener('click', (toggleChanged) => {
             console.log('Hi')
             IRGInterval
-
-
         });
     });
 
@@ -287,8 +280,6 @@ Array.prototype.forEach.call(ScheduleControls, (div) => {
         btn.addEventListener('click', (toggleChanged) => {
             myStopFunction()
             console.log('Bye')
-
-
         });
     });
 });

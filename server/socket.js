@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 
 
-let port = 4000
+let port = 3000
     // Server start
 var server = app.listen(port, function() {
     console.log('listening for requests on port ' + port);
