@@ -95,11 +95,7 @@ def connect():
 
 
 #\\\\\\\\\\\\\\\\\\\\\\ AIR CONTROLS   //////////////////////
-<<<<<<< HEAD
 @sio.on("Air")
-=======
-@sio.on("AIRChanged")
->>>>>>> dev
 def airChanged(data):
     print('Air')
     # a json containing controller ids and their values
