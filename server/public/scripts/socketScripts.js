@@ -228,12 +228,14 @@ Array.prototype.forEach.call(AIRControls, (div) => {
 
 //////////////////////////////////////////////////////// SCHEDULE CONTROLS\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-let wtrTimeout = 10000
+let wtrTimeout = 30 * 1000
     // prettier-ignore
-let nutrTimeout = 10800000
+let nutrTimeout = 59 * 1000
     // prettier-ignore
-let intervalTime = 21600000
-let seqTime = 5000
+let intervalTime = 60 * 1000
+
+// 21600000 10800000
+let seqTime = 5
 
 
 
@@ -253,11 +255,11 @@ function IRGNutrSeq() {
 
 function mySeq() {
     IRGWtrSeq();
-    console.log(new Date().toLocaleString())
+    console.log(new Date().toLocaleString(), 'interval')
     IRGNutrSeq();
 }
 
-let IRGInterval = setInterval(mySeq, intervalTime)
+let IRGInterval
 
 
 
@@ -271,8 +273,8 @@ Array.prototype.forEach.call(ScheduleControls, (div) => {
     let ScheduleButton = div.querySelectorAll('button[type="button"][name="scheduler"]');
     Array.prototype.forEach.call(ScheduleButton, (btn) => {
         btn.addEventListener('click', (toggleChanged) => {
-            console.log('Hi')
-            IRGInterval
+            console.log('Running Schedule', new Date().toLocaleString())
+            IRGInterval = setInterval(mySeq, intervalTime)
         });
     });
 
