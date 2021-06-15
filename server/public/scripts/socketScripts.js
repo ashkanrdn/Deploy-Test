@@ -243,12 +243,8 @@ function IRGWtrSeq() {
 
 function IRGNutrSeq() {
     setTimeout(() => {
-
         console.log(new Date().toLocaleString(), 'nutr')
-
-
         socket.emit('IRGCycleNutr', JSON.stringify({ IRGNutrCycle: 5 }));
-
     }, 5000);
 
 
@@ -276,8 +272,6 @@ Array.prototype.forEach.call(ScheduleControls, (div) => {
         btn.addEventListener('click', (toggleChanged) => {
             console.log('Hi')
             IRGInterval
-
-
         });
     });
 
@@ -287,8 +281,6 @@ Array.prototype.forEach.call(ScheduleControls, (div) => {
         btn.addEventListener('click', (toggleChanged) => {
             myStopFunction()
             console.log('Bye')
-
-
         });
     });
 });
