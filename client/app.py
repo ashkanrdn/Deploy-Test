@@ -15,6 +15,8 @@ from amps.LED import LedMain as LED
 from amps.IRG import Irrigation as IRG
 from amps.ARM import ARM
 from amps.AIR import AIR
+
+
 # # Config file variable
 server_url = config.serverUrl  # connection server URL
 
@@ -22,7 +24,7 @@ server_url = config.serverUrl  # connection server URL
 
 # LED CONTROLS
 
-gpioLedODMainPwr =  config.gpioLedODMainPwr
+gpioLedDMainPwr =  config.gpioLedDMainPwr
 gpioLedPWMMainDim =  config.gpioLedPWMMainDim
 gpioLedPWMSup1Dim = config.gpioLedPWMSupOneDim
 gpioLedPWMSup2Dim= config.gpioLedPWMSupTWoDim
@@ -66,7 +68,7 @@ gpioAIRMain=config.gpioAIRMain
 
 #\\\\\\\\\\\\\\\\\\\\\\ CONTROL CLASS INSTANTIATE //////////////////////
 
-lightingControls = LED(gpioPwr = gpioLedODMainPwr , gpioDim = gpioLedPWMMainDim , gpioSupp1 = gpioLedPWMSup1Dim, gpioSupp2 = gpioLedPWMSup2Dim)
+LEDControls = LED(gpioLedDMainPwr, gpioLedPWMMainDim, gpioLedPWMSup1Dim, gpioLedPWMSup2Dim)
 
 IRGControls =IRG(gpioIRGMainPump, gpioIRGWtrSol,gpioIRGTankSwitchSol, gpioIRGNutrSol,
                 gpioIRGlvl1Sol, gpioIRGlvl2Sol, gpioIRGlvl3Sol, gpioIRGlvl4Sol, gpioIRGlvl5Sol,
@@ -87,13 +89,17 @@ sio.connect(server_url)
 
 @sio.event
 def connect():
-    print("I'm connected!")
-    ARMControls.Callibrate()
+    print("AMPS Conntected to Control Dashboard!")
+    # ARMControls.Callibrate()
 
 
 
 #\\\\\\\\\\\\\\\\\\\\\\ AIR CONTROLS   //////////////////////
+<<<<<<< HEAD
 @sio.on("Air")
+=======
+@sio.on("AIRChanged")
+>>>>>>> dev
 def airChanged(data):
     print('Air')
     # a json containing controller ids and their values
@@ -110,23 +116,23 @@ def airChanged(data):
 #\\\\\\\\\\\\\\\\\\\\\\ LIGHT CONTROLS   //////////////////////
 
 
-@sio.on("rangeChanged")
+@sio.on("LEDchanged")
 def rangeChanged(data):
     # a json containing controller ids and their values
     dashValues = json.loads(data)
     if dashValues['LEDGrowMainPwr'] == 1:
-        lightingControls.on()
+        LEDControls.on()
         mainDim =dashValues['LEDGrowMain']
         sup1Dim =dashValues['LEDGrowSup1']
         sup2Dim =dashValues['LEDGrowSup2']
-        lightingControls.dim(mainDim,sup1Dim,sup2Dim)
+        LEDControls.dim(mainDim,sup1Dim,sup2Dim)
     else:
-        lightingControls.off()
+        LEDControls.off()
 
 #\\\\\\\\\\\\\\\\\\\\\\ IRRIGATION CONTROLS //////////////////////
 
 # IRG PUMP CONTROLS
-@sio.on("IRG")
+@sio.on("IRGChanged")
 def IRGChanged(data):
     dashValues = json.loads(data)
     for controlId in dashValues:
@@ -137,7 +143,7 @@ def IRGChanged(data):
             IRGControl.off()
 
 # IRG WATER CYCLE
-@sio.on('IRGCycle')
+@sio.on('IRGCycleWtr')
 def IRGCycleChanged(data):
     dashValues = json.loads(data)
     if( 'IRGWtrCycleTime' in dashValues ):
@@ -145,7 +151,7 @@ def IRGCycleChanged(data):
     else:
         IRGControls.waterCycle()
 
-# IRG Nutrient Cycle
+# IRG NUTRIENT CYCLE
 @sio.on('IRGCycleNutr')
 def IRGCycleChangedNutr(data):
     dashValues = json.loads(data)
@@ -159,7 +165,7 @@ def IRGCycleChangedNutr(data):
 stateStepperL =False
 stateStepperR =False
 # STEP TP L/R
-@sio.on('Arm')
+@sio.on('ARMChanged')
 def ArmChanged(data):
     dashValues = json.loads(data)
     global stateStepperL
@@ -173,13 +179,13 @@ globalLoc = 0
 globalCurrentLoc = 0
 
 # ARM CALIBRATE
-@sio.on('ArmCalibrated')
+@sio.on('ARMCalibrate')
 def ArmCalibrate(data):
-    dashValues = json.loads(data)
+
     ARMControls.Callibrate()
 
 # GO TO LOCATION
-@sio.on('ArmLoc')
+@sio.on('ARMLoc')
 def ArmLocChanged(data):
     dashValues = json.loads(data)
     global globalLoc

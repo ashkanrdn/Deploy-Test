@@ -59,11 +59,16 @@
             Air
           </button>
             </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-schedule-tab" data-bs-toggle="pill" data-bs-target="#pills-schedule" type="button" role="tab" aria-controls="pills-schedule" aria-selected="false">
+                Schedule
+          </button>
+            </li>
         </ul>
         <!-- /////////////////////////////////////////////////////// CONTROL PANELS  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
 
         <div class="tab-content" id="pills-tabContent">
-            <!-- /////////////////////////////////////////////////////// TAB 1 LIGHTING \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
+            <!-- /////////////////////////////////////////////////////// TAB 1 LED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
             <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                 <!-- ============================ All Lighting Controllers  ============================  -->
                 <div class="allControls">
@@ -74,7 +79,7 @@
                             <h5>Main Power Control</h5>
                         </div>
                         <!-- ============================ Lighting Primary Toggle Switch ============================  -->
-                        <div class="controlsItemInner lightingCtrl spacer">
+                        <div class="controlsItemInner LEDCtrl spacer">
                             <!-- ============================ Toggle Div wrapper (toggle and title) ============================  -->
                             <div class="ControlContainer">
                                 <!-- Toggle Div -->
@@ -95,7 +100,7 @@
                             <h5>Main LED Controls</h5>
                         </div>
                         <!-- ============================ Lighting Primary Toggle Switch ============================  -->
-                        <div class="controlsItemInner lightingCtrl">
+                        <div class="controlsItemInner LEDCtrl">
                             <!-- ============================ Toggle Div wrapper (toggle and title) ============================  -->
                             <div class="ControlContainer">
                                 <!-- Toggle Div -->
@@ -128,7 +133,7 @@
                             <h5>LED Supp 1 Controls</h5>
                         </div>
                         <!-- ============================ Lighting Primary Toggle Switch ============================  -->
-                        <div class="controlsItemInner lightingCtrl">
+                        <div class="controlsItemInner LEDCtrl">
                             <!-- ============================ Toggle Div wrapper (toggle and title) ============================  -->
                             <div class="ControlContainer">
                                 <!-- Toggle Div -->
@@ -161,7 +166,7 @@
                             <h5>LED Supp 2 Controls</h5>
                         </div>
                         <!-- ============================ Lighting Primary Toggle Switch ============================  -->
-                        <div class="controlsItemInner lightingCtrl">
+                        <div class="controlsItemInner LEDCtrl">
                             <!-- ============================ Toggle Div wrapper (toggle and title) ============================  -->
                             <div class="ControlContainer">
                                 <!-- Toggle Div -->
@@ -202,7 +207,7 @@
                             <h5>Swing Arm</h5>
                         </div>
                         <!-- ============================ Swing Primary Toggle Switch ============================  -->
-                        <div class="controlsItemInner swingCtrl">
+                        <div class="controlsItemInner ARMCtrl">
                             <!-- ============================ Toggle Div wrapper (toggle and title) ============================  -->
                             <div class="ControlContainer">
                                 <!-- Toggle Div -->
@@ -256,7 +261,7 @@
                 </div>
             </div>
 
-            <!-- /////////////////////////////////////////////////////// TAB 3 IRRIGATION  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
+            <!-- /////////////////////////////////////////////////////// TAB 3 IRG  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
             <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
                 <!-- ============================ All Irrigation  Controllers  ============================  -->
                 <div class="allControls">
@@ -269,7 +274,7 @@
                                 <!-- Toggle Pump Main -->
                                 <div class="stackedToggle">
                                     <input class="IRGMainPump toggle" type="checkbox" />
-                                    <h6>MAIN</h6>
+                                    <h6>Main</h6>
                                 </div>
                                 <!-- Toggle LVL 5 -->
                                 <div class="stackedToggle">
@@ -346,7 +351,7 @@
                             <div class="ControlContainer">
                                 <!-- Toggle Pump Main -->
                                 <div class="stackedToggle">
-                                    <input class="IRGTrnsPump toggle" type="checkbox" />
+                                    <input class="IRGLight toggle" type="checkbox" />
                                     <h6>Lights</h6>
                                 </div>
                                 <!-- Toggle LVL 5 -->
@@ -360,7 +365,7 @@
                     <!-- ============================ Water Cycler ROW 6 ============================  -->
                     <div class="controlsItem controlSystem">
                         <!-- ============================ IRG PUMP MAIN SWITCH     ============================  -->
-                        <div class="controlsItemInner IRGCycles">
+                        <div class="controlsItemInner IRGCyclesWtr">
                             <!-- ============================ Toggle Div wrapper (toggle and title) ============================  -->
                             <div class="ControlContainer">
                                 <!-- Toggle Div -->
@@ -432,12 +437,52 @@
                                 <!-- Toggle Pump Main -->
                                 <div class="stackedToggle">
                                     <input class="AIRMainPwr toggle" type="checkbox" />
-                                    <h6>MAIN</h6>
+                                    <h6>Main</h6>
                                 </div>
                                 <!-- Toggle LVL 5 -->
                                 <div class="stackedToggle">
-                                    <input class="AIRSup1 toggle" type="checkbox" />
-                                    <h6>Reserve</h6>
+                                    <!-- <input class="AIRSup1 toggle" type="checkbox" disabled/> -->
+                                    <!-- <h6>Reserve</h6> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- /////////////////////////////////////////////////////// TAB 5 SCHEDULE  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
+            <div class="tab-pane fade" id="pills-schedule" role="tabpanel" aria-labelledby="pills-schedule-tab">
+                <!-- ============================ All Irrigation  Controllers  ============================  -->
+                <div class="allControls">
+                    <!-- ============================ First Row 1  ============================  -->
+                    <div class="controlsItem controlSystem">
+                        <!-- ============================ IRG PUMP MAIN SWITCH     ============================  -->
+                        <div class="controlsItemInner ScheduleCtrl">
+                            <!-- ============================ IRG PUMP MAIN // LVL5 SWITCH  (toggle and title) ============================  -->
+                            <div class="ControlContainer">
+                                <!-- Button Run Routine -->
+                                <div class="stackedToggle">
+                                    <div class="ControlContainer">
+                                        <!-- Toggle Div -->
+                                        <div>
+                                            <button class="RunSchedule btn btn-primary" name="scheduler" type="button">Schedule</button>
+                                        </div>
+                                        <!-- Toggle Title -->
+                                        <div>
+                                            <h6>Run Schedule</h6>
+                                        </div>
+                                    </div>
+                                    <div class="ControlContainer">
+                                        <!-- Toggle Div -->
+                                        <div>
+                                            <button class="CancelSchedule btn btn-primary" name="cancelScheduler" type="button">Cancel</button>
+                                        </div>
+                                        <!-- Toggle Title -->
+                                        <div>
+                                            <h6>Cancel Schedule</h6>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -445,6 +490,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 
     <!-- ============================ Scripts ============================  -->
