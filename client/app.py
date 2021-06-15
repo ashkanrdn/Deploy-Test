@@ -93,14 +93,15 @@ def connect():
 
 
 #\\\\\\\\\\\\\\\\\\\\\\ AIR CONTROLS   //////////////////////
-@sio.on("AirChanged")
+@sio.on("Air")
 def airChanged(data):
+    print('Air')
     # a json containing controller ids and their values
     dashValues = json.loads(data)
     if dashValues['AIRMainPwr'] == 1:
-        AIRControls.on()
+        AIRControls.AIRMain.on()
     else:
-        AIRControls.off()
+        AIRControls.AIRMain.off()
 
 
 
