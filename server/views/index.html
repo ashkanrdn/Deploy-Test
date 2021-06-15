@@ -59,6 +59,11 @@
             Air
           </button>
             </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-schedule-tab" data-bs-toggle="pill" data-bs-target="#pills-schedule" type="button" role="tab" aria-controls="pills-schedule" aria-selected="false">
+                Schedule
+          </button>
+            </li>
         </ul>
         <!-- /////////////////////////////////////////////////////// CONTROL PANELS  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
 
@@ -444,7 +449,48 @@
                     </div>
                 </div>
             </div>
+
+
+            <!-- /////////////////////////////////////////////////////// TAB 5 SCHEDULE  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
+            <div class="tab-pane fade" id="pills-schedule" role="tabpanel" aria-labelledby="pills-schedule-tab">
+                <!-- ============================ All Irrigation  Controllers  ============================  -->
+                <div class="allControls">
+                    <!-- ============================ First Row 1  ============================  -->
+                    <div class="controlsItem controlSystem">
+                        <!-- ============================ IRG PUMP MAIN SWITCH     ============================  -->
+                        <div class="controlsItemInner ScheduleCtrl">
+                            <!-- ============================ IRG PUMP MAIN // LVL5 SWITCH  (toggle and title) ============================  -->
+                            <div class="ControlContainer">
+                                <!-- Button Run Routine -->
+                                <div class="stackedToggle">
+                                    <div class="ControlContainer">
+                                        <!-- Toggle Div -->
+                                        <div>
+                                            <button class="RunSchedule btn btn-primary" name="scheduler" type="button">Schedule</button>
+                                        </div>
+                                        <!-- Toggle Title -->
+                                        <div>
+                                            <h6>Run Schedule</h6>
+                                        </div>
+                                    </div>
+                                    <div class="ControlContainer">
+                                        <!-- Toggle Div -->
+                                        <div>
+                                            <button class="CancelSchedule btn btn-primary" name="cancelScheduler" type="button">Cancel</button>
+                                        </div>
+                                        <!-- Toggle Title -->
+                                        <div>
+                                            <h6>Cancel Schedule</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </div>
 
     <!-- ============================ Scripts ============================  -->

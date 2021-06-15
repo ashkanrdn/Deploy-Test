@@ -5,6 +5,8 @@ let LED_Values = {};
 let IRG_Values = {};
 let ARM_Values = {};
 let AIR_Values = {};
+let Schedule_Values = {};
+
 
 
 
@@ -13,13 +15,18 @@ let LEDcontrols = document.querySelectorAll('.controlsItemInner.LEDCtrl');
 let LEDMain = document.getElementById('LEDGrowMainID');
 let LEDMainPwr = document.getElementById('LEDGrowPowerID');
 
-let AIRControls = document.querySelectorAll('.controlsItemInner.AirCtrl');
+let ARMControls = document.querySelectorAll('.controlsItemInner.ARMCtrl');
 
 let IRGControls = document.querySelectorAll('.controlsItemInner.IRGCtrl');
 let IRGCycleWtrControls = document.querySelectorAll('.controlsItemInner.IRGCyclesWtr');
 let IRGCycleNutrControls = document.querySelectorAll('.controlsItemInner.IRGCyclesNutr');
 
-let ARMControls = document.querySelectorAll('.controlsItemInner.ARMCtrl');
+let AIRControls = document.querySelectorAll('.controlsItemInner.AirCtrl');
+
+let ScheduleControls = document.querySelectorAll('.controlsItemInner.ScheduleCtrl');
+
+
+
 
 
 //////////////////////////////////////////////////////// Light Controls \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -143,7 +150,7 @@ Array.prototype.forEach.call(IRGCycleNutrControls, (div) => {
             Object.assign(IRG_Values, {
                 [controlId]: controlValue,
             });
-            socket.emit('IRGCycleNutr', JSON.stringify(IRG_Values));
+            socket.emit('IRGCycleNutr', JSON.stringify({ IRGWtrCycle: 0, IRGNutrCycle: 0 }));
         });
     });
 });
@@ -203,6 +210,7 @@ Array.prototype.forEach.call(ARMControls, (div) => {
 
 //////////////////////////////////////////////////////// AIR CONTROLS\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
+
 Array.prototype.forEach.call(AIRControls, (div) => {
     let AIRToggle = div.querySelectorAll('input[type=checkbox]');
     Array.prototype.forEach.call(AIRToggle, (toggle) => {
@@ -213,6 +221,74 @@ Array.prototype.forEach.call(AIRControls, (div) => {
                 [controlId]: controlValue,
             });
             socket.emit('AIRChanged', JSON.stringify(AIR_Values));
+        });
+    });
+});
+
+
+//////////////////////////////////////////////////////// SCHEDULE CONTROLS\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+function IRGWtrSeq() {
+
+    setTimeout(() => {
+        socket.emit('IRGCycleWtr', JSON.stringify({ IRGWtrCycle: 5 }));
+
+
+        console.log(new Date().toLocaleString(), 'wtr')
+
+
+    }, 10000);
+
+
+}
+
+function IRGNutrSeq() {
+    setTimeout(() => {
+
+        console.log(new Date().toLocaleString(), 'nutr')
+
+
+        socket.emit('IRGCycleNutr', JSON.stringify({ IRGNutrCycle: 5 }));
+
+    }, 5000);
+
+
+}
+
+function mySeq() {
+    IRGNutrSeq();
+    console.log(new Date().toLocaleString())
+    IRGWtrSeq();
+}
+
+let IRGInterval = setInterval(mySeq, 30000)
+
+
+
+function myStopFunction() {
+    clearInterval(IRGInterval);
+}
+Array.prototype.forEach.call(ScheduleControls, (div) => {
+
+
+
+    let ScheduleButton = div.querySelectorAll('button[type="button"][name="scheduler"]');
+    Array.prototype.forEach.call(ScheduleButton, (btn) => {
+        btn.addEventListener('click', (toggleChanged) => {
+            console.log('Hi')
+            IRGInterval
+
+
+        });
+    });
+
+
+    let cancelScheduleButton = div.querySelectorAll('button[type="button"][name="cancelScheduler"]');
+    Array.prototype.forEach.call(cancelScheduleButton, (btn) => {
+        btn.addEventListener('click', (toggleChanged) => {
+            myStopFunction()
+            console.log('Bye')
+
+
         });
     });
 });
