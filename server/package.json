@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "name": "server",
   "version": "0.0.1",
@@ -18,3 +19,31 @@
     "static-favicon": "~1.0.0"
   }
 }
+=======
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "socket.io server and amps controler dashboard",
+  "main": "socket.js",
+  "scripts": {
+    "test": "node socekt.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashkanrdn/Deploy-Test.git"
+  },
+  "author": "ashkan radnia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ashkanrdn/Deploy-Test/issues"
+  },
+  "homepage": "https://github.com/ashkanrdn/Deploy-Test#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "jade": "^1.11.0",
+    "mongoose": "^5.12.12",
+    "socket.io": "^4.1.2",
+    "socket.io-client": "^4.1.2"
+  }
+}
+>>>>>>> AMPS
