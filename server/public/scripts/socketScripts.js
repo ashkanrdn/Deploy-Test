@@ -259,7 +259,7 @@ function mySeq() {
     IRGNutrSeq();
 }
 
-let IRGInterval
+
 
 
 
