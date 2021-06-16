@@ -227,34 +227,39 @@ Array.prototype.forEach.call(AIRControls, (div) => {
 
 
 //////////////////////////////////////////////////////// SCHEDULE CONTROLS\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+let wtrTimeout = 30 * 1000
+    // prettier-ignore
+let nutrTimeout = 59 * 1000
+    // prettier-ignore
+let intervalTime = 60 * 1000
+
+// 21600000 10800000
+let seqTime = 5
+
+
+
 function IRGWtrSeq() {
-
     setTimeout(() => {
-        socket.emit('IRGCycleWtr', JSON.stringify({ IRGWtrCycle: 5 }));
-
-
+        socket.emit('IRGCycleWtr', JSON.stringify({ IRGWtrCycle: seqTime }));
         console.log(new Date().toLocaleString(), 'wtr')
-
-
-    }, 10000);
-
-
+    }, wtrTimeout);
 }
 
 function IRGNutrSeq() {
     setTimeout(() => {
         console.log(new Date().toLocaleString(), 'nutr')
-        socket.emit('IRGCycleNutr', JSON.stringify({ IRGNutrCycle: 5 }));
-    }, 5000);
+        socket.emit('IRGCycleNutr', JSON.stringify({ IRGNutrCycle: seqTime }));
+    }, nutrTimeout);
 }
 
 function mySeq() {
-    IRGNutrSeq();
-    console.log(new Date().toLocaleString())
     IRGWtrSeq();
+    console.log(new Date().toLocaleString(), 'interval')
+    IRGNutrSeq();
 }
 
-let IRGInterval = setInterval(mySeq, 30000)
+let IRGInterval
 
 
 
@@ -270,10 +275,8 @@ Array.prototype.forEach.call(ScheduleControls, (div) => {
     let ScheduleButton = div.querySelectorAll('button[type="button"][name="scheduler"]');
     Array.prototype.forEach.call(ScheduleButton, (btn) => {
         btn.addEventListener('click', (toggleChanged) => {
-            console.log('Hi')
-            IRGInterval
-
-
+            console.log('Running Schedule', new Date().toLocaleString())
+            IRGInterval = setInterval(mySeq, intervalTime)
         });
     });
 
@@ -283,8 +286,6 @@ Array.prototype.forEach.call(ScheduleControls, (div) => {
         btn.addEventListener('click', (toggleChanged) => {
             myStopFunction()
             console.log('Bye')
-
-
         });
     });
 });

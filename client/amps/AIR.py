@@ -8,6 +8,8 @@ class AIR():
 
     def On(self):
         self.AIRMain.on()
+        print('On')
 
     def Off(self):
         self.AIRMain.off()
+        print('off')

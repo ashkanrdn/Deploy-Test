@@ -108,7 +108,7 @@ class Irrigation():
         if (self.IRGMainTankSensorFull.is_active == True or self.IRGDrainTankSensorFull.is_active == True ):
             self.panicMode()
 
-
+''' Add a indicator on dashoboard tanks levels are full or empty. '''
 
 #Main pump only can be on if water sol is on and lvl one sol is on
 

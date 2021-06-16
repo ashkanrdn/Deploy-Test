@@ -57,6 +57,8 @@ class ARM():
         # self.ARMEna.on()
         if dir == 'L':
 
+         
+
             if (self.ARMEndL.is_active == False): # Check if ARM has reached far left
 
                 if self.ARMDir.is_active == False: #check the status of direction pin and set it accordingly
@@ -70,16 +72,20 @@ class ARM():
                 self.ARMPul.on()
                 self.ARMLoc -= 1
         elif dir == 'R':
+            
+           
             if (self.ARMEndR.is_active == False):
                 if self.ARMDir.is_active == True:
                     sleep(ARM.ARMSleepTime)
                     self.ARMDir.off()
                     sleep(ARM.ARMSleepTime)
+                
                 sleep(ARM.ARMSleepTime)
                 self.ARMPul.off()
                 sleep(ARM.ARMSleepTime)
                 self.ARMPul.on()
                 self.ARMLoc += 1
+                
 
         else :
             print ('Direction ')
