@@ -39,8 +39,11 @@ class Irrigation():
         # Turning on the lvl sols
         # if(self.gotWater()):
         for lvlSol in self.IRGlvlSols:
-            print(lvlSol+' Turned on')
+            print(lvlSol,' Turned on')
             lvlSol.on()
+            time.sleep(1)
+            # Opening the water sol
+            self.IRGWtrSol.on()
             time.sleep(1)
         # Opening the water sol
         self.IRGWtrSol.on()
@@ -55,17 +58,19 @@ class Irrigation():
         self.IRGWtrSol.off()
             # closing the lvl sols
         for lvlSol in self.IRGlvlSols:
-            print(lvlSol+' Turned off')
+            print(lvlSol,' Turned off')
             lvlSol.off()
             time.sleep(1)
 
 
     def nutrientCycle(self,cycleTime =5):
-        # if(self.gotWater()):
+    # if(self.gotWater()):
         for lvlSol in self.IRGlvlSols:
         # check supply tank level and transfer routine
-            print(lvlSol+' Turned on')
+            print(lvlSol,' Turned on')
             lvlSol.on()
+            time.sleep(1)
+            self.IRGNutrSol.on()
             time.sleep(1)
         self.IRGNutrSol.on()
         time.sleep(1)
@@ -75,7 +80,7 @@ class Irrigation():
         time.sleep(1)
         self.IRGWtrSol.off()
         for lvlSol in self.IRGlvlSols:
-            print(lvlSol+' Turned off')
+            print(lvlSol,' Turned off')
             lvlSol.off()
             time.sleep(1)
 
