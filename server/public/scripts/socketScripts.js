@@ -259,13 +259,15 @@ function mySeq() {
     IRGNutrSeq();
 }
 
-let IRGInterval
+
 
 
 
 function myStopFunction() {
     clearInterval(IRGInterval);
 }
+
+
 Array.prototype.forEach.call(ScheduleControls, (div) => {
 
 
