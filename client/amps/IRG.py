@@ -37,43 +37,47 @@ class Irrigation():
         process for level solenoid it checks for the water supply and verifies
         available water sources'''
         # Turning on the lvl sols
-        if(self.gotWater()):
-            for lvlSol in self.IRGlvlSols:
-                print(lvlSol+' Turned on')
-                lvlSol.on()
-                time.sleep(1)
-            # Opening the water sol
-            self.IRGWtrSol.on()
+        # if(self.gotWater()):
+        for lvlSol in self.IRGlvlSols:
+            print(lvlSol+' Turned on')
+            lvlSol.on()
             time.sleep(1)
-            # Turning on the main pump
-            self.IRGMainPump.on()
-            time.sleep(cycleTime)
-            # Turning off the main pump after the cycle time
-            self.IRGMainPump.off()
-            time.sleep(1)
-            # closing the water sol
-            self.IRGWtrSol.off()
+        # Opening the water sol
+        self.IRGWtrSol.on()
+        time.sleep(1)
+        # Turning on the main pump
+        self.IRGMainPump.on()
+        time.sleep(cycleTime)
+        # Turning off the main pump after the cycle time
+        self.IRGMainPump.off()
+        time.sleep(1)
+        # closing the water sol
+        self.IRGWtrSol.off()
             # closing the lvl sols
-            for lvlSol in self.IRGlvlSols:
-                print(lvlSol+' Turned off')
-                lvlSol.off()
-                time.sleep(1)
+        for lvlSol in self.IRGlvlSols:
+            print(lvlSol+' Turned off')
+            lvlSol.off()
+            time.sleep(1)
 
 
     def nutrientCycle(self,cycleTime =5):
-        if(self.gotWater()):
-            for lvlSol in self.IRGlvlSols:
-            # check supply tank level and transfer routine
-                print(lvlSol+' Turned on')
-                lvlSol.on()
-                time.sleep(1)
-            self.IRGNutrSol.on()
+        # if(self.gotWater()):
+        for lvlSol in self.IRGlvlSols:
+        # check supply tank level and transfer routine
+            print(lvlSol+' Turned on')
+            lvlSol.on()
             time.sleep(1)
-            self.IRGMainPump.on()
-            time.sleep(5)
-            self.IRGMainPump.off()
+        self.IRGNutrSol.on()
+        time.sleep(1)
+        self.IRGMainPump.on()
+        time.sleep(5)
+        self.IRGMainPump.off()
+        time.sleep(1)
+        self.IRGWtrSol.off()
+        for lvlSol in self.IRGlvlSols:
+            print(lvlSol+' Turned off')
+            lvlSol.off()
             time.sleep(1)
-            self.IRGWtrSol.off()
 
     def gotWater(self):
         if self.IRGMainTankSensorEmpty.is_active == False: #Main Tank is not empty
