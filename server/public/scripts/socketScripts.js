@@ -228,11 +228,11 @@ Array.prototype.forEach.call(AIRControls, (div) => {
 
 //////////////////////////////////////////////////////// SCHEDULE CONTROLS\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-let wtrTimeout = 30 * 1000
+let wtrTimeout = 60 * 1000 * 60 * 3
     // prettier-ignore
-let nutrTimeout = 59 * 1000
+let nutrTimeout = (60 * 1000 * 60 * 6) - 120000
     // prettier-ignore
-let intervalTime = 60 * 1000
+let intervalTime = 60 * 1000 * 60 * 6
 
 // 21600000 10800000
 let seqTime = 5
