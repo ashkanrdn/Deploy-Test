@@ -37,11 +37,11 @@ class Irrigation():
         process for level solenoid it checks for the water supply and verifies
         available water sources'''
         # Turning on the lvl sols
-        if(self.gotWater()):
-            for lvlSol in self.IRGlvlSols:
-                print(lvlSol+' Turned on')
-                lvlSol.on()
-                time.sleep(1)
+        # if(self.gotWater()):
+        for lvlSol in self.IRGlvlSols:
+            print(lvlSol+' Turned on')
+            lvlSol.on()
+            time.sleep(1)
             # Opening the water sol
             self.IRGWtrSol.on()
             time.sleep(1)
@@ -61,12 +61,12 @@ class Irrigation():
 
 
     def nutrientCycle(self,cycleTime =5):
-        if(self.gotWater()):
-            for lvlSol in self.IRGlvlSols:
-            # check supply tank level and transfer routine
-                print(lvlSol+' Turned on')
-                lvlSol.on()
-                time.sleep(1)
+    # if(self.gotWater()):
+        for lvlSol in self.IRGlvlSols:
+        # check supply tank level and transfer routine
+            print(lvlSol+' Turned on')
+            lvlSol.on()
+            time.sleep(1)
             self.IRGNutrSol.on()
             time.sleep(1)
             self.IRGMainPump.on()
