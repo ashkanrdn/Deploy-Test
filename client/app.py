@@ -116,6 +116,7 @@ def airChanged(data):
 def rangeChanged(data):
     # a json containing controller ids and their values
     dashValues = json.loads(data)
+    print(dashValues)
     if dashValues['LEDGrowMainPwr'] == 1:
         LEDControls.on()
         mainDim =dashValues['LEDGrowMain']
