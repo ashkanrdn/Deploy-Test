@@ -2,8 +2,7 @@ var app = require("./app");
 var socket = require("socket.io");
 const mongoose = require("mongoose");
 
-const ControlsState = require('./models/ControlsStateModel')
-
+const ControlsState = require("./models/ControlsStateModel");
 
 // Connect to mongodb
 const dbURI = "mongodb+srv://ashkan:12345ashkan@amps.sytdb.mongodb.net/amps-db?retryWrites=true&w=majority";
@@ -11,12 +10,15 @@ const dbURI = "mongodb+srv://ashkan:12345ashkan@amps.sytdb.mongodb.net/amps-db?r
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true });
 let port = 3000;
 
-
 // Connecting to the mongo cluster
-mongoose.connect(dbURI, { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true })
-    .then((result) => (server = app.listen(port, () => {
-        console.log("listening for requests on port " + port);
-    })))
+mongoose
+    .connect(dbURI, { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true })
+    .then(
+        (result) =>
+        (server = app.listen(port, () => {
+            console.log("listening for requests on port " + port);
+        }))
+    )
     // creating socket server and socket functions
     .then((result) => {
         io = socket(server);
@@ -78,6 +80,13 @@ mongoose.connect(dbURI, { useUnifiedTopology: true, useNewUrlParser: true, useFi
                 console.log("ArmLoc Changed: " + state);
                 io.emit("ARMLoc", state);
             });
+            // _________________ SCHEDULE _________________
+            socket.on("scheduleWTR", (state) => {
+                console.log("scheduleWTR Changed: " + state);
+                io.emit("scheduleWTR", state);
+            });
+
+            // _________________ DISCONNECTION _________________
 
             socket.on("disconnect", () => {
                 console.log("user disconnected");
