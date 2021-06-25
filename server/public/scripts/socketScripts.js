@@ -1,7 +1,7 @@
 var socket = io.connect('/');
 
 
-let LED_Values = {};
+let LED_Values = {'LEDGrowMain':0,'LEDGrowSup1':0,'LEDGrowSup2':0};
 let IRG_Values = {};
 let ARM_Values = {};
 let AIR_Values = {};
@@ -228,11 +228,11 @@ Array.prototype.forEach.call(AIRControls, (div) => {
 
 //////////////////////////////////////////////////////// SCHEDULE CONTROLS\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-let wtrTimeout = 30 * 1000
+let wtrTimeout = 60 * 1000 * 60 * 5
     // prettier-ignore
-let nutrTimeout = 59 * 1000
+let nutrTimeout = (60 * 1000 * 60 * 10) - 120000
     // prettier-ignore
-let intervalTime = 60 * 1000
+let intervalTime = 60 * 1000 * 60 * 10
 
 // 21600000 10800000
 let seqTime = 5
@@ -259,13 +259,15 @@ function mySeq() {
     IRGNutrSeq();
 }
 
-let IRGInterval
+
 
 
 
 function myStopFunction() {
     clearInterval(IRGInterval);
 }
+
+
 Array.prototype.forEach.call(ScheduleControls, (div) => {
 
 

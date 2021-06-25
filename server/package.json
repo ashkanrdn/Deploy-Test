@@ -39,6 +39,7 @@
   },
   "homepage": "https://github.com/ashkanrdn/Deploy-Test#readme",
   "dependencies": {
+    "ejs": "^3.1.6",
     "express": "^4.17.1",
     "jade": "^1.11.0",
     "mongoose": "^5.12.12",
