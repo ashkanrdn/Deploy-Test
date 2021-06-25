@@ -4,7 +4,8 @@
     "description": "socket.io server and amps controller dashboard",
     "main": "socket.js",
     "scripts": {
-        "test": "node socekt.js"
+        "test": "node socekt.js",
+        "start": "node socket"
     },
     "repository": {
         "type": "git",
