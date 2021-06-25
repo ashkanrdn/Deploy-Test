@@ -31,12 +31,12 @@ mongoose
             // _________________ LED _________________
             socket.on("LEDchanged", (state) => {
                 console.log("LEDchanged Changed: " + state);
-                let stateTemp = JSON.parse(state);
-                console.log(stateTemp.LEDGrowMainPwr);
-                // Figure out the proper data add
-                const controlsState = new ControlsState({ conTopic: state.LEDGrowMainPwr });
-                controlsState.save();
-                io.emit("LEDchanged", JSON.stringify(state));
+                // let stateTemp = JSON.parse(state)
+                // console.log(stateTemp.LEDGrowMainPwr)
+                    // Figure out the proper data add
+                // const controlsState = new ControlsState({ conTopic: state.LEDGrowMainPwr });
+                // controlsState.save()
+                io.emit("LEDchanged",state);
             });
 
             // _________________ AIR _________________
