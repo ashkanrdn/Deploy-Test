@@ -1,6 +1,6 @@
 import os
 import sys
- # Modify PATH so we can import files from elsewhere in this repo
+ # Modify PATH so we can import files from elsewhere in this direcotry
 from os.path import dirname, join, abspath
 sys.path.insert(0, abspath(join(dirname(__file__), '..')))
 import socketio
