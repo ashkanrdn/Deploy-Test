@@ -5,9 +5,10 @@ const mongoose = require("mongoose");
 const ControlsState = require("./models/ControlsStateModel");
 
 // Connect to mongodb
-const dbURI = "mongodb+srv://ashkan:12345ashkan@amps.sytdb.mongodb.net/amps-db?retryWrites=true&w=majority";
+const dbURI =
+    process.env.MONGODB_URI ||
+    "mongodb+srv://ashkan:12345ashkan@amps.sytdb.mongodb.net/amps-db?retryWrites=true&w=majority";
 
-mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true });
 let port = 3000;
 
 // Connecting to the mongo cluster
@@ -15,7 +16,7 @@ mongoose
     .connect(dbURI, { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true })
     .then(
         (result) =>
-        (server = app.listen(port, () => {
+        (server = app.listen(process.env.PORT || 3000, () => {
             console.log("listening for requests on port " + port);
         }))
     )
@@ -33,10 +34,10 @@ mongoose
                 console.log("LEDchanged Changed: " + state);
                 // let stateTemp = JSON.parse(state)
                 // console.log(stateTemp.LEDGrowMainPwr)
-                    // Figure out the proper data add
+                // Figure out the proper data add
                 // const controlsState = new ControlsState({ conTopic: state.LEDGrowMainPwr });
                 // controlsState.save()
-                io.emit("LEDchanged",state);
+                io.emit("LEDchanged", state);
             });
 
             // _________________ AIR _________________
