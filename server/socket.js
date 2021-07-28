@@ -5,9 +5,7 @@ const mongoose = require("mongoose");
 const ControlsState = require("./models/ControlsStateModel");
 
 // Connect to mongodb
-const dbURI =
-    process.env.MONGODB_URI ||
-    "mongodb+srv://ashkan:12345ashkan@amps.sytdb.mongodb.net/amps-db?retryWrites=true&w=majority";
+const dbURI = "mongodb+srv://ashkan:12345ashkan@amps.sytdb.mongodb.net/amps-db?retryWrites=true&w=majority";
 
 let port = 3000;
 
@@ -32,11 +30,10 @@ mongoose
             // _________________ LED _________________
             socket.on("LEDchanged", (state) => {
                 console.log("LEDchanged Changed: " + state);
-                // let stateTemp = JSON.parse(state)
-                // console.log(stateTemp.LEDGrowMainPwr)
-                // Figure out the proper data add
-                // const controlsState = new ControlsState({ conTopic: state.LEDGrowMainPwr });
-                // controlsState.save()
+                let stateTemp = JSON.parse(state);
+                // To do: Figure out the proper data add
+                const controlsState = new ControlsState({ conTopic: stateTemp.LEDGrowMainPwr });
+                controlsState.save();
                 io.emit("LEDchanged", state);
             });
 
