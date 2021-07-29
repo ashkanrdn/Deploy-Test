@@ -1,5 +1,9 @@
 import os
 import sys
+
+import time
+from apscheduler.schedulers.blocking import BlockingScheduler
+
  # Modify PATH so we can import files from elsewhere in this direcotry
 from os.path import dirname, join, abspath
 sys.path.insert(0, abspath(join(dirname(__file__), '..')))
@@ -95,7 +99,7 @@ def connect():
 
 
 #\\\\\\\\\\\\\\\\\\\\\\ AIR CONTROLS   //////////////////////
-@sio.on("Air")
+@sio.on("AIRChanged")
 def airChanged(data):
     print('Air')
     # a json containing controller ids and their values
@@ -104,6 +108,7 @@ def airChanged(data):
         AIRControls.AIRMain.on()
     else:
         AIRControls.AIRMain.off()
+
 
 
 
@@ -190,6 +195,43 @@ def ArmLocChanged(data):
     loc = int(dashValues['swingArmLoc'])
     globalLoc = loc
     ARMControls.goToLoc(loc)
+
+
+
+
+
+
+
+
+sched = BlockingScheduler()
+
+
+
+@sched.scheduled_job('cron', day_of_week='mon-tue,fri-sat',hour='*/8' )
+def water_Schedule_1():
+
+    print(('Water Cycle ran @ ')+ (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))) )
+    IRGControls.waterCycle()
+
+
+
+@sched.scheduled_job('cron', day_of_week='wed-thu,sun', hour='*/12' )
+def water_Schedule_2():
+
+    print(('Water Cycle ran @ ')+ (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))) )
+    IRGControls.waterCycle()
+
+
+@sched.scheduled_job('cron', hour=23 , minute=45 )
+def nutrient_Schedule():
+
+    print(('nutrient Cycle ran @ ')+ (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))) )
+    IRGControls.nutrientCycle()
+
+sched.start()
+
+
+
 
 while True:
     while stateStepperL == True:

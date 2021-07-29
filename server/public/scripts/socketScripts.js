@@ -228,44 +228,10 @@ Array.prototype.forEach.call(AIRControls, (div) => {
 
 //////////////////////////////////////////////////////// SCHEDULE CONTROLS\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-let wtrTimeout = 60 * 1000 * 60 * 5
-    // prettier-ignore
-let nutrTimeout = (60 * 1000 * 60 * 10) - 120000
-    // prettier-ignore
-let intervalTime = 60 * 1000 * 60 * 10
-
-// 21600000 10800000
-let seqTime = 5
-
-
-
-function IRGWtrSeq() {
-    setTimeout(() => {
-        socket.emit('IRGCycleWtr', JSON.stringify({ IRGWtrCycle: seqTime }));
-        console.log(new Date().toLocaleString(), 'wtr')
-    }, wtrTimeout);
-}
-
-function IRGNutrSeq() {
-    setTimeout(() => {
-        console.log(new Date().toLocaleString(), 'nutr')
-        socket.emit('IRGCycleNutr', JSON.stringify({ IRGNutrCycle: seqTime }));
-    }, nutrTimeout);
-}
-
-function mySeq() {
-    IRGWtrSeq();
-    console.log(new Date().toLocaleString(), 'interval')
-    IRGNutrSeq();
-}
 
 
 
 
-
-function myStopFunction() {
-    clearInterval(IRGInterval);
-}
 
 
 Array.prototype.forEach.call(ScheduleControls, (div) => {
@@ -276,7 +242,7 @@ Array.prototype.forEach.call(ScheduleControls, (div) => {
     Array.prototype.forEach.call(ScheduleButton, (btn) => {
         btn.addEventListener('click', (toggleChanged) => {
             console.log('Running Schedule', new Date().toLocaleString())
-            IRGInterval = setInterval(mySeq, intervalTime)
+           
         });
     });
 
