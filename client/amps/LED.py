@@ -1,10 +1,7 @@
 import gpiozero
 import time
 from time import sleep
-
-
-
-
+import logging
 
 
 class LedMain():
@@ -20,15 +17,22 @@ class LedMain():
             all supplemental LEDs arelevels are assigned as percentage of main
         off: turns all off'''
 
-    def __init__(self, gpioPwr, gpioDim, gpioSupp1, gpioSupp2, ledSuppOneDim = 0.5, ledSuppTwoDim = 0.5 , ledMainDim = 0.5):
+    def __init__(self, gpioPwr, gpioDim, gpioSupp1, gpioSupp2, ledSuppOneDim=0.5, ledSuppTwoDim=0.5, ledMainDim=0.5):
 
-        self.lightingLedMainPWR = gpiozero.DigitalOutputDevice(gpioPwr) #assign MainLED power on/off
-        self.lightingLedMain = gpiozero.PWMLED(gpioDim) #assign lightingLedMain
-        self.lightingLedSuppOne = gpiozero.PWMLED(gpioSupp1) #assign lightingLedSuppOne as PWMLED
-        self.lightingLedSuppTwo = gpiozero.PWMLED(gpioSupp2) #assign lightingLedSuppTwo as PWMLED
-        self.lightingLedSuppOneDim = ledSuppOneDim # setting the initial Dim value for lightingLedSuppOne
-        self.lightingLedSuppTwoDim =ledSuppTwoDim #setting the initial Dim value for lightingLedSuppTwo
-        print('Class Initiated')
+        self.lightingLedMainPWR = gpiozero.DigitalOutputDevice(
+            gpioPwr)  # assign MainLED power on/off
+        self.lightingLedMain = gpiozero.PWMLED(
+            gpioDim)  # assign lightingLedMain
+        self.lightingLedSuppOne = gpiozero.PWMLED(
+            gpioSupp1)  # assign lightingLedSuppOne as PWMLED
+        self.lightingLedSuppTwo = gpiozero.PWMLED(
+            gpioSupp2)  # assign lightingLedSuppTwo as PWMLED
+        # setting the initial Dim value for lightingLedSuppOne
+        self.lightingLedSuppOneDim = ledSuppOneDim
+        # setting the initial Dim value for lightingLedSuppTwo
+        self.lightingLedSuppTwoDim = ledSuppTwoDim
+        logging.INFO('Class Initiated')
+
     def on(self):
         '''Powers on the main PWR, main LED and supplemental LED's at last set levels'''
         self.lightingLedMainPWR.on()
@@ -36,20 +40,15 @@ class LedMain():
         self.lightingLedMain.on()
         self.lightingLedSuppOne.on()
         self.lightingLedSuppTwo.on()
-     
 
-    def dim(self,mainDim=0,sup1Dim=0,sup2Dim=0):
+    def dim(self, mainDim=0, sup1Dim=0, sup2Dim=0):
         '''Set the dim level for the main LED. The supplemental LED's are asigned based on the configuration file data as a percentage of the MainLED level'''
         if self.lightingLedMainPWR.is_active == False:
             self.lightingLedMainPWR.on()
-     
 
         self.lightingLedMain.value = mainDim
         self.lightingLedSuppOne.value = sup1Dim
         self.lightingLedSuppTwo.value = sup2Dim
-
-
-   
 
     def off(self):
         '''Powers off the main PWR, main LED and supplemental LED's at last set levels'''
@@ -58,18 +57,15 @@ class LedMain():
         self.lightingLedSuppTwo.off()
 
         self.lightingLedMainPWR.off()
-  
 
-
-
-
-    def Callibrate(self, suppOneLevel,suppTwoLevel):
-        #figure out how to callibrate supp leds
+    def Callibrate(self, suppOneLevel, suppTwoLevel):
+        # figure out how to callibrate supp leds
         self.lightingLedMainPWR.power.on()
 
-        #set supplemental one level:
+        # set supplemental one level:
         self.lightingLedSuppOne.value = suppOneLevel
         self.lightingLedSuppTwo.value = suppTwoLevel
-        self.ledSuppOnePercentage = (self.lightingLedSuppOne.value/self.lightingLedMain)
-        self.ledSuppTwoPercentage = (self.lightingLedSuppTwo.value/self.lightingLedMain)
-
+        self.ledSuppOnePercentage = (
+            self.lightingLedSuppOne.value/self.lightingLedMain)
+        self.ledSuppTwoPercentage = (
+            self.lightingLedSuppTwo.value/self.lightingLedMain)
