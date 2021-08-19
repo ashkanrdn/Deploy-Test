@@ -14,7 +14,7 @@ class ARM():
     gpioARMEndL: set the raspberry pi pin for Left Limit Sensor on controller
     gpioARMEndR: set the raspberry pi pin for Right Limit Sensor on controller
     '''
-    ARMSleepTime = 0.0000025 # internal sleep variable
+    ARMSleepTime = 0.0000005 # internal sleep variable
 
     def __init__(self,gpioARMEna,gpioARMDir,gpioARMPul,gpioARMEndL,gpioARMEndR,ARMLoc=0,ARML2RTotalStps=100000,ARMRevolution=400):
         self.ARMPins = [gpioARMEna, gpioARMDir, gpioARMPul]
@@ -32,6 +32,7 @@ class ARM():
         Note: zero postion gets callibrated everytime left proximity is triggered.'''
         # While State
         while ( self.ARMEndL.is_active == False):
+            
 
             self.Pulsate(dir='L')
         # LEDMAIN(Alert)
@@ -56,10 +57,8 @@ class ARM():
         '''to move the stepper one step in a direction assigned every time it is called'''
         # self.ARMEna.on()
         if dir == 'L':
-
-         
-
             if (self.ARMEndL.is_active == False): # Check if ARM has reached far left
+                
 
                 if self.ARMDir.is_active == False: #check the status of direction pin and set it accordingly
                     sleep(0.25)
@@ -70,21 +69,29 @@ class ARM():
                 self.ARMPul.off()
                 sleep(ARM.ARMSleepTime)
                 self.ARMPul.on()
+                # print('going L')
                 self.ARMLoc -= 1
+            elif(self.ARMEndL.is_active == True):
+                print('Reached the far left limit')
+                
+
+
+
         elif dir == 'R':
-            
-           
             if (self.ARMEndR.is_active == False):
                 if self.ARMDir.is_active == True:
                     sleep(ARM.ARMSleepTime)
                     self.ARMDir.off()
-                    sleep(ARM.ARMSleepTime)
-                
+                    sleep(ARM.ARMSleepTime) 
                 sleep(ARM.ARMSleepTime)
                 self.ARMPul.off()
                 sleep(ARM.ARMSleepTime)
                 self.ARMPul.on()
                 self.ARMLoc += 1
+            elif (self.ARMEndR.is_active == True):
+                print('Reached the far right limit')
+
+
                 
 
         else :
@@ -98,8 +105,8 @@ class ARM():
             actualSteps = int((location * self.ARML2RTotalStps)/100)
         else :
             actualSteps = 0
-        pause = 1
-
+        
+        print()
 
         if actualSteps > self.ARMLoc :
             while actualSteps >=  self.ARMLoc :

@@ -3,6 +3,8 @@ import sys
 
 import time
 from apscheduler.schedulers.blocking import BlockingScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
+
 
  # Modify PATH so we can import files from elsewhere in this direcotry
 from os.path import dirname, join, abspath
@@ -101,7 +103,7 @@ def connect():
 #\\\\\\\\\\\\\\\\\\\\\\ AIR CONTROLS   //////////////////////
 @sio.on("AIRChanged")
 def airChanged(data):
-    print('Air')
+   
     # a json containing controller ids and their values
     dashValues = json.loads(data)
     if dashValues['AIRMainPwr'] == 1:
@@ -177,19 +179,25 @@ def ArmChanged(data):
     if('swingArmR' in dashValues):
         stateStepperR = dashValues['swingArmR']
 
+
 globalLoc = 0
 globalCurrentLoc = 0
 
 # ARM CALIBRATE
 @sio.on('ARMCalibrate')
 def ArmCalibrate(data):
+    print('Calibrating ')
+    print (' global loc current ', globalCurrentLoc)
 
+    print (' global loc ', globalLoc)
+    print (' global loc current ', globalCurrentLoc)
     ARMControls.Callibrate()
 
 # GO TO LOCATION
 @sio.on('ARMLoc')
 def ArmLocChanged(data):
     dashValues = json.loads(data)
+    print(dashValues , " Dash Values ")
     global globalLoc
     global globalCurrentLoc
     loc = int(dashValues['swingArmLoc'])
@@ -203,7 +211,7 @@ def ArmLocChanged(data):
 
 
 
-sched = BlockingScheduler()
+sched = BackgroundScheduler()
 
 
 
@@ -228,20 +236,30 @@ def nutrient_Schedule():
     print(('nutrient Cycle ran @ ')+ (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))) )
     IRGControls.nutrientCycle()
 
+
+# @sched.scheduled_job('cron', minute="*/1" )
+# def nutrient_Schedule():
+
+#     print(('skjl test ')+ (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))) )
+#     # IRGControls.nutrientCycle()
 sched.start()
 
-
-
-
 while True:
+
+    # print('True is True')
+    # break
     while stateStepperL == True:
         ARMControls.Pulsate('L')
+        # print(" =>L")
     while stateStepperR == True:
         ARMControls.Pulsate('R')
+
+        # print(" =>R")
 
     if (globalCurrentLoc != globalLoc):
         globalCurrentLoc = globalLoc
         ARMControls.goToLoc(globalCurrentLoc)
+    
 
 
 
