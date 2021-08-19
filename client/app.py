@@ -71,8 +71,7 @@ gpioAIRMain = config.gpioAIRMain
 
 # \\\\\\\\\\\\\\\\\\\\\\ CONTROL CLASS INSTANTIATE //////////////////////
 
-LEDControls = LED(gpioLedDMainPwr, gpioLedPWMMainDim,
-                  gpioLedPWMSup1Dim, gpioLedPWMSup2Dim)
+LEDControls = LED(gpioLedDMainPwr, gpioLedPWMMainDim,gpioLedPWMSup1Dim, gpioLedPWMSup2Dim)
 
 IRGControls = IRG(gpioIRGMainPump, gpioIRGWtrSol, gpioIRGTankSwitchSol, gpioIRGNutrSol,
                   gpioIRGlvl1Sol, gpioIRGlvl2Sol, gpioIRGlvl3Sol, gpioIRGlvl4Sol, gpioIRGlvl5Sol,
