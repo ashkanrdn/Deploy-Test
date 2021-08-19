@@ -1,282 +1,455 @@
 /* global */
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  background-color: #707070;
-  font-size: 1.2rem;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #707070;
+    font-size: 1.2rem;
 }
+
 
 /* Containers */
 
 .bodyContainer {
-  height: 100vh;
-  width: 100%;
-  min-width: 500px;
+    height: 100vh;
+    width: 100%;
+    min-width: 500px;
 }
 
 .allControls {
-  padding: 5px;
-  display: flex;
-  flex-direction: column;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
 }
 
 .controlsItem {
-  padding: 5px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
+
 
 /* Toggle Container */
 
 .ControlContainer {
-  padding: 10px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: end;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: end;
 }
 
 .ControlContainer div {
-  padding-left: 10px;
+    padding-left: 10px;
 }
 
 .controlSystem {
-  margin: 10px 5px;
-  background-color: rgb(201, 201, 201);
-  border: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  flex-grow: 5;
-  border-radius: 15px;
-  box-shadow: 5px 10px 20px #00000073;
-  min-width: 480px;
+    margin: 10px 5px;
+    background-color: rgb(201, 201, 201);
+    border: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    flex-grow: 5;
+    border-radius: 15px;
+    box-shadow: 5px 10px 20px #00000073;
+    min-width: 480px;
 }
+
 .controlsItemInner {
-  width: 90%;
+    width: 90%;
 }
 
 .controlsItem h2 {
-  color: white;
+    color: white;
 }
 
 .spacer {
-  min-width: 440px;
+    min-width: 440px;
 }
+
 
 /*Nav Bar  */
 
 .navbar {
-  min-height: 100px;
+    min-height: 100px;
 }
 
 .ControlContainer.sliderDom {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
+
 .stackedToggle {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 5px 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px 60px;
 }
 
 .stackedToggle h6 {
-  padding-top: 15px;
+    padding-top: 15px;
 }
+
+
 /* ------------------------------------------------------------------------------------------------ */
 
+
 /* The switch */
+
 
 /* Hide default HTML checkbox */
 
 .toggle {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  width: 62px;
-  height: 32px;
-  display: inline-block;
-  position: relative;
-  border-radius: 50px;
-  overflow: hidden;
-  outline: none;
-  border: none;
-  cursor: pointer;
-  background-color: #707070;
-  transition: background-color ease 0.3s;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 62px;
+    height: 32px;
+    display: inline-block;
+    position: relative;
+    border-radius: 50px;
+    overflow: hidden;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    background-color: #707070;
+    transition: background-color ease 0.3s;
 }
 
 .toggle:before {
-  content: 'on off';
-  display: block;
-  position: absolute;
-  z-index: 2;
-  width: 28px;
-  height: 28px;
-  background: #fff;
-  left: 2px;
-  top: 2px;
-  border-radius: 50%;
-  font: 10px/28px Helvetica;
-  text-transform: uppercase;
-  font-weight: bold;
-  text-indent: -22px;
-  word-spacing: 37px;
-  color: #fff;
-  text-shadow: -1px -1px rgba(0, 0, 0, 0.15);
-  white-space: nowrap;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  transition: all cubic-bezier(0.3, 1.5, 0.7, 1) 0.3s;
+    content: 'on off';
+    display: block;
+    position: absolute;
+    z-index: 2;
+    width: 28px;
+    height: 28px;
+    background: #fff;
+    left: 2px;
+    top: 2px;
+    border-radius: 50%;
+    font: 10px/28px Helvetica;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-indent: -22px;
+    word-spacing: 37px;
+    color: #fff;
+    text-shadow: -1px -1px rgba(0, 0, 0, 0.15);
+    white-space: nowrap;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    transition: all cubic-bezier(0.3, 1.5, 0.7, 1) 0.3s;
 }
 
 .toggle:checked {
-  background-color: #4cd964;
+    background-color: #4cd964;
 }
 
 .toggle:checked:before {
-  left: 32px;
+    left: 32px;
 }
 
+
 /* ------------------------------------------------------------------------------------------------ */
+
 
 /* The Slider */
 
 body {
-  height: 100vh;
-  margin: 0;
-  display: flex;
+    height: 100vh;
+    margin: 0;
+    display: flex;
 }
 
 input[type='range'] {
-  margin: auto;
-  -webkit-appearance: none;
-  position: relative;
-  overflow: hidden;
-  height: 40px;
-  width: 200px;
-  border-radius: 5px;
-
-  box-shadow: 1px 1px 20px #00000073;
-  cursor: pointer;
-
-  /* iOS */
+    margin: auto;
+    -webkit-appearance: none;
+    position: relative;
+    overflow: hidden;
+    height: 40px;
+    width: 200px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 20px #00000073;
+    cursor: pointer;
+    /* iOS */
 }
 
 ::-webkit-slider-runnable-track {
-  background: rgb(250, 250, 250);
+    background: rgb(250, 250, 250);
 }
+
 
 /*
  * 1. Set to 0 width and remove border for a slider without a thumb
  */
 
 ::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 20px;
-  /* 1 */
-  height: 40px;
-  background: #fff;
-  box-shadow: -100vw 0 0 100vw dodgerblue;
-  border: 2px solid #999;
-  /* 1 */
+    -webkit-appearance: none;
+    width: 20px;
+    /* 1 */
+    height: 40px;
+    background: #fff;
+    box-shadow: -100vw 0 0 100vw dodgerblue;
+    border: 2px solid #999;
+    /* 1 */
 }
 
 ::-moz-range-track {
-  height: 40px;
-  background: #ddd;
+    height: 40px;
+    background: #ddd;
 }
 
 ::-moz-range-thumb {
-  background: #fff;
-  height: 40px;
-  width: 20px;
-  border: 3px solid #999;
-  border-radius: 0 !important;
-  box-shadow: -100vw 0 0 100vw dodgerblue;
-  box-sizing: border-box;
+    background: #fff;
+    height: 40px;
+    width: 20px;
+    border: 3px solid #999;
+    border-radius: 0 !important;
+    box-shadow: -100vw 0 0 100vw dodgerblue;
+    box-sizing: border-box;
 }
 
 ::-ms-fill-lower {
-  background: dodgerblue;
+    background: dodgerblue;
 }
 
 ::-ms-thumb {
-  background: #fff;
-  border: 2px solid #999;
-  height: 40px;
-  width: 20px;
-  box-sizing: border-box;
+    background: #fff;
+    border: 2px solid #999;
+    height: 40px;
+    width: 20px;
+    box-sizing: border-box;
 }
 
 ::-ms-ticks-after {
-  display: none;
+    display: none;
 }
 
 ::-ms-ticks-before {
-  display: none;
+    display: none;
 }
 
 ::-ms-track {
-  background: #ddd;
-  color: transparent;
-  height: 40px;
-  border: none;
+    background: #ddd;
+    color: transparent;
+    height: 40px;
+    border: none;
 }
 
 ::-ms-tooltip {
-  display: none;
+    display: none;
 }
 
 
 /* ------------------------------------------------ WEEK DAY SELECTOR------------------------------------------------ */
+
 .weekDays-selector input {
-  display: none!important;
+    display: none!important;
 }
 
-.weekDays-selector input[type=checkbox] + label {
-  display: inline-block;
-  border-radius: 25px;
-  background: #ffffff;
-  height: 40px;
-  width: 40px;
-  margin-right: 10px;
-  line-height: 40px;
-  text-align: center;
-  cursor: pointer;
+.weekDays-selector input[type=checkbox]+label {
+    display: inline-block;
+    border-radius: 25px;
+    background: #ffffff;
+    height: 40px;
+    width: 40px;
+    margin-right: 10px;
+    line-height: 40px;
+    text-align: center;
+    cursor: pointer;
 }
 
-.weekDays-selector input[type=checkbox]:checked + label {
-  background: #0d6efd;
-  color: #ffffff;
+.weekDays-selector input[type=checkbox]:checked+label {
+    background: #0d6efd;
+    color: #ffffff;
 }
-
-
-
 
 
 /* ------------------------------------------------ TIme SELECTOR------------------------------------------------ */
-input[type="time"]{
-  padding: 0rem 1rem;
-  height: 40px;
-  border-radius: 5px;
-  border: none;
-   background-color: rgb(250, 250, 250);
-   margin-bottom: 7px;
 
-
-  /* color: white;  */
-  box-shadow: 1px 1px 20px #00000073;
-
-  font-size: 1.2rem;
-
+input[type="time"] {
+    padding: 0rem 1rem;
+    height: 40px;
+    border-radius: 5px;
+    border: none;
+    background-color: rgb(250, 250, 250);
+    margin-bottom: 7px;
+    /* color: white;  */
+    box-shadow: 1px 1px 20px #00000073;
+    font-size: 1.2rem;
 }
-.timers{
 
- 
-  align-items: center;
+.timers {
+    align-items: center;
+}
+
+
+/* ------------------------------------------------  Schedule------------------------------------------------ */
+
+form {
+    min-height: 20vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+form input,
+form button {
+    padding: 0.5rem;
+    font-size: 2rem;
+    border: none;
+    background: white;
+}
+
+form button {
+    color: #ff6f47;
+    background: #f7fffe;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+form button:hover {
+    background: #ff6f47;
+    color: white;
+}
+
+.todo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.todo-list {
+    min-width: 30%;
+    list-style: none;
+}
+
+.schedule {
+    margin: 0.5rem;
+    background: white;
+    font-size: 1.5rem;
+    color: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 1s ease;
+}
+
+.filter {
+    padding: 1rem;
+}
+
+.todo li {
+    flex: 1;
+}
+
+.trash-btn,
+.complete-btn {
+    background: #ff6f47;
+    color: white;
+    border: none;
+    padding: 1rem;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.complete-btn {
+    background: rgb(11, 212, 162);
+}
+
+.todo-item {
+    padding: 0rem 0.5rem;
+}
+
+.fa-trash,
+.fa-check {
+    pointer-events: none;
+}
+
+.fall {
+    transform: translateY(10rem) rotateZ(20deg);
+    opacity: 0;
+}
+
+.completed {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+
+
+/*CUSTOM SELECTOR */
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    outline: 0;
+    box-shadow: none;
+    border: 0 !important;
+    background-image: none;
+}
+
+
+/* Custom Select */
+
+.select {
+    margin: 1rem;
+    position: relative;
+    overflow: visible;
+}
+
+select {
+    color: #ff6f47;
+    font-family: "Poppins", sans-serif;
+    cursor: pointer;
+    width: 12rem;
+}
+
+
+/* Arrow */
+
+.select::after {
+    content: "\25BC";
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1rem;
+    background: #ff6f47;
+    cursor: pointer;
+    pointer-events: none;
+}
+
+
+/* Transition */
+
+
+/*
+.select:hover::after {
+  transform: scale(1.5);
+}
+*/
+
+.weekDays-selector input {
+    display: none!important;
+}
+
+.weekDays-selector input[type=checkbox]+label {
+    display: inline-block;
+    border-radius: 6px;
+    background: #dddddd;
+    height: 40px;
+    width: 30px;
+    margin-right: 3px;
+    line-height: 40px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.weekDays-selector input[type=checkbox]:checked+label {
+    background: #2AD705;
+    color: #ffffff;
 }

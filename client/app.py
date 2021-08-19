@@ -1,3 +1,13 @@
+from amps.AIR import AIR
+from amps.ARM import ARM
+from amps.IRG import Irrigation as IRG
+from amps.LED import LedMain as LED
+import appConfig as config
+import logging
+from time import sleep
+from gpiozero import LED
+import json
+import socketio
 import os
 import sys
 
@@ -6,47 +16,36 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
- # Modify PATH so we can import files from elsewhere in this direcotry
+# Modify PATH so we can import files from elsewhere in this direcotry
 from os.path import dirname, join, abspath
 sys.path.insert(0, abspath(join(dirname(__file__), '..')))
-import socketio
-import json
-from gpiozero import LED
-from time import sleep
-
-#\\\\\\\\\\\\\\\\\\\\\\ AMPS IMPORTS //////////////////////
-
-import appConfig as config
-from amps.LED import LedMain as LED
-from amps.IRG import Irrigation as IRG
-from amps.ARM import ARM
-from amps.AIR import AIR
+# \\\\\\\\\\\\\\\\\\\\\\ AMPS IMPORTS //////////////////////
 
 
 # # Config file variable
 server_url = config.serverUrl  # connection server URL
 
-#\\\\\\\\\\\\\\\\\\\\\\ GPIO ASSIGNMENTS //////////////////////
+# \\\\\\\\\\\\\\\\\\\\\\ GPIO ASSIGNMENTS //////////////////////
 
 # LED CONTROLS
 
-gpioLedDMainPwr =  config.gpioLedDMainPwr
-gpioLedPWMMainDim =  config.gpioLedPWMMainDim
+gpioLedDMainPwr = config.gpioLedDMainPwr
+gpioLedPWMMainDim = config.gpioLedPWMMainDim
 gpioLedPWMSup1Dim = config.gpioLedPWMSupOneDim
-gpioLedPWMSup2Dim= config.gpioLedPWMSupTWoDim
+gpioLedPWMSup2Dim = config.gpioLedPWMSupTWoDim
 
 # IRG CONTROLS
 
-gpioIRGMainPump =config.gpioIRGMainPump
-gpioIRGWtrSol=config.gpioIRGWtrSol
-gpioIRGNutrSol=config.gpioIRGNutrSol
-gpioIRGTankSwitchSol=config.gpioIRGTankSwitchSol
+gpioIRGMainPump = config.gpioIRGMainPump
+gpioIRGWtrSol = config.gpioIRGWtrSol
+gpioIRGNutrSol = config.gpioIRGNutrSol
+gpioIRGTankSwitchSol = config.gpioIRGTankSwitchSol
 
-gpioIRGlvl1Sol=config.gpioIRGlvl1Sol
-gpioIRGlvl2Sol=config.gpioIRGlvl2Sol
-gpioIRGlvl3Sol=config.gpioIRGlvl3Sol
-gpioIRGlvl4Sol=config.gpioIRGlvl4Sol
-gpioIRGlvl5Sol=config.gpioIRGlvl5Sol
+gpioIRGlvl1Sol = config.gpioIRGlvl1Sol
+gpioIRGlvl2Sol = config.gpioIRGlvl2Sol
+gpioIRGlvl3Sol = config.gpioIRGlvl3Sol
+gpioIRGlvl4Sol = config.gpioIRGlvl4Sol
+gpioIRGlvl5Sol = config.gpioIRGlvl5Sol
 
 # Main Supply Sensors
 
@@ -57,7 +56,7 @@ gpioIRGMainTankSensorEmpty = config.gpioIRGMainTankSensorEmpty
 gpioIRGDrainTankSensorFull = config.gpioIRGDrainTankSensorFull
 gpioIRGDrainTankSensorEmpty = config.gpioIRGDrainTankSensorEmpty
 
-#ARM CONTROLS
+# ARM CONTROLS
 
 gpioARMEna = config.gpioARMEna
 gpioARMDir = config.gpioARMDir
@@ -65,42 +64,43 @@ gpioARMPul = config.gpioARMPul
 gpioARMEndL = config.gpioARMEndL
 gpioARMEndR = config.gpioARMEndR
 
-#AIR CONTROLS
+# AIR CONTROLS
 
-gpioAIRMain=config.gpioAIRMain
-
-
+gpioAIRMain = config.gpioAIRMain
 
 
-#\\\\\\\\\\\\\\\\\\\\\\ CONTROL CLASS INSTANTIATE //////////////////////
+# \\\\\\\\\\\\\\\\\\\\\\ CONTROL CLASS INSTANTIATE //////////////////////
 
-LEDControls = LED(gpioLedDMainPwr, gpioLedPWMMainDim, gpioLedPWMSup1Dim, gpioLedPWMSup2Dim)
+LEDControls = LED(gpioLedDMainPwr, gpioLedPWMMainDim,
+                  gpioLedPWMSup1Dim, gpioLedPWMSup2Dim)
 
-IRGControls =IRG(gpioIRGMainPump, gpioIRGWtrSol,gpioIRGTankSwitchSol, gpioIRGNutrSol,
-                gpioIRGlvl1Sol, gpioIRGlvl2Sol, gpioIRGlvl3Sol, gpioIRGlvl4Sol, gpioIRGlvl5Sol,
-                gpioIRGMainTankSensorFull,gpioIRGMainTankSensorEmpty,gpioIRGDrainTankSensorFull,gpioIRGDrainTankSensorEmpty
-                )
+IRGControls = IRG(gpioIRGMainPump, gpioIRGWtrSol, gpioIRGTankSwitchSol, gpioIRGNutrSol,
+                  gpioIRGlvl1Sol, gpioIRGlvl2Sol, gpioIRGlvl3Sol, gpioIRGlvl4Sol, gpioIRGlvl5Sol,
+                  gpioIRGMainTankSensorFull, gpioIRGMainTankSensorEmpty, gpioIRGDrainTankSensorFull, gpioIRGDrainTankSensorEmpty
+                  )
 
-ARMControls = ARM(gpioARMEna,gpioARMDir,gpioARMPul,gpioARMEndL,gpioARMEndR)
+ARMControls = ARM(gpioARMEna, gpioARMDir, gpioARMPul, gpioARMEndL, gpioARMEndR)
 
 
 AIRControls = AIR(gpioAIRMain)
-#\\\\\\\\\\\\\\\\\\\\\\ SOCKET INIT //////////////////////
+
+
+logging.basicConfig(filename='logTest.log', level=logging.INFO)
+# \\\\\\\\\\\\\\\\\\\\\\ SOCKET INIT //////////////////////
 
 sio = socketio.Client()
 sio.connect(server_url)
 
-#\\\\\\\\\\\\\\\\\\\\\\ SOCKET CONNECTION   //////////////////////
+# \\\\\\\\\\\\\\\\\\\\\\ SOCKET CONNECTION   //////////////////////
 
 
 @sio.event
 def connect():
-    print("AMPS Conntected to Control Dashboard!")
+    logging.INFO("AMPS Conntected to Control Dashboard!")
     # ARMControls.Callibrate()
 
 
-
-#\\\\\\\\\\\\\\\\\\\\\\ AIR CONTROLS   //////////////////////
+# \\\\\\\\\\\\\\\\\\\\\\ AIR CONTROLS   //////////////////////
 @sio.on("AIRChanged")
 def airChanged(data):
    
@@ -112,63 +112,68 @@ def airChanged(data):
         AIRControls.AIRMain.off()
 
 
-
-
-
-
-#\\\\\\\\\\\\\\\\\\\\\\ LIGHT CONTROLS   //////////////////////
+# \\\\\\\\\\\\\\\\\\\\\\ LIGHT CONTROLS   //////////////////////
 
 
 @sio.on("LEDchanged")
 def rangeChanged(data):
     # a json containing controller ids and their values
     dashValues = json.loads(data)
-    print(dashValues)
+    logging.INFO(dashValues)
     if dashValues['LEDGrowMainPwr'] == 1:
         LEDControls.on()
-        mainDim =dashValues['LEDGrowMain']
-        sup1Dim =dashValues['LEDGrowSup1']
-        sup2Dim =dashValues['LEDGrowSup2']
-        LEDControls.dim(mainDim,sup1Dim,sup2Dim)
+        mainDim = dashValues['LEDGrowMain']
+        sup1Dim = dashValues['LEDGrowSup1']
+        sup2Dim = dashValues['LEDGrowSup2']
+        LEDControls.dim(mainDim, sup1Dim, sup2Dim)
     else:
         LEDControls.off()
 
-#\\\\\\\\\\\\\\\\\\\\\\ IRRIGATION CONTROLS //////////////////////
+# \\\\\\\\\\\\\\\\\\\\\\ IRRIGATION CONTROLS //////////////////////
 
 # IRG PUMP CONTROLS
+
+
 @sio.on("IRGChanged")
 def IRGChanged(data):
     dashValues = json.loads(data)
     for controlId in dashValues:
-        IRGControl=getattr(IRGControls,controlId)
+        IRGControl = getattr(IRGControls, controlId)
         if dashValues[controlId] == 1:
             IRGControl.on()
         else:
             IRGControl.off()
 
 # IRG WATER CYCLE
+
+
 @sio.on('IRGCycleWtr')
 def IRGCycleChanged(data):
     dashValues = json.loads(data)
-    if( 'IRGWtrCycleTime' in dashValues ):
+    if('IRGWtrCycleTime' in dashValues):
         IRGControls.waterCycle(int(dashValues['IRGWtrCycleTime']))
     else:
         IRGControls.waterCycle()
 
 # IRG NUTRIENT CYCLE
+
+
 @sio.on('IRGCycleNutr')
 def IRGCycleChangedNutr(data):
     dashValues = json.loads(data)
-    if( 'IRGNutrCycleTime' in dashValues ):
+    if('IRGNutrCycleTime' in dashValues):
         IRGControls.nutrientCycle(int(dashValues['IRGNutrCycleTime']))
     else:
         IRGControls.nutrientCycle()
 
-#\\\\\\\\\\\\\\\\\\\\\\ ARM CONTROLS //////////////////////
+# \\\\\\\\\\\\\\\\\\\\\\ ARM CONTROLS //////////////////////
 
-stateStepperL =False
-stateStepperR =False
+
+stateStepperL = False
+stateStepperR = False
 # STEP TP L/R
+
+
 @sio.on('ARMChanged')
 def ArmChanged(data):
     dashValues = json.loads(data)
@@ -184,6 +189,8 @@ globalLoc = 0
 globalCurrentLoc = 0
 
 # ARM CALIBRATE
+
+
 @sio.on('ARMCalibrate')
 def ArmCalibrate(data):
     print('Calibrating ')
@@ -194,6 +201,8 @@ def ArmCalibrate(data):
     ARMControls.Callibrate()
 
 # GO TO LOCATION
+
+
 @sio.on('ARMLoc')
 def ArmLocChanged(data):
     dashValues = json.loads(data)
@@ -214,26 +223,27 @@ def ArmLocChanged(data):
 sched = BackgroundScheduler()
 
 
-
-@sched.scheduled_job('cron', day_of_week='mon-tue,fri-sat',hour='*/8' )
+@sched.scheduled_job('cron', day_of_week='mon-tue,fri-sat', hour='*/8')
 def water_Schedule_1():
 
-    print(('Water Cycle ran @ ')+ (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))) )
+    logging.INFO(('Water Cycle ran @ ') +
+                 (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))))
     IRGControls.waterCycle()
 
 
-
-@sched.scheduled_job('cron', day_of_week='wed-thu,sun', hour='*/12' )
+@sched.scheduled_job('cron', day_of_week='wed-thu,sun', hour='*/12')
 def water_Schedule_2():
 
-    print(('Water Cycle ran @ ')+ (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))) )
+    logging.INFO(('Water Cycle ran @ ') +
+                 (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))))
     IRGControls.waterCycle()
 
 
-@sched.scheduled_job('cron', hour=23 , minute=45 )
+@sched.scheduled_job('cron', hour=23, minute=45)
 def nutrient_Schedule():
 
-    print(('nutrient Cycle ran @ ')+ (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))) )
+    logging.INFO(('nutrient Cycle ran @ ') +
+                 (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))))
     IRGControls.nutrientCycle()
 
 
