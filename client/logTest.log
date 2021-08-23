@@ -1,0 +1,78 @@
+INFO:apscheduler.scheduler:Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO:apscheduler.scheduler:Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO:apscheduler.scheduler:Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO:apscheduler.scheduler:Added job "water_Schedule_1" to job store "default"
+INFO:apscheduler.scheduler:Added job "water_Schedule_2" to job store "default"
+INFO:apscheduler.scheduler:Added job "nutrient_Schedule" to job store "default"
+INFO:apscheduler.scheduler:Scheduler started
+INFO:apscheduler.scheduler:Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO:apscheduler.scheduler:Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO:apscheduler.scheduler:Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO:apscheduler.scheduler:Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO:apscheduler.scheduler:Added job "water_Schedule_1" to job store "default"
+INFO:apscheduler.scheduler:Added job "water_Schedule_2" to job store "default"
+INFO:apscheduler.scheduler:Added job "nutrient_Schedule" to job store "default"
+INFO:apscheduler.scheduler:Added job "nutrient_Schedule" to job store "default"
+INFO:apscheduler.scheduler:Scheduler started
+INFO:apscheduler.executors.default:Running job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 10:56:00 EDT)" (scheduled at 2021-08-23 10:56:00-04:00)
+INFO:apscheduler.executors.default:Job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 10:57:00 EDT)" executed successfully
+INFO:apscheduler.executors.default:Running job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 10:57:00 EDT)" (scheduled at 2021-08-23 10:57:00-04:00)
+INFO:apscheduler.executors.default:Job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 10:58:00 EDT)" executed successfully
+INFO:apscheduler.executors.default:Running job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 10:58:00 EDT)" (scheduled at 2021-08-23 10:58:00-04:00)
+INFO:apscheduler.executors.default:Job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 10:59:00 EDT)" executed successfully
+INFO:apscheduler.executors.default:Running job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 10:59:00 EDT)" (scheduled at 2021-08-23 10:59:00-04:00)
+INFO:apscheduler.executors.default:Job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 10:59:00 EDT)" executed successfully
+INFO:apscheduler.executors.default:Running job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:00:00 EDT)" (scheduled at 2021-08-23 11:00:00-04:00)
+INFO:apscheduler.executors.default:Job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:01:00 EDT)" executed successfully
+INFO:apscheduler.executors.default:Running job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:01:00 EDT)" (scheduled at 2021-08-23 11:01:00-04:00)
+INFO:apscheduler.executors.default:Job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:02:00 EDT)" executed successfully
+INFO:apscheduler.executors.default:Running job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:02:00 EDT)" (scheduled at 2021-08-23 11:02:00-04:00)
+INFO:apscheduler.executors.default:Job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:03:00 EDT)" executed successfully
+INFO:apscheduler.executors.default:Running job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:03:00 EDT)" (scheduled at 2021-08-23 11:03:00-04:00)
+INFO:apscheduler.executors.default:Job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:04:00 EDT)" executed successfully
+INFO:apscheduler.executors.default:Running job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:04:00 EDT)" (scheduled at 2021-08-23 11:04:00-04:00)
+INFO:apscheduler.executors.default:Job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:05:00 EDT)" executed successfully
+INFO:apscheduler.executors.default:Running job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:05:00 EDT)" (scheduled at 2021-08-23 11:05:00-04:00)
+INFO:apscheduler.executors.default:Job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:06:00 EDT)" executed successfully
+INFO:apscheduler.executors.default:Running job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:07:00 EDT)" (scheduled at 2021-08-23 11:06:00-04:00)
+INFO:apscheduler.executors.default:Job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:07:00 EDT)" executed successfully
+INFO:apscheduler.executors.default:Running job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:08:00 EDT)" (scheduled at 2021-08-23 11:07:00-04:00)
+INFO:apscheduler.executors.default:Job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:08:00 EDT)" executed successfully
+INFO:apscheduler.executors.default:Running job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:09:00 EDT)" (scheduled at 2021-08-23 11:08:00-04:00)
+INFO:apscheduler.executors.default:Job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:09:00 EDT)" executed successfully
+INFO:apscheduler.executors.default:Running job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:10:00 EDT)" (scheduled at 2021-08-23 11:09:00-04:00)
+INFO:apscheduler.executors.default:Job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:10:00 EDT)" executed successfully
+INFO:apscheduler.executors.default:Running job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:11:00 EDT)" (scheduled at 2021-08-23 11:10:00-04:00)
+INFO:apscheduler.executors.default:Job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:11:00 EDT)" executed successfully
+INFO:apscheduler.executors.default:Running job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:12:00 EDT)" (scheduled at 2021-08-23 11:11:00-04:00)
+INFO:apscheduler.executors.default:Job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:12:00 EDT)" executed successfully
+INFO:apscheduler.executors.default:Running job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:13:00 EDT)" (scheduled at 2021-08-23 11:12:00-04:00)
+INFO:apscheduler.executors.default:Job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:13:00 EDT)" executed successfully
+INFO:apscheduler.executors.default:Running job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:14:00 EDT)" (scheduled at 2021-08-23 11:13:00-04:00)
+INFO:apscheduler.executors.default:Job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:14:00 EDT)" executed successfully
+INFO:apscheduler.executors.default:Running job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:15:00 EDT)" (scheduled at 2021-08-23 11:14:00-04:00)
+INFO:apscheduler.executors.default:Job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:15:00 EDT)" executed successfully
+INFO:apscheduler.executors.default:Running job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:16:00 EDT)" (scheduled at 2021-08-23 11:15:00-04:00)
+INFO:apscheduler.executors.default:Job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:16:00 EDT)" executed successfully
+INFO:apscheduler.executors.default:Running job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:17:00 EDT)" (scheduled at 2021-08-23 11:16:00-04:00)
+INFO:apscheduler.executors.default:Job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:17:00 EDT)" executed successfully
+INFO:apscheduler.executors.default:Running job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:18:00 EDT)" (scheduled at 2021-08-23 11:17:00-04:00)
+INFO:apscheduler.executors.default:Job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:18:00 EDT)" executed successfully
+INFO:apscheduler.scheduler:Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO:apscheduler.scheduler:Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO:apscheduler.scheduler:Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO:apscheduler.scheduler:Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO:apscheduler.scheduler:Added job "water_Schedule_1" to job store "default"
+INFO:apscheduler.scheduler:Added job "water_Schedule_2" to job store "default"
+INFO:apscheduler.scheduler:Added job "nutrient_Schedule" to job store "default"
+INFO:apscheduler.scheduler:Added job "nutrient_Schedule" to job store "default"
+INFO:apscheduler.scheduler:Scheduler started
+INFO:apscheduler.executors.default:Running job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:29:00 EDT)" (scheduled at 2021-08-23 11:29:00-04:00)
+INFO:apscheduler.executors.default:Job "nutrient_Schedule (trigger: cron[minute='*/1'], next run at: 2021-08-23 11:30:00 EDT)" executed successfully
+INFO:apscheduler.scheduler:Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO:apscheduler.scheduler:Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO:apscheduler.scheduler:Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO:apscheduler.scheduler:Added job "water_Schedule_1" to job store "default"
+INFO:apscheduler.scheduler:Added job "water_Schedule_2" to job store "default"
+INFO:apscheduler.scheduler:Added job "nutrient_Schedule" to job store "default"
+INFO:apscheduler.scheduler:Scheduler started
