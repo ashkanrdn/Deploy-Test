@@ -5,7 +5,7 @@ from amps.LED import LedMain as LED
 import appConfig as config
 import logging
 from time import sleep
-from gpiozero import LED
+
 import json
 import socketio
 import os
