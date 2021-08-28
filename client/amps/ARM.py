@@ -39,7 +39,7 @@ class ARM():
         self.ARMLoc = 0
         sleep(1)
 
-        logging.INFO('Far Left Reached')
+        print('Far Left Reached')
         while(self.ARMEndR.is_active == False):
 
             self.Pulsate(dir='R')

@@ -177,6 +177,8 @@ mongoose
             // ARM Calibrate
             socket.on("ARMCalibrate", (state) => {
                 console.log("ArmCalibrate");
+                let stateTemp = JSON.parse(state);
+
                 io.emit("ARMCalibrate", JSON.stringify(stateTemp.ARM_Values));
             });
             // ARM Location
