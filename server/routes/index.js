@@ -13,7 +13,10 @@ router.get("/schedule", function(req, res) {
 });
 
 router.get("/api", function(req, res) {
-    ControlsState.find();
+    ControlsState.find()
+        .sort({ updatedAt: -1 })
+        .limit(1)
+        .then((result) => res.json(result));
 });
 
 module.exports = router;

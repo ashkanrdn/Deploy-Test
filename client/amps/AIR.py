@@ -10,8 +10,8 @@ class AIR():
 
     def On(self):
         self.AIRMain.on()
-        logging.INFO('On')
+        print('On')
 
     def Off(self):
         self.AIRMain.off()
-        logging.INFO('off')
+        print('off')

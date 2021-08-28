@@ -19,3 +19,24 @@ INFO:apscheduler.scheduler:Added job "water_Schedule_1" to job store "default"
 INFO:apscheduler.scheduler:Added job "water_Schedule_2" to job store "default"
 INFO:apscheduler.scheduler:Added job "nutrient_Schedule" to job store "default"
 INFO:apscheduler.scheduler:Scheduler started
+INFO:apscheduler.scheduler:Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO:apscheduler.scheduler:Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO:apscheduler.scheduler:Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO:apscheduler.scheduler:Added job "water_Schedule_1" to job store "default"
+INFO:apscheduler.scheduler:Added job "water_Schedule_2" to job store "default"
+INFO:apscheduler.scheduler:Added job "nutrient_Schedule" to job store "default"
+INFO:apscheduler.scheduler:Scheduler started
+INFO:apscheduler.scheduler:Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO:apscheduler.scheduler:Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO:apscheduler.scheduler:Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO:apscheduler.scheduler:Added job "water_Schedule_1" to job store "default"
+INFO:apscheduler.scheduler:Added job "water_Schedule_2" to job store "default"
+INFO:apscheduler.scheduler:Added job "nutrient_Schedule" to job store "default"
+INFO:apscheduler.scheduler:Scheduler started
+INFO:apscheduler.scheduler:Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO:apscheduler.scheduler:Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO:apscheduler.scheduler:Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO:apscheduler.scheduler:Added job "water_Schedule_1" to job store "default"
+INFO:apscheduler.scheduler:Added job "water_Schedule_2" to job store "default"
+INFO:apscheduler.scheduler:Added job "nutrient_Schedule" to job store "default"
+INFO:apscheduler.scheduler:Scheduler started

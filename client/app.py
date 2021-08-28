@@ -1,16 +1,15 @@
+# \\\\\\\\\\\\\\\\\\\\\\ AMPS IMPORTS //////////////////////
 from amps.AIR import AIR
 from amps.ARM import ARM
 from amps.IRG import Irrigation as IRG
 from amps.LED import LedMain as LED
 import appConfig as config
-import logging
-from time import sleep
 
+from time import sleep
 import json
 import socketio
 import os
 import sys
-
 import time
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -19,7 +18,6 @@ from apscheduler.schedulers.background import BackgroundScheduler
 # Modify PATH so we can import files from elsewhere in this direcotry
 from os.path import dirname, join, abspath
 sys.path.insert(0, abspath(join(dirname(__file__), '..')))
-# \\\\\\\\\\\\\\\\\\\\\\ AMPS IMPORTS //////////////////////
 
 
 # # Config file variable
@@ -84,7 +82,7 @@ ARMControls = ARM(gpioARMEna, gpioARMDir, gpioARMPul, gpioARMEndL, gpioARMEndR)
 AIRControls = AIR(gpioAIRMain)
 
 
-logging.basicConfig(filename='logTest.log', level=logging.INFO)
+# logging.basicConfig(filename='logTest.log', level=print)
 # \\\\\\\\\\\\\\\\\\\\\\ SOCKET INIT //////////////////////
 
 sio = socketio.Client()
@@ -95,7 +93,7 @@ sio.connect(server_url)
 
 @sio.event
 def connect():
-    logging.INFO("AMPS Conntected to Control Dashboard!")
+    print("AMPS Conntected to Control Dashboard!")
     # ARMControls.Callibrate()
 
 
@@ -118,7 +116,7 @@ def airChanged(data):
 def rangeChanged(data):
     # a json containing controller ids and their values
     dashValues = json.loads(data)
-    logging.INFO(dashValues)
+    # print(dashValues)
     if dashValues['LEDGrowMainPwr'] == 1:
         LEDControls.on()
         mainDim = dashValues['LEDGrowMain']
@@ -224,26 +222,26 @@ sched = BackgroundScheduler()
 
 @sched.scheduled_job('cron', day_of_week='mon-tue,fri-sat', hour='*/8')
 def water_Schedule_1():
-
-    logging.INFO(('Water Cycle ran @ ') +
-                 (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))))
     IRGControls.waterCycle()
+
+    print(('Water Cycle ran @ ') +
+                 (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))))
 
 
 @sched.scheduled_job('cron', day_of_week='wed-thu,sun', hour='*/12')
 def water_Schedule_2():
-
-    logging.INFO(('Water Cycle ran @ ') +
-                 (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))))
     IRGControls.waterCycle()
+
+    print(('Water Cycle ran @ ') +
+                 (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))))
 
 
 @sched.scheduled_job('cron', hour=23, minute=45)
 def nutrient_Schedule():
-
-    logging.INFO(('nutrient Cycle ran @ ') +
-                 (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))))
     IRGControls.nutrientCycle()
+
+    print(('nutrient Cycle ran @ ') +
+                 (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))))
 
 
 # @sched.scheduled_job('cron', minute="*/1" )

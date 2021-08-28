@@ -45,7 +45,7 @@ class Irrigation():
         # Turning on the lvl sols
         # if(self.gotWater()):
         for lvlSol in self.IRGlvlSols:
-            logging.INFO(lvlSol, ' Turned on')
+            print(lvlSol, ' Turned on')
             lvlSol.on()
             time.sleep(1)
             # Opening the water sol
@@ -64,7 +64,7 @@ class Irrigation():
         self.IRGWtrSol.off()
         # closing the lvl sols
         for lvlSol in self.IRGlvlSols:
-            logging.INFO(lvlSol, ' Turned off')
+            print(lvlSol, ' Turned off')
             lvlSol.off()
             time.sleep(1)
 
@@ -72,7 +72,7 @@ class Irrigation():
         # if(self.gotWater()):
         for lvlSol in self.IRGlvlSols:
             # check supply tank level and transfer routine
-            logging.INFO(lvlSol, ' Turned on')
+            print(lvlSol, ' Turned on')
             lvlSol.on()
             time.sleep(1)
             self.IRGNutrSol.on()
@@ -85,7 +85,7 @@ class Irrigation():
         time.sleep(1)
         self.IRGWtrSol.off()
         for lvlSol in self.IRGlvlSols:
-            logging.INFO(lvlSol, ' Turned off')
+            print(lvlSol, ' Turned off')
             lvlSol.off()
             time.sleep(1)
 
