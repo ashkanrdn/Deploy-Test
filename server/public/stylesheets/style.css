@@ -262,7 +262,7 @@ input[type='range'] {
 }
 
 .weekDays-selector input[type=checkbox]:checked+label {
-    background: #0d6efd;
+    background: #ff6f47 !important;
     color: #ffffff;
 }
 

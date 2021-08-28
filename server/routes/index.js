@@ -13,7 +13,7 @@ router.get("/schedule", function(req, res) {
 });
 
 router.get("/api", function(req, res) {
-    ControlsState.find().then((result) => res.json(result));
+    ControlsState.find();
 });
 
 module.exports = router;
