@@ -316,13 +316,13 @@ form button:hover {
     color: white;
 }
 
-.todo-container {
+.schedule-container {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.todo-list {
+.schedule-list {
     min-width: 30%;
     list-style: none;
 }
@@ -342,7 +342,7 @@ form button:hover {
     padding: 1rem;
 }
 
-.todo li {
+.schedule li {
     flex: 1;
 }
 
@@ -360,7 +360,7 @@ form button:hover {
     background: rgb(11, 212, 162);
 }
 
-.todo-item {
+.schedule-item {
     padding: 0rem 0.5rem;
 }
 
@@ -425,31 +425,3 @@ select {
 
 
 /* Transition */
-
-
-/*
-.select:hover::after {
-  transform: scale(1.5);
-}
-*/
-
-.weekDays-selector input {
-    display: none!important;
-}
-
-.weekDays-selector input[type=checkbox]+label {
-    display: inline-block;
-    border-radius: 6px;
-    background: #dddddd;
-    height: 40px;
-    width: 30px;
-    margin-right: 3px;
-    line-height: 40px;
-    text-align: center;
-    cursor: pointer;
-}
-
-.weekDays-selector input[type=checkbox]:checked+label {
-    background: #2AD705;
-    color: #ffffff;
-}
