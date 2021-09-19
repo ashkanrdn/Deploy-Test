@@ -1,4 +1,5 @@
 # \\\\\\\\\\\\\\\\\\\\\\ AMPS IMPORTS //////////////////////
+from logging import error
 from amps.AIR import AIR
 from amps.ARM import ARM
 from amps.IRG import Irrigation as IRG
@@ -134,12 +135,14 @@ def rangeChanged(data):
 @sio.on("IRGChanged")
 def IRGChanged(data):
     dashValues = json.loads(data)
+
     for controlId in dashValues:
         IRGControl = getattr(IRGControls, controlId)
         if dashValues[controlId] == 1:
             IRGControl.on()
         else:
             IRGControl.off()
+    
 
 # IRG WATER CYCLE
 
