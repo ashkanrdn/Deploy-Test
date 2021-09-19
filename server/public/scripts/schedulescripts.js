@@ -21,145 +21,215 @@ var socket = io.connect("/");
 // socket.emit("scheduleWTR", "Hello");
 
 //Select DOM
-const todoInput = document.querySelector(".todo-input");
-const todoButton = document.querySelector(".todo-button");
-const todoList = document.querySelector(".todo-list");
-const filterOption = document.querySelector(".filter-todo");
+const scheduleInput = document.querySelector(".schedule-input");
+const scheduleButton = document.querySelector(".schedule-button");
+const scheduleList = document.querySelector(".schedule-list");
+const filterOption = document.querySelector(".filter-schedule");
 
 //Event Listeners
-document.addEventListener("DOMContentLoaded", getTodos);
-todoButton.addEventListener("click", addSchedule);
-todoList.addEventListener("click", deleteTodo);
-filterOption.addEventListener("click", filterTodo);
+document.addEventListener("DOMContentLoaded", getschedules);
+scheduleButton.addEventListener("click", addSchedule);
+scheduleList.addEventListener("click", deleteschedule);
+filterOption.addEventListener("click", filterschedule);
 
 //Functions
 
 function addSchedule(e) {
     //Prevent natural behaviour
     e.preventDefault();
-    //Create todo div
+    //Create schedule div
     const scheduleDiv = document.createElement("div");
-    todoDiv.classList.add("schedule");
+    scheduleDiv.classList.add("schedule");
     //Create list
     const newSchedule = document.createElement("li");
-    newTodo.innerText = todoInput.value;
+    newschedule.innerText = scheduleInput.value;
     //Save to local - do this last
     //Save to local
-    saveLocalTodos(todoInput.value);
+    saveLocalschedules(scheduleInput.value);
     //
-    newTodo.classList.add("todo-item");
-    todoDiv.appendChild(newTodo);
-    todoInput.value = "";
+    newschedule.classList.add("schedule-item");
+    scheduleDiv.appendChild(newschedule);
+    scheduleInput.value = "";
     //Create Completed Button
     const completedButton = document.createElement("button");
     completedButton.innerHTML = `<i class="fas fa-check"></i>`;
     completedButton.classList.add("complete-btn");
-    todoDiv.appendChild(completedButton);
+    scheduleDiv.appendChild(completedButton);
     //Create trash button
     const trashButton = document.createElement("button");
     trashButton.innerHTML = `<i class="fas fa-trash"></i>`;
     trashButton.classList.add("remove-schedule");
-    todoDiv.appendChild(trashButton);
-    //attach final Todo
-    todoList.appendChild(todoDiv);
+    scheduleDiv.appendChild(trashButton);
+    //attach final schedule
+    scheduleList.appendChild(scheduleDiv);
 }
 v;
 
-function deleteTodo(e) {
+function deleteschedule(e) {
     const item = e.target;
 
     if (item.classList[0] === "remove-schedule") {
         // e.target.parentElement.remove();
-        const todo = item.parentElement;
-        todo.classList.add("fall");
+        const schedule = item.parentElement;
+        schedule.classList.add("fall");
         //at the end
-        removeLocalTodos(todo);
-        todo.addEventListener("transitionend", (e) => {
-            todo.remove();
+        removeLocalschedules(schedule);
+        schedule.addEventListener("transitionend", (e) => {
+            schedule.remove();
         });
     }
     if (item.classList[0] === "complete-btn") {
-        const todo = item.parentElement;
-        todo.classList.toggle("completed");
-        console.log(todo);
+        const schedule = item.parentElement;
+        schedule.classList.toggle("completed");
+        console.log(schedule);
     }
 }
 
-function filterTodo(e) {
-    const todos = todoList.childNodes;
-    todos.forEach(function(todo) {
+function filterschedule(e) {
+    const schedules = scheduleList.childNodes;
+    schedules.forEach(function(schedule) {
         switch (e.target.value) {
             case "all":
-                todo.style.display = "flex";
+                schedule.style.display = "flex";
                 break;
             case "completed":
-                if (todo.classList.contains("completed")) {
-                    todo.style.display = "flex";
+                if (schedule.classList.contains("completed")) {
+                    schedule.style.display = "flex";
                 } else {
-                    todo.style.display = "none";
+                    schedule.style.display = "none";
                 }
                 break;
             case "uncompleted":
-                if (!todo.classList.contains("completed")) {
-                    todo.style.display = "flex";
+                if (!schedule.classList.contains("completed")) {
+                    schedule.style.display = "flex";
                 } else {
-                    todo.style.display = "none";
+                    schedule.style.display = "none";
                 }
         }
     });
 }
 
-function saveLocalTodos(todo) {
-    let todos;
-    if (localStorage.getItem("todos") === null) {
-        todos = [];
+function saveLocalschedules(schedule) {
+    let schedules;
+    if (localStorage.getItem("schedules") === null) {
+        schedules = [];
     } else {
-        todos = JSON.parse(localStorage.getItem("todos"));
+        schedules = JSON.parse(localStorage.getItem("schedules"));
     }
-    todos.push(todo);
-    localStorage.setItem("todos", JSON.stringify(todos));
+    schedules.push(schedule);
+    localStorage.setItem("schedules", JSON.stringify(schedules));
 }
 
-function removeLocalTodos(todo) {
-    let todos;
-    if (localStorage.getItem("todos") === null) {
-        todos = [];
+function removeLocalschedules(schedule) {
+    let schedules;
+    if (localStorage.getItem("schedules") === null) {
+        schedules = [];
     } else {
-        todos = JSON.parse(localStorage.getItem("todos"));
+        schedules = JSON.parse(localStorage.getItem("schedules"));
     }
-    const todoIndex = todo.children[0].innerText;
-    todos.splice(todos.indexOf(todoIndex), 1);
-    localStorage.setItem("todos", JSON.stringify(todos));
+    const scheduleIndex = schedule.children[0].innerText;
+    schedules.splice(schedules.indexOf(scheduleIndex), 1);
+    localStorage.setItem("schedules", JSON.stringify(schedules));
 }
 
-function getTodos() {
-    let todos;
-    if (localStorage.getItem("todos") === null) {
-        todos = [];
+function getschedules() {
+    let schedules;
+    if (localStorage.getItem("schedules") === null) {
+        schedules = [];
     } else {
-        todos = JSON.parse(localStorage.getItem("todos"));
+        schedules = JSON.parse(localStorage.getItem("schedules"));
     }
-    todos.forEach(function(todo) {
-        //Create todo div
-        const todoDiv = document.createElement("div");
-        todoDiv.classList.add("todo");
+    schedules.forEach(function(schedule) {
+        //Create schedule div
+        const scheduleDiv = document.createElement("div");
+        scheduleDiv.classList.add("schedule");
         //Create list
-        const newTodo = document.createElement("li");
-        newTodo.innerText = todo;
-        newTodo.classList.add("todo-item");
-        todoDiv.appendChild(newTodo);
-        todoInput.value = "";
+        const newschedule = document.createElement("li");
+        newschedule.innerText = schedule;
+        newschedule.classList.add("schedule-item");
+        scheduleDiv.appendChild(newschedule);
+        scheduleInput.value = "";
         //Create Completed Button
         const completedButton = document.createElement("button");
         completedButton.innerHTML = `<i class="fas fa-check"></i>`;
         completedButton.classList.add("complete-btn");
-        todoDiv.appendChild(completedButton);
+        scheduleDiv.appendChild(completedButton);
         //Create trash button
         const trashButton = document.createElement("button");
         trashButton.innerHTML = `<i class="fas fa-trash"></i>`;
         trashButton.classList.add("remove-schedule");
-        todoDiv.appendChild(trashButton);
-        //attach final Todo
-        todoList.appendChild(todoDiv);
+        scheduleDiv.appendChild(trashButton);
+        //attach final schedule
+        scheduleList.appendChild(scheduleDiv);
     });
+}
+
+// _______________________________   DAY PICKER _______________________
+
+var dayOption = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+var daySelected = [true, false, true, true, true, false, false];
+var indexSelected = [];
+var dayFormated = "";
+var checked;
+
+daySelected.map((value, i) => {
+    if (value) {
+        console.log(value);
+        checked = "checked";
+    } else {
+        checked = "";
+    }
+    $(".day").append(
+        '<label><input onclick="tickDay(' + i + ')" type="checkbox"' + this.checked + ">" + dayOption[i] + "</label>"
+    );
+});
+formatSelectedDays();
+
+function tickDay(i) {
+    this.daySelected[i] = !this.daySelected[i];
+    this.formatSelectedDays();
+}
+
+function formatSelectedDays() {
+    var result = "";
+    var indexSelected = [];
+
+    this.daySelected.map((value, i) => {
+        if (this.daySelected[i]) indexSelected.push(i);
+    });
+
+    var head = "";
+    var count_range = 0;
+    indexSelected.map((value, i) => {
+        if (i == 0) {
+            head = this.dayOption[indexSelected[i]];
+        } else {
+            if (indexSelected[i] == indexSelected[i - 1] + 1) {
+                //check next
+                count_range++;
+            } else {
+                if (count_range <= 1) {
+                    if (count_range === 0) {
+                        result += head + ", ";
+                    } else {
+                        result += head + " - " + this.dayOption[indexSelected[i - 1]] + ", ";
+                    }
+                } else {
+                    result += head + " - " + this.dayOption[indexSelected[i - 1]] + ", ";
+                }
+                count_range = 0;
+                head = this.dayOption[indexSelected[i]];
+            }
+        }
+    });
+    if (count_range < 1) {
+        result += head;
+    } else {
+        result += head + " - " + this.dayOption[indexSelected[indexSelected.length - 1]];
+    }
+    if (result === "") {
+        result = "Choose day";
+    }
+    this.dayFormated = result;
+    $(".result").html("<h4>" + result + "</h4>");
 }
