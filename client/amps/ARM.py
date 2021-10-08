@@ -68,6 +68,7 @@ class ARM():
                 self.ARMPul.on()
                 # print('going L')
                 self.ARMLoc -= 1
+
             elif(self.ARMEndL.is_active == True):
                 print('Reached the far left limit')
                 
@@ -86,6 +87,7 @@ class ARM():
                 sleep(ARM.ARMSleepTime)
                 self.ARMPul.on()
                 self.ARMLoc += 1
+
             elif (self.ARMEndR.is_active == True):
                 print('Reached the far right limit')
 

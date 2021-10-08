@@ -1,12 +1,12 @@
 var socket = io.connect("/");
 
-let LED_Values = { LEDGrowMain: 0, LEDGrowSup1: 0, LEDGrowSup2: 0 };
+let LED_Values = { LEDGrowMain: 0, LEDGrowSup1: 0, LEDGrowSup2: 0,LEDGrowMainPwr:0 };
 let IRG_Values = {};
 let ARM_Values = {};
 // let AIR_Values = {};
 let Schedule_Values = {};
 let All_Control_Values = {
-    LED_Values: { LEDGrowMain: 0, LEDGrowSup1: 0, LEDGrowSup2: 0, AIRMainPwr: 0 },
+    LED_Values: { LEDGrowMain: 0, LEDGrowSup1: 0, LEDGrowSup2: 0, LEDGrowMainPwr: 0 },
     AIR_Values: { AIRMainPwr: 0 },
     IRG_Values: {
         IRGMainPump: 0,

@@ -117,7 +117,6 @@ def airChanged(data):
 def rangeChanged(data):
     # a json containing controller ids and their values
     dashValues = json.loads(data)
-    # print(dashValues)
     if dashValues['LEDGrowMainPwr'] == 1:
         LEDControls.on()
         mainDim = dashValues['LEDGrowMain']
@@ -179,10 +178,21 @@ def ArmChanged(data):
     dashValues = json.loads(data)
     global stateStepperL
     global stateStepperR
+
+
+# Note : if the while true runs on the main app it causes the 
+# calibrate function ro run slowly with out while true maual jog to 
+# left or right and go to loc is not possible
+# research asyncio and back ground tasks to see if the args from event can be passed
+# some async runner in the bg and keep the thread alive
+    
+  
     if('swingArmL' in dashValues):
+
         stateStepperL = dashValues['swingArmL']
     if('swingArmR' in dashValues):
         stateStepperR = dashValues['swingArmR']
+
 
 
 globalLoc = 0
@@ -206,12 +216,12 @@ def ArmCalibrate(data):
 @sio.on('ARMLoc')
 def ArmLocChanged(data):
     dashValues = json.loads(data)
-    print(dashValues , " Dash Values ")
+    
     global globalLoc
     global globalCurrentLoc
     loc = int(dashValues['swingArmLoc'])
     globalLoc = loc
-    ARMControls.goToLoc(loc)
+    # ARMControls.goToLoc(loc)
 
 
 
@@ -247,24 +257,36 @@ def nutrient_Schedule():
                  (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))))
 
 
-# @sched.scheduled_job('cron', minute="*/1" )
-# def nutrient_Schedule():
+@sched.scheduled_job('cron', day="*" , hour = "6")
+def LED_Schedule_on():
+    print(('Lights turned on ')+ (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))) )
+    LEDControls.on()
+    # LEDControls.dim(1, 1, 1)
 
-#     print(('skjl test ')+ (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))) )
-#     # IRGControls.nutrientCycle()
+@sched.scheduled_job('cron', day="*" , hour = "20")
+def LED_Schedule_off():
+    print(('Lights turned off ')+ (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))) )
+    LEDControls.off()
+
+# @sched.scheduled_job('cron', day_of_week="mon-fri" , hour = "8")
+# def AIR_Schedule_on():
+#     print(('Lights turned on ')+ (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))) )
+#     AIRControls.AIRMain.on()
+
+# @sched.scheduled_job('cron', day_of_week="mon-fri" , hour = "8")
+# def AIR_Schedule_off():
+#     print(('Lights turned off ')+ (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))) )
+#     AIRControls.AIRMain.off()
+
 sched.start()
-
+print(" Pi started")
 while True:
 
-    # print('True is True')
-    # break
     while stateStepperL == True:
         ARMControls.Pulsate('L')
-        # print(" =>L")
     while stateStepperR == True:
         ARMControls.Pulsate('R')
 
-        # print(" =>R")
 
     if (globalCurrentLoc != globalLoc):
         globalCurrentLoc = globalLoc
