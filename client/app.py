@@ -117,11 +117,15 @@ def airChanged(data):
 def rangeChanged(data):
     # a json containing controller ids and their values
     dashValues = json.loads(data)
+    print(dashValues)
     if dashValues['LEDGrowMainPwr'] == 1:
-        LEDControls.on()
+        # LEDControls.on()
         mainDim = dashValues['LEDGrowMain']
+        print(mainDim,"mainDim")
         sup1Dim = dashValues['LEDGrowSup1']
+        print(sup1Dim,"sup1")
         sup2Dim = dashValues['LEDGrowSup2']
+        print(sup2Dim,'Sup2')
         LEDControls.dim(mainDim, sup1Dim, sup2Dim)
     else:
         LEDControls.off()
@@ -181,7 +185,7 @@ def ArmChanged(data):
 
 
 # Note : if the while true runs on the main app it causes the 
-# calibrate function ro run slowly with out while true maual jog to 
+# calibrate function to run slowly without while true maual jog to 
 # left or right and go to loc is not possible
 # research asyncio and back ground tasks to see if the args from event can be passed
 # some async runner in the bg and keep the thread alive
@@ -279,19 +283,40 @@ def LED_Schedule_off():
 #     AIRControls.AIRMain.off()
 
 sched.start()
-print(" Pi started")
-while True:
+# print(" Pi started")
+# for i in range(663311):
+#     ARMControls.Pulsate("L")
+# while True:
 
-    while stateStepperL == True:
-        ARMControls.Pulsate('L')
-    while stateStepperR == True:
-        ARMControls.Pulsate('R')
+#     while stateStepperL == True:
+#         ARMControls.Pulsate('L')
+#     while stateStepperR == True:
+#         ARMControls.Pulsate('R')
 
 
-    if (globalCurrentLoc != globalLoc):
-        globalCurrentLoc = globalLoc
-        ARMControls.goToLoc(globalCurrentLoc)
-    
+#     if (globalCurrentLoc != globalLoc):
+#         globalCurrentLoc = globalLoc
+#         ARMControls.goToLoc(globalCurrentLoc)
+# print(ARMControls.ARMLoc)
+
+# # ARMControls.Callibrate()
+# print("Calibrating")
+# ARMControls.goToLoc(10)
+# print(ARMControls.ARMLoc)
+
+# LEDControls.on()
+# LEDControls.dim(1, 1, 1)
+# time.sleep(3)
+# LEDControls.dim(0, 0, 1)
+# time.sleep(3)
+# LEDControls.dim(0, 1, 0)
+# time.sleep(3)
+# LEDControls.dim(1, 0, 0)
+# time.sleep(3)
+# LEDControls.dim(0, 0, 0)
+# LEDControls.off()
+
+
 
 
 

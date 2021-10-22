@@ -33,7 +33,7 @@ class LedMain():
         '''Powers on the main PWR, main LED and supplemental LED's at last set levels'''
         self.lightingLedMainPWR.on()
         time.sleep(.5)
-        # self.lightingLedMain.on()
+        self.lightingLedMain.on()
         self.lightingLedSuppOne.on()
         self.lightingLedSuppTwo.on()
      

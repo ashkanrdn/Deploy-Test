@@ -91,13 +91,13 @@ class Irrigation():
 
     def gotWater(self):
         if self.IRGMainTankSensorEmpty.is_active == False:  # Main Tank is not empty
-            self.IRGTankSwitchSol.off()  # make sure the tank switch relay is off
+            # self.IRGTankSwitchSol.off()  # make sure the tank switch relay is off
             return True
         elif self.IRGMainTankSensorEmpty.is_active == True:
             # Case where main tank is empty
             if self.IRGDrainTankSensorEmpty.is_active == False:  # Case where the drain tank is not empty
-                self.panicMode()  # add the lesser panic drill
-                LedMain.dim(0, 0, 0)
+                # self.panicMode()  # add the lesser panic drill
+                # LedMain.dim(0, 0, 0)
                 # turn off fans
                 # activate tank switch relay to switch from main tank to drain tank
                 self.IRGTankSwitchSol.on()
@@ -122,6 +122,9 @@ class Irrigation():
         if they are full'''
         if (self.IRGMainTankSensorFull.is_active == True or self.IRGDrainTankSensorFull.is_active == True):
             self.panicMode()
+    def supplyTankCheck(self):
+        if self.IRGDrainTankSensorEmpty.is_active == False:
+            
 
 
 ''' Add a indicator on dashoboard tanks levels are full or empty. '''

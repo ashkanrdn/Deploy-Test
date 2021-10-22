@@ -31,7 +31,7 @@ gpioIRGTankSwitchSol = 14
 gpioIRGMainTankSensorFull = 20
 gpioIRGMainTankSensorEmpty = 5
 # Drain Supply Sensors
-gpioIRGDrainTankSensorFull = 16
+gpioIRGDrainTankSensorFull = 9
 gpioIRGDrainTankSensorEmpty = 26
 
 # <<<< Level Solonoids >>>>

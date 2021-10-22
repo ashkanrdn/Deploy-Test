@@ -1,7 +1,10 @@
 import gpiozero
-import time
 from time import sleep
-import logging
+from os.path import dirname, join, abspath
+import sys
+sys.path.insert(0, abspath(join(dirname(__file__), '..')))
+import appConfig 
+
 
 
 class ARM():
@@ -13,7 +16,7 @@ class ARM():
     gpioARMEndL: set the raspberry pi pin for Left Limit Sensor on controller
     gpioARMEndR: set the raspberry pi pin for Right Limit Sensor on controller
     '''
-    ARMSleepTime = 0.0000025  # internal sleep variable
+    ARMSleepTime = 0.00000025  # internal sleep variable
 
     def __init__(self, gpioARMEna, gpioARMDir, gpioARMPul, gpioARMEndL, gpioARMEndR, ARMLoc=0, ARML2RTotalStps=100000, ARMRevolution=400):
         self.ARMPins = [gpioARMEna, gpioARMDir, gpioARMPul]
@@ -25,14 +28,15 @@ class ARM():
         self.ARMLoc = ARMLoc
         self.ARML2RTotalStps = ARML2RTotalStps
         self.ARMRevolution = ARMRevolution
+        
 
     def Callibrate(self):
         '''Callibration routine to set the zero position and max step position.
         Note: zero postion gets callibrated everytime left proximity is triggered.'''
         # While State
+        print("Calibrating")
         while ( self.ARMEndL.is_active == False):
-            
-
+            # print("Not at left limit moving towards the limit")
             self.Pulsate(dir='L')
         # LEDMAIN(Alert)
         self.ARML2RTotalStps = 0
@@ -40,62 +44,56 @@ class ARM():
         sleep(1)
 
         print('Far Left Reached')
+        print(self.ARMLoc , "Arm LOC")
         while(self.ARMEndR.is_active == False):
 
             self.Pulsate(dir='R')
             self.ARML2RTotalStps += 1
             self.ARMLoc += 1
         # LEDMAIN(Alert)
+        print("Going")
+        print(self.ARMLoc, "Arm LOC")
 
         # moveTo(pos=0)
         # LEDMAIN(Homage)
 
     def Pulsate(self, dir):
-        '''to move the stepper one step in a direction assigned every time it is called'''
+        '''to move the stepper one step in a direction (L or R) assigned every time it is called'''
         # self.ARMEna.on()
         if dir == 'L':
-
-            if (self.ARMEndL.is_active == False):  # Check if ARM has reached far left
-
+            while (self.ARMEndL.is_active == False):  # Check if ARM has has room or reached left limit
                 if self.ARMDir.is_active == False:  # check the status of direction pin and set it accordingly
                     sleep(0.25)
                     self.ARMDir.on()
                     sleep(0.25)
-                    # set pulse pin on and off
+                # one pulse to left
                 sleep(ARM.ARMSleepTime)
                 self.ARMPul.off()
                 sleep(ARM.ARMSleepTime)
                 self.ARMPul.on()
-                # print('going L')
                 self.ARMLoc -= 1
-
-            elif(self.ARMEndL.is_active == True):
-                print('Reached the far left limit')
+            if(self.ARMEndL.is_active == True):
+                self.ARMLoc = 0
+                print(self.ARMLoc," lefted")
                 
-
-
-
+            # print(self.ARMLoc)
         elif dir == 'R':
-            if (self.ARMEndR.is_active == False):
+            # print(self.ARMLoc)
+            while (self.ARMEndR.is_active == False):
                 if self.ARMDir.is_active == True:
                     sleep(ARM.ARMSleepTime)
                     self.ARMDir.off()
                     sleep(ARM.ARMSleepTime)
-
                 sleep(ARM.ARMSleepTime)
                 self.ARMPul.off()
                 sleep(ARM.ARMSleepTime)
                 self.ARMPul.on()
                 self.ARMLoc += 1
-
-            elif (self.ARMEndR.is_active == True):
+            if (self.ARMEndR.is_active == True):
                 print('Reached the far right limit')
-
-
-                
-
+                print(self.ARMLoc)
         else :
-            print ('Direction ')
+            print ('Direction')
 
 
 
@@ -106,7 +104,7 @@ class ARM():
         else:
             actualSteps = 0
         
-        print()
+        
 
         if actualSteps > self.ARMLoc :
             while actualSteps >=  self.ARMLoc :
@@ -118,3 +116,14 @@ class ARM():
 
     def toHome(self):
         self.goToLoc(0)
+
+
+
+gpioARMEna = 10
+gpioARMDir = 24
+gpioARMPul = 21
+gpioARMEndL = 8
+gpioARMEndR = 11
+
+# ARMControls = ARM(gpioARMEna, gpioARMDir, gpioARMPul, gpioARMEndL, gpioARMEndR)
+
