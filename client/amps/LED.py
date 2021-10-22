@@ -28,12 +28,12 @@ class LedMain():
         self.lightingLedSuppTwo = gpiozero.PWMLED(gpioSupp2) #assign lightingLedSuppTwo as PWMLED
         self.lightingLedSuppOneDim = ledSuppOneDim # setting the initial Dim value for lightingLedSuppOne
         self.lightingLedSuppTwoDim =ledSuppTwoDim #setting the initial Dim value for lightingLedSuppTwo
-        print('Class Initiated')
+        # print('Class Initiated')
     def on(self):
         '''Powers on the main PWR, main LED and supplemental LED's at last set levels'''
         self.lightingLedMainPWR.on()
         time.sleep(.5)
-        self.lightingLedMain.on()
+        # self.lightingLedMain.on()
         self.lightingLedSuppOne.on()
         self.lightingLedSuppTwo.on()
      
@@ -72,4 +72,3 @@ class LedMain():
         self.lightingLedSuppTwo.value = suppTwoLevel
         self.ledSuppOnePercentage = (self.lightingLedSuppOne.value/self.lightingLedMain)
         self.ledSuppTwoPercentage = (self.lightingLedSuppTwo.value/self.lightingLedMain)
-
