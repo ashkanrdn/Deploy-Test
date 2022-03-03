@@ -4,6 +4,8 @@ import adafruit_sht4x
 
 
 class Sensor:
+    formatter = '{0:1f}'
+
     def __init__(self, sensor_tsl, name):
         self.sensor_tsl = sensor_tsl
         self.name = name
@@ -19,9 +21,10 @@ class AirSensor(Sensor):
 
     def read_sensor(self) -> Dict:
         temperature, relative_humidity = self.sensor_tsl.measurements
-        return {"temperature": "%0.1f C" % temperature,
-                "humidity": "%0.1f %%" % relative_humidity
-                }
+        return {
+            "temperature": self.formatter.format(temperature),
+            "humidity": self.formatter.format(relative_humidity),
+        }
 
 
 class SoilSensor(Sensor):
@@ -29,7 +32,7 @@ class SoilSensor(Sensor):
         humidity = self.sensor_tsl.relative_humidity
         self.sensor_tsl.heater = True
         return {
-            "humidity": "%0.1f %%" % humidity,
+            "humidity": self.formatter.format(humidity),
             "heater_status": self.sensor_tsl.heater
         }
 
@@ -48,5 +51,4 @@ class VoCSensor(Sensor):
 
     def read_sensor(self):
         tvoc = self.sensor_tsl.TVOC
-        return {"tvoc": tvoc
-                }
+        return {"tvoc": tvoc}
