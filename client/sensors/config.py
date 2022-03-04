@@ -10,7 +10,7 @@ class SensorsTSLs(Enum):
     CO2_1 = 3
     VOC = 4
 
-
-MONGO_CONFIGURATION = {
-    "HOST": "mongodb+srv://subham:1234@cluster0.t4iwt.mongodb.net/testdb?retryWrites=true&w=majority",
-    "tlsCAFile": certifi.where()}
+SLEEPING_TIME_IN_SECONDS = 30
+# MONGO_CONFIGURATION = {
+#     "HOST": "mongodb+srv://subham:1234@cluster0.t4iwt.mongodb.net/testdb?retryWrites=true&w=majority",
+#     "tlsCAFile": certifi.where()}

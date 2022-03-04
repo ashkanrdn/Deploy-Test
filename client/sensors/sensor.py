@@ -44,8 +44,8 @@ class Co2Sensor(Sensor):
 
 
 class VoCSensor(Sensor):
-    def __init__(self, tsl, name):
-        Sensor.__init__(self, tsl, name)
+    def __init__(self, sensor_tsl, name):
+        Sensor.__init__(self, sensor_tsl, name)
         self.sensor_tsl.iaq_init()
         self.sensor_tsl.set_iaq_baseline(0x8973, 0x8AAE)
 
