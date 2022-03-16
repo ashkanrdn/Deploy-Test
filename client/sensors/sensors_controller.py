@@ -1,11 +1,11 @@
 from datetime import datetime
-from typing import List
+from typing import List, Dict
 
 import adafruit_tca9548a
 import board
 
 from sensor import Sensor, AirSensor, SoilSensor, Co2Sensor, VoCSensor
-from config import SensorsTSLs
+from config import AIR_SENSORS_TSLS, SOIL_SENSORS_TSLS, CO2_SENSORS_TSLS, VOC_SENSORS_TSLS
 
 import adafruit_sht4x
 import adafruit_sgp30
@@ -25,15 +25,17 @@ class SensorReader:
         # Create thSensore TCA9548A object and give it the I2C bus
         tca = adafruit_tca9548a.TCA9548A(i2c)
         self.air_sensors = [
-            AirSensor(sensor_tsl=adafruit_sht4x.SHT4x(tca[SensorsTSLs.AIR_1.value]), name=SensorsTSLs.AIR_1.name),
-            # AirSensor(sensor_tsl=adafruit_sht4x.SHT4x(tca[SensorsTSLs.AIR_2.value]), name=SensorsTSLs.AIR_2.name)
-            ]
-        self.soil_sensors = []
-            # SoilSensor(sensor_tsl=adafruit_sht31d.SHT31D(tca[SensorsTSLs.SOIL_1.value]), name=SensorsTSLs.SOIL_1.name)]
+            AirSensor(sensor_tsl=adafruit_sht4x.SHT4x(tca[tsl]), name=name) for name, tsl in AIR_SENSORS_TSLS.items()
+        ]
+        self.soil_sensors = [
+            SoilSensor(sensor_tsl=adafruit_sht31d.SHT31D(tca[tsl]), name=name) for name, tsl in
+            SOIL_SENSORS_TSLS.items()]
+        # SoilSensor(sensor_tsl=adafruit_sht31d.SHT31D(tca[SensorsTSLs.SOIL_1.value]), name=SensorsTSLs.SOIL_1.name)]
         self.co2_sensors = [
-            Co2Sensor(sensor_tsl=adafruit_scd30.SCD30(tca[SensorsTSLs.CO2_1.value]), name=SensorsTSLs.CO2_1.name)]
-        self.voc_sensors = [VoCSensor(sensor_tsl=adafruit_sgp30.Adafruit_SGP30(tca[SensorsTSLs.VOC.value]),
-                                   name=SensorsTSLs.VOC.name)]  # voc sensor
+            AirSensor(sensor_tsl=adafruit_scd30.SCD30(tca[tsl]), name=name) for name, tsl in CO2_SENSORS_TSLS.items()]
+        self.voc_sensors = [
+            VoCSensor(sensor_tsl=adafruit_sgp30.Adafruit_SGP30(tca[tsl]), name=name) for name, tsl in
+            VOC_SENSORS_TSLS.items()]  # voc sensor
 
     def read_sensors(self):
         samples = {}
@@ -44,17 +46,17 @@ class SensorReader:
             *self.voc_sensors
         ]
         for sensor in sensors:
-            samples[sensor.name] = sensor.read_sensor()
+            sample = sensor.read_sensor()
+            for feature in sample.keys():
+                samples[sensor.name + feature] = sample[feature]
 
         return samples
 
-    def run(self):
+    def run(self) -> Dict:
         timestamp = datetime.now().strftime('%y-%m-%d,%H:%M:%S,')
         samples = self.read_sensors()
         data = {
             "timestamp": timestamp,
             **samples
         }
-        print(data)  # TODO delete
-        # send_to_mongo(samples=data)
-        # time.sleep(1)
+        return samples
