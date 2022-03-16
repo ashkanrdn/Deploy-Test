@@ -12,3 +12,5 @@ SLEEPING_TIME_IN_SECONDS = 30
 # MONGO_CONFIGURATION = {
 #     "HOST": "mongodb+srv://subham:1234@cluster0.t4iwt.mongodb.net/testdb?retryWrites=true&w=majority",
 #     "tlsCAFile": certifi.where()}
+
+SAMPLES_FILE_NAME = 'samples.csv'
