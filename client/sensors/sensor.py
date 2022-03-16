@@ -1,14 +1,13 @@
 from typing import List, Dict
 
+import adafruit_scd30
+import adafruit_sgp30
+import adafruit_sht31d
 import adafruit_sht4x
 
 
 class Sensor:
     formatter = '{0:1f}'
-
-    def __init__(self, sensor_tsl, name):
-        self.sensor_tsl = sensor_tsl
-        self.name = name
 
     def read_sensor(self):
         raise NotImplementedError
@@ -16,7 +15,8 @@ class Sensor:
 
 class AirSensor(Sensor):
     def __init__(self, sensor_tsl, name):
-        Sensor.__init__(self, sensor_tsl, name)
+        self.name = name
+        self.sensor_tsl = adafruit_sht4x.SHT4x(sensor_tsl)
         self.sensor_tsl.mode = adafruit_sht4x.Mode.NOHEAT_HIGHPRECISION
 
     def read_sensor(self) -> Dict:
@@ -28,6 +28,10 @@ class AirSensor(Sensor):
 
 
 class SoilSensor(Sensor):
+    def __init__(self, sensor_tsl, name):
+        self.name = name
+        self.sensor_tsl = adafruit_sht31d.SHT31D(sensor_tsl)
+
     def read_sensor(self):
         humidity = self.sensor_tsl.relative_humidity
         self.sensor_tsl.heater = True
@@ -38,12 +42,20 @@ class SoilSensor(Sensor):
 
 
 class Co2Sensor(Sensor):
+    def __init__(self, sensor_tsl, name):
+        self.name = name
+        self.sensor_tsl = adafruit_scd30.SCD30(sensor_tsl)
+
     def read_sensor(self):
         co2_in_ppm = self.sensor_tsl.CO2 if self.sensor_tsl.data_available else None
         return {"co2": co2_in_ppm}
 
 
 class VoCSensor(Sensor):
+    def __init__(self, sensor_tsl, name):
+        self.name = name
+        self.sensor_tsl = adafruit_sgp30.Adafruit_SGP30(sensor_tsl)
+
     def __init__(self, sensor_tsl, name):
         Sensor.__init__(self, sensor_tsl, name)
         self.sensor_tsl.iaq_init()
