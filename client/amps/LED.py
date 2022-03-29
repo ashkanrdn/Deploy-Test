@@ -3,7 +3,7 @@ import time
 from time import sleep
 
 
-
+# flip LED main grow so 1 is on 0 is off now its reverse 
 
 
 
