@@ -74,10 +74,10 @@ AIRControls = AIR(gpioAIRMain)
 waterDuration = 5
 
 #times to water, turn on/off lights, turn on/off air in list format
-waterTime = ["7:00:20", "11:00:20", "14:00:20", "19:00:20", "23:00:20"]
-lightOn = ["6:59:20"]
+waterTime = ["07:00:20", "11:00:20", "14:00:20", "19:00:20", "23:00:20"]
+lightOn = ["06:59:20"]
 lightOff = ["18:59:20"]
-airOn = ["6:58:20"]
+airOn = ["06:58:20"]
 airOff = ["18:58:20"]
 
 #operate the system at certain times per day
