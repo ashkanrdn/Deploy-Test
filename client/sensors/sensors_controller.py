@@ -26,10 +26,10 @@ class SensorReader:
             SoilSensor(sensor_tsl=tca[tsl], name=name) for name, tsl in
             SOIL_SENSORS_TSLS.items()]
         self.co2_sensors = [
-            AirSensor(sensor_tsl=tca[tsl], name=name) for name, tsl in CO2_SENSORS_TSLS.items()]
+            Co2Sensor(sensor_tsl=tca[tsl], name=name) for name, tsl in CO2_SENSORS_TSLS.items()]
         self.voc_sensors = [
-            VoCSensor(sensor_tsl=tca[tsl], name=name) for name, tsl in
-            VOC_SENSORS_TSLS.items()]
+            VoCSensor(sensor_tsl=tca[tsl], name=name) for name, tsl in VOC_SENSORS_TSLS.items()
+            ]
 
     def read_sensors(self):
         samples = {}
@@ -42,7 +42,7 @@ class SensorReader:
         for sensor in sensors:
             sample = sensor.read_sensor()
             for feature in sample.keys():
-                samples[sensor.name + feature] = sample[feature]
+                samples[sensor.name + "_" + feature] = sample[feature]
 
         return samples
 

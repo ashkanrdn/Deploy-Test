@@ -55,9 +55,6 @@ class VoCSensor(Sensor):
     def __init__(self, sensor_tsl, name):
         self.name = name
         self.sensor_tsl = adafruit_sgp30.Adafruit_SGP30(sensor_tsl)
-
-    def __init__(self, sensor_tsl, name):
-        Sensor.__init__(self, sensor_tsl, name)
         self.sensor_tsl.iaq_init()
         self.sensor_tsl.set_iaq_baseline(0x8973, 0x8AAE)
 
