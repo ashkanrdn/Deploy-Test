@@ -20,7 +20,7 @@ class LedMain():
             all supplemental LEDs arelevels are assigned as percentage of main
         off: turns all off'''
 
-    def __init__(self, gpioPwr, gpioDim, gpioSupp1, gpioSupp2, ledSuppOneDim = 0.5, ledSuppTwoDim = 0.5 , ledMainDim = 0.5):
+    def __init__(self, gpioPwr, gpioDim, gpioSupp1, gpioSupp2, ledSuppOneDim = 0, ledSuppTwoDim = 0 , ledMainDim = 0):
 
         self.lightingLedMainPWR = gpiozero.DigitalOutputDevice(gpioPwr) #assign MainLED power on/off
         self.lightingLedMain = gpiozero.PWMLED(gpioDim) #assign lightingLedMain
@@ -31,8 +31,9 @@ class LedMain():
         # print('Class Initiated')
     def on(self):
         '''Powers on the main PWR, main LED and supplemental LED's at last set levels'''
-        self.lightingLedMainPWR.on()
-        time.sleep(.5)
+        if self.lightingLedMainPWR.is_active == False:
+            self.lightingLedMainPWR.on()
+        time.sleep(1)
         self.lightingLedMain.on()
         self.lightingLedSuppOne.on()
         self.lightingLedSuppTwo.on()

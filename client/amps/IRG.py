@@ -116,14 +116,15 @@ class Irrigation():
 
     def panicMode(self,LEDObj):
         ''' function for flashing all the lights'''
-        for _ in range(30):
-            # LEDObj.on()
-            LEDObj.dim(1, 1, 1)
-            time.sleep(0.1)
-            LEDObj.dim(1, 0.5, 0.5)
-            time.sleep(0.1)
-            LEDObj.dim(1, 0, 0)
-            time.sleep(0.1)
+        print("Tank is Empty")
+        # for _ in range(30):
+        #     # LEDObj.on()
+        #     LEDObj.dim(1, 1, 1)
+        #     time.sleep(0.1)
+        #     LEDObj.dim(1, 0.5, 0.5)
+        #     time.sleep(0.1)
+        #     LEDObj.dim(1, 0, 0)
+        #     time.sleep(0.1)
 
     def tankFull(self):
         ''' function that checks when any of the water tanks get full and runs the panic drill
