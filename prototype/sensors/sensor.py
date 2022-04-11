@@ -4,6 +4,7 @@ import adafruit_scd30
 import adafruit_sgp30
 import adafruit_sht31d
 import adafruit_sht4x
+import adafruit_veml7700
 
 
 class Sensor:
@@ -61,3 +62,14 @@ class VoCSensor(Sensor):
     def read_sensor(self):
         tvoc = self.sensor_tsl.TVOC
         return {"tvoc": tvoc}
+
+
+
+class LightSensor(Sensor):
+    def __init__(self, sensor_tsl, name):
+        self.name = name
+        self.sensor_tsl = adafruit_veml7700.VEML7700(sensor_tsl)
+
+    def read_sensor(self):
+        amb_light = self.sensor_tsl.light
+        return {"ambient_light": amb_light}

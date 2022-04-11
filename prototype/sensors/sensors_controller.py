@@ -4,8 +4,8 @@ from typing import List, Dict
 import adafruit_tca9548a
 import board
 
-from sensor import Sensor, AirSensor, SoilSensor, Co2Sensor, VoCSensor
-from config import AIR_SENSORS_TSLS, SOIL_SENSORS_TSLS, CO2_SENSORS_TSLS, VOC_SENSORS_TSLS
+from sensor import Sensor, AirSensor, SoilSensor, Co2Sensor, VoCSensor, LightSensor
+from config import *
 
 
 class SensorReader:
@@ -19,8 +19,8 @@ class SensorReader:
         i2c = board.I2C()  # uses board.SCL and board.SDA
         # Create thSensore TCA9548A object and give it the I2C bus
         tca = adafruit_tca9548a.TCA9548A(i2c)
-        self.air_sensors = [
-            AirSensor(sensor_tsl=tca[tsl], name=name) for name, tsl in AIR_SENSORS_TSLS.items()
+        self.air_sensors = [ 
+            AirSensor(sensor_tsl=tca[tsl], name=name) for name, tsl in   AIR_SENSORS_TSLS.items()
         ]
         self.soil_sensors = [
             SoilSensor(sensor_tsl=tca[tsl], name=name) for name, tsl in
@@ -30,6 +30,9 @@ class SensorReader:
         self.voc_sensors = [
             VoCSensor(sensor_tsl=tca[tsl], name=name) for name, tsl in VOC_SENSORS_TSLS.items()
             ]
+        self.light_sensors = [
+            LightSensor(sensor_tsl=tca[tsl], name=name) for name, tsl in LIGHT_SENSOR_TSLS.items()
+            ]
 
     def read_sensors(self):
         samples = {}
@@ -37,7 +40,8 @@ class SensorReader:
             *self.air_sensors,
             *self.soil_sensors,
             *self.co2_sensors,
-            *self.voc_sensors
+            *self.voc_sensors,
+            *self.light_sensors
         ]
         for sensor in sensors:
             sample = sensor.read_sensor()
@@ -53,4 +57,6 @@ class SensorReader:
             "timestamp": timestamp,
             **samples
         }
-        return samples
+        return data
+
+

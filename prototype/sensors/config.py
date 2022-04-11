@@ -20,7 +20,11 @@ VOC_SENSORS_TSLS = {
     'VOC_1': 4
     }
 
-SLEEPING_TIME_IN_SECONDS = 30
+LIGHT_SENSOR_TSLS = {
+    'LIGHT_1': 1
+}
+
+SLEEPING_TIME_IN_SECONDS = 3
 # MONGO_CONFIGURATION = {
 #     "HOST": "mongodb+srv://subham:1234@cluster0.t4iwt.mongodb.net/testdb?retryWrites=true&w=majority",
 #     "tlsCAFile": certifi.where()}
