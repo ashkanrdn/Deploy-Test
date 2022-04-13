@@ -1,9 +1,15 @@
-class Fan:
-    def __init__(self):
-        self.status = False
+import gpiozero
+from gpiozero import DigitalOutputDevice
+import time
 
-    def turn_on(self):
-        raise NotImplementedError
 
-    def turn_off(self):
-        raise NotImplementedError
+class AIR():
+    def __init__(self, gpioAIRMain):
+        self.AIRMain = DigitalOutputDevice(gpioAIRMain)
+        print(gpioAIRMain)
+
+    def On(self):
+        self.AIRMain.on()
+
+    def Off(self):
+        self.AIRMain.off()

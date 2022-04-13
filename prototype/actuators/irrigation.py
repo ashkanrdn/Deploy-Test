@@ -1,4 +1,4 @@
-from amps.LED import LedMain
+# from amps.LED import LedMain
 import gpiozero
 from gpiozero import DigitalOutputDevice
 from gpiozero import DigitalInputDevice
@@ -35,7 +35,7 @@ class Irrigation():
         # Turning off the main pump after the cycle time
         self.IRGMainPump.off()
         time.sleep(1)
-        
+
         # closing the lvl sols
         for lvlSol in self.IRGlvlSols:
             lvlSol.off()
