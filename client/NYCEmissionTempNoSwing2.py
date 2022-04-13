@@ -71,7 +71,7 @@ ARMControls = ARM(gpioARMEna, gpioARMDir, gpioARMPul, gpioARMEndL, gpioARMEndR)
 AIRControls = AIR(gpioAIRMain)
 
 #set watering time in seconds
-waterDuration = 8
+waterDuration = 5
 
 #times to water, turn on/off lights, turn on/off air in list format
 waterTime = ["07:00:20", "11:00:20", "15:00:20", "19:00:20", "23:00:20"]
@@ -108,7 +108,7 @@ while True:
         sleep(1)
         IRGControls.IRGlvl1Sol.on()
         IRGControls.IRGlvl2Sol.on()
-        sleep(10)
+        sleep(5)
         IRGControls.IRGlvl1Sol.off()
         IRGControls.IRGlvl2Sol.off()
         sleep(1)
