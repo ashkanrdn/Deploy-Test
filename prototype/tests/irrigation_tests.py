@@ -2,13 +2,11 @@ import unittest
 from ..actuators.irrigation import Irrigation
 from ..actuators.config import IrrigationGPIOs
 
+
 class IrrigationTest(unittest.TestCase):
     def setUp(self):
-        self.irrigation_unit = Irrigation(gpioIRGMainPump=IrrigationGPIOs.MainPump,
-                                     gpioIRGlvl1Sol=IrrigationGPIOs.Lvl1Sol)
-    
-    def irrigation_waterCycle_test(self):
-        self.irrigation_unit.waterCycle(cycleTime=5)
+        self.irrigation_unit = Irrigation(main_pump_gpio=IrrigationGPIOs.MAIN_PUMP,
+                                          lvl1_sol_gpio=IrrigationGPIOs.LEVEL_ONE_SOL)
 
-
-IrrigationTest.irrigation_waterCycle_test()
+    def test_irrigation_waterCycle(self):
+        self.irrigation_unit.run_water_cycle(cycleTime=5)

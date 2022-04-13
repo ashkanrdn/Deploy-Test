@@ -3,7 +3,7 @@ import time
 from time import sleep
 
 
-class LedMain():
+class Led():
     ''' The LedMain class controls the main LED grow light:
         gpioPwr is the raspberry pi pin assignment for Main LED Power on/off
         gpioDim is the raspberry pi pin assignment for Main LED Dim controller
@@ -16,38 +16,22 @@ class LedMain():
             all supplemental LEDs arelevels are assigned as percentage of main
         off: turns all off'''
 
-    def __init__(self, gpioDim,ledMainDim=1):
+    def __init__(self, dim_gpio, dim_value=1):
+        self.main_lighting_led = gpiozero.PWMLED(dim_gpio)  # assign lightingLedMain
 
-        self.lightingLedMain = gpiozero.PWMLED(
-            gpioDim)  # assign lightingLedMain
-       
-        self.lightingLedMainDim = ledMainDim
+        self.main_lighting_dim = dim_value
 
     def on(self):
-        '''Powers on the main PWR, main LED and supplemental LED's at last set levels'''
+        """Powers on the main PWR, main LED and supplemental LED's at last set levels"""
         time.sleep(.5)
-        self.lightingLedMain.on()
+        self.main_lighting_led.on()
 
-    def dim(self, mainDim=0):
-        '''Set the dim level for the main LED. The supplemental LED's are asigned based on the configuration file data as a percentage of the MainLED level'''
-        # if self.lightingLedMainPWR.is_active == False:
-        #     self.lightingLedMainPWR.on()
-
-        self.lightingLedMain.value = mainDim
+    def dim(self, dim_value=0):
+        """Set the dim level for the main LED. The supplemental LED's are assigned based on the configuration file data
+        as a percentage of the MainLED level"""
+        self.main_lighting_led.value = dim_value
 
     def off(self):
-        '''Powers off the main PWR, main LED and supplemental LED's at last set levels'''
-        self.lightingLedMain.off()
-        # self.lightingLedMainPWR.off() 
-
-    # def Callibrate(self, suppOneLevel, suppTwoLevel):
-    #     # figure out how to callibrate supp leds
-    #     self.lightingLedMainPWR.power.on()
-
-    #     # set supplemental one level:
-    #     self.lightingLedSuppOne.value = suppOneLevel
-    #     self.lightingLedSuppTwo.value = suppTwoLevel
-    #     self.ledSuppOnePercentage = (
-    #         self.lightingLedSuppOne.value/self.lightingLedMain)
-    #     self.ledSuppTwoPercentage = (
-    #         self.lightingLedSuppTwo.value/self.lightingLedMain)
+        """Powers off the main PWR, main LED and supplemental LED's at last set levels"""
+        self.main_lighting_led.off()
+        # self.lightingLedMainPWR.off()

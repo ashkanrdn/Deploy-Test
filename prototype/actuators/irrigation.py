@@ -8,48 +8,40 @@ import os
 import sys
 # Modify PATH so we can import files from elsewhere in this repo
 from os.path import dirname, join, abspath
+
 sys.path.insert(0, abspath(join(dirname(__file__), '..')))
 
 
-class Irrigation():
+class Irrigation:
 
-    def __init__(self, gpioIRGMainPump, gpioIRGlvl1Sol):
-        self.IRGMainPump = DigitalOutputDevice(gpioIRGMainPump)
-        self.IRGlvl1Sol = DigitalOutputDevice(gpioIRGlvl1Sol)
-        self.IRGlvlSols = [self.IRGlvl1Sol]
+    def __init__(self, main_pump_gpio, lvl1_sol_gpio):
+        self.main_pump = DigitalOutputDevice(main_pump_gpio)
+        self.lvl1_sol = DigitalOutputDevice(lvl1_sol_gpio)
+        self.lvls_sol = [self.lvl1_sol]
 
-    def waterCycle(self, cycleTime=5):
+    def run_water_cycle(self, duration=5):
         ''' runs the water cycle for given time. at end of each irrigation
         process for level solenoid it checks for the water supply and verifies
         available water sources'''
         # Turning on the lvl sols
         # if(self.gotWater()):
-        for lvlSol in self.IRGlvlSols:
+        for lvlSol in self.lvl1_sol:
             lvlSol.on()
             time.sleep(1)
             time.sleep(1)
 
         # Turning on the main pump
-        self.IRGMainPump.on()
-        time.sleep(cycleTime)
+        self.main_pump.on()
+        time.sleep(duration)
         # Turning off the main pump after the cycle time
-        self.IRGMainPump.off()
+        self.main_pump.off()
         time.sleep(1)
 
         # closing the lvl sols
-        for lvlSol in self.IRGlvlSols:
-            lvlSol.off()
+        for sol in self.lvls_sol:
+            sol.off()
             time.sleep(1)
 
-    # def panicMode(self): 
-    #     ''' function for flashing all the lights'''
-    #     for _ in range(30):
-    #         LedMain.dim(1, 1, 1)
-    #         time.sleep(1)
-    #         LedMain.dim(0.5, 0.5, 0.5)
-    #         time.sleep(1)
-    #         LedMain.dim(0, 0, 0)
-    #         time.sleep(1)
 
 ''' Add a indicator on dashoboard tanks levels are full or empty. '''
 
