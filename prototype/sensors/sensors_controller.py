@@ -4,8 +4,8 @@ from typing import List, Dict
 import adafruit_tca9548a
 import board
 
-from sensor import Sensor, AirSensor, SoilSensor, Co2Sensor, VoCSensor, LightSensor
-from config import *
+from .sensor import *
+from .config import *
 
 
 class SensorReader:
@@ -46,8 +46,7 @@ class SensorReader:
         for sensor in sensors:
             sample = sensor.read_sensor()
             for feature in sample.keys():
-                samples[sensor.name + "_" + feature] = sample[feature]
-
+                samples[sensor.name.lower() + "_" + feature] = sample[feature]
         return samples
 
     def run(self) -> Dict:

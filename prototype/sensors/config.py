@@ -21,7 +21,7 @@ VOC_SENSORS_TSLS = {
     }
 
 LIGHT_SENSOR_TSLS = {
-    'LIGHT_1': 1
+    'LIGHT_1': 5
 }
 
 SLEEPING_TIME_IN_SECONDS = 3

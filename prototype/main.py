@@ -14,7 +14,7 @@ class Scheduler:
     air_schedule = AIR_SCHEDULE
 
     sensor_reader = SensorReader()
-    actuator_repo = ActuatorRepository()
+    # actuator_repo = ActuatorRepository()
 
     @staticmethod
     def in_time_window(current_time, scheduled_time: datetime.time, sleeping_time=SLEEPING_TIME_IN_SECONDS):
@@ -46,7 +46,7 @@ class Scheduler:
         while True:
             samples = Scheduler.sensor_reader.run()
             print(samples)  # TODO replace with pymongo
-            self.run_actuators()
+            # self.run_actuators()
             time.sleep(SLEEPING_TIME_IN_SECONDS)
 
 

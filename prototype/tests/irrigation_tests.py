@@ -1,6 +1,8 @@
 import unittest
-from ..actuators.irrigation import Irrigation
-from ..actuators.config import IrrigationGPIOs
+print('__file__={0:<35} | __name__={1:<25} | __package__={2:<25}'.format(__file__,__name__,str(__package__)))
+
+from prototype.actuators.irrigation import Irrigation
+from prototype.actuators.config import IrrigationGPIOs
 
 
 class IrrigationTest(unittest.TestCase):
