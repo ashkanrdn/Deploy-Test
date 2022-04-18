@@ -1,11 +1,13 @@
 import time
 import logging
 from datetime import datetime, timedelta
+from typing import Dict
 
 from sensors.sensors_controller import SensorReader
-from sensors.config import SLEEPING_TIME_IN_SECONDS
+from sensors.config import SLEEPING_TIME_IN_SECONDS, SAMPLES_FILE_NAME
 from actuators.actuator_repository import ActuatorRepository
 from actuators.config import *
+from csv import DictWriter
 
 
 class Scheduler:
@@ -14,6 +16,7 @@ class Scheduler:
     air_schedule = AIR_SCHEDULE
 
     sensor_reader = SensorReader()
+
     # actuator_repo = ActuatorRepository()
 
     @staticmethod
@@ -42,11 +45,18 @@ class Scheduler:
                 self.actuator_repo.main_led.off()
                 break
 
+    def store_samples(self, samples: Dict, file_name: str):
+        with open(file_name, 'a') as csv_file:
+            fields = samples.keys()
+            dict_writer = DictWriter(csv_file, fields)
+            dict_writer.writerow(samples)
+            csv_file.close()
+
     def run(self):
         while True:
             samples = Scheduler.sensor_reader.run()
             print(samples)  # TODO replace with pymongo
-            # self.run_actuators()
+            self.store_samples(samples, SAMPLES_FILE_NAME)
             time.sleep(SLEEPING_TIME_IN_SECONDS)
 
 
