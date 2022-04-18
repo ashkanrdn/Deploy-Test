@@ -1,7 +1,7 @@
 import unittest
 
-from irrigation import Irrigation
-from config import IrrigationGPIOs
+from .irrigation import Irrigation
+from .config import IrrigationGPIOs
 
 
 class IrrigationTest(unittest.TestCase):
@@ -13,6 +13,6 @@ class IrrigationTest(unittest.TestCase):
         self.irrigation_unit.run_water_cycle(duration=5)
 
 
-irrigation_tester = IrrigationTest()
-irrigation_tester.setUp()
-irrigation_tester.test_irrigation_waterCycle()
+# irrigation_tester = IrrigationTest()
+# irrigation_tester.setUp()
+# irrigation_tester.test_irrigation_waterCycle()

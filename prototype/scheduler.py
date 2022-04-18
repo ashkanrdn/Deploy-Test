@@ -52,23 +52,24 @@ class Scheduler:
             dict_writer.writerow(samples)
             csv_file.close()
 
-    def update_irrigation_schedule(self, irrigation_schedule):
-        self.irrigation_schedule = irrigation_schedule
-        print('irrigation schedule updated to', irrigation_schedule)
+    # def update_irrigation_schedule(self, irrigation_schedule):
+    #     self.irrigation_schedule = irrigation_schedule
+    #     print('irrigation schedule updated to', irrigation_schedule)
 
-    def update_lighting_schedule(self, lighting_schedule):
-        self.lighting_schedule = lighting_schedule
-        print('lighting schedule updated to', lighting_schedule)
+    # def update_lighting_schedule(self, lighting_schedule):
+    #     self.lighting_schedule = lighting_schedule
+    #     print('lighting schedule updated to', lighting_schedule)
 
-    def update_ventilation_schedule(self, ventilation_schedule):
-        self.ventilation_schedule = ventilation_schedule
-        print('ventilation schedule updated to', ventilation_schedule)
+    # def update_ventilation_schedule(self, ventilation_schedule):
+    #     self.ventilation_schedule = ventilation_schedule
+    #     print('ventilation schedule updated to', ventilation_schedule)
 
     def run(self):
         while True:
-            samples = Scheduler.sensor_reader.run()
+            samples = self.sensor_reader.run()
             print(samples)  # TODO replace with pymongo
             self.store_samples(samples, SAMPLES_FILE_NAME)
+            self.run_actuators
             time.sleep(SLEEPING_TIME_IN_SECONDS)
 
 

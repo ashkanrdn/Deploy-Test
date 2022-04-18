@@ -1,6 +1,6 @@
 import unittest
-from fan import Fan
-from config import FanGPIOs
+from .fan import Fan
+from .config import FanGPIOs
 import time
 
 
@@ -20,6 +20,6 @@ class FanTest(unittest.TestCase):
             time.sleep(0.5)
 
 
-fan_tester=FanTest()
-fan_tester.setUp()
-fan_tester.test_fan_on_off()
+# fan_tester=FanTest()
+# fan_tester.setUp()
+# fan_tester.test_fan_on_off()
