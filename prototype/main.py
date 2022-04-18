@@ -13,11 +13,11 @@ from csv import DictWriter
 class Scheduler:
     irrigation_schedule = IRRIGATION_SCHEDULE
     lighting_schedule = LIGHTING_SCHEDULE
-    air_schedule = AIR_SCHEDULE
+    ventilation_schedule = AIR_SCHEDULE
 
     sensor_reader = SensorReader()
 
-    # actuator_repo = ActuatorRepository()
+    actuator_repo = ActuatorRepository()
 
     @staticmethod
     def in_time_window(current_time, scheduled_time: datetime.time, sleeping_time=SLEEPING_TIME_IN_SECONDS):
@@ -31,7 +31,7 @@ class Scheduler:
                 self.actuator_repo.irrigation.run_water_cycle(duration=WATER_CYCLE_DURATION)
                 break
 
-        for air_time in self.air_schedule:
+        for air_time in self.ventilation_schedule:
             if self.in_time_window(current_time, air_time):
                 [fan.on() for fan in self.actuator_repo.fans]
                 break
@@ -52,12 +52,25 @@ class Scheduler:
             dict_writer.writerow(samples)
             csv_file.close()
 
+    def update_irrigation_schedule(self, irrigation_schedule):
+        self.irrigation_schedule = irrigation_schedule
+        print('irrigation schedule updated to', irrigation_schedule)
+
+    def update_lighting_schedule(self, lighting_schedule):
+        self.lighting_schedule = lighting_schedule
+        print('lighting schedule updated to', lighting_schedule)
+
+    def update_ventilation_schedule(self, ventilation_schedule):
+        self.ventilation_schedule = ventilation_schedule
+        print('ventilation schedule updated to', ventilation_schedule)
+
     def run(self):
         while True:
             samples = Scheduler.sensor_reader.run()
             print(samples)  # TODO replace with pymongo
             self.store_samples(samples, SAMPLES_FILE_NAME)
             time.sleep(SLEEPING_TIME_IN_SECONDS)
+
 
 
 if __name__ == "__main__":
