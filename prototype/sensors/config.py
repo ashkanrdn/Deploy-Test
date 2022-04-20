@@ -9,7 +9,7 @@ AIR_SENSORS_TSLS = {
      }
 
 SOIL_SENSORS_TSLS = {
-    # 'SOIL_1': 2
+    'SOIL_1': 2
     }
 
 CO2_SENSORS_TSLS = {
@@ -30,3 +30,6 @@ SLEEPING_TIME_IN_SECONDS = 3
 #     "tlsCAFile": certifi.where()}
 
 SAMPLES_FILE_NAME = 'samples.csv'
+class SampleFileName(Enum):
+    v1 = 'samples.csv'
+    v2 = 'samples/samples_v2.csv'

@@ -21,6 +21,7 @@ def rerun():
 actuator_repo = ActuatorRepository()
 
 ############ FAN ################
+@st.cache
 def fan():
     fans = actuator_repo.fans
     [fan.on() for fan in fans]

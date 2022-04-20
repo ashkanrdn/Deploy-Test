@@ -1,49 +1,61 @@
 import time
 import logging
 from datetime import datetime, timedelta
-from typing import Dict
-
+from typing import Dict, List, Tuple
 from sensors.sensors_controller import SensorReader
-from sensors.config import SLEEPING_TIME_IN_SECONDS, SAMPLES_FILE_NAME
+from sensors.config import SLEEPING_TIME_IN_SECONDS, SampleFileName
 from actuators.actuator_repository import ActuatorRepository
 from actuators.config import *
 from csv import DictWriter
 
 
 class Scheduler:
-    irrigation_schedule = IRRIGATION_SCHEDULE
-    lighting_schedule = LIGHTING_SCHEDULE
-    ventilation_schedule = AIR_SCHEDULE
+    #converting times strings to time objects
+    irrigation_schedule = [datetime.strptime(time_,"%H:%M:%S") for time_ in IRRIGATION_SCHEDULE]
+    lighting_schedule = [(datetime.strptime(time_on,"%H:%M:%S"),datetime.strptime(time_off,"%H:%M:%S"))  for time_on, time_off in LIGHTING_SCHEDULE]
+    ventilation_schedule = [(datetime.strptime(time_on,"%H:%M:%S"),datetime.strptime(time_off,"%H:%M:%S"))  for time_on, time_off in AIR_SCHEDULE]
 
+    #setup sensors and actuators
     sensor_reader = SensorReader()
 
     actuator_repo = ActuatorRepository()
 
     @staticmethod
-    def in_time_window(current_time, scheduled_time: datetime.time, sleeping_time=SLEEPING_TIME_IN_SECONDS):
-        return True if scheduled_time <= current_time <= scheduled_time + timedelta(seconds=sleeping_time) else False
+    def in_time_schedule(current_time, scheduled_times: List[datetime.time], time_window=SLEEPING_TIME_IN_SECONDS):
+        for scheduled_time in scheduled_times:
+            if scheduled_time.time() <= current_time <= (scheduled_time + timedelta(seconds=time_window)).time():
+                return True
+        return False
+
+    @staticmethod
+    def in_time_schedule_window(current_time, scheduled_windows: Tuple[List[datetime.time]]):
+        for scheduled_window in scheduled_windows:
+            if scheduled_window[0].time() <= current_time <= scheduled_window[1].time():
+                return True
+        return False
+
 
     def run_actuators(self):
         current_time = datetime.now().time()
 
-        for irrigation_time in self.irrigation_schedule:
-            if self.in_time_window(current_time, irrigation_time):
-                self.actuator_repo.irrigation.run_water_cycle(duration=WATER_CYCLE_DURATION)
-                break
 
-        for air_time in self.ventilation_schedule:
-            if self.in_time_window(current_time, air_time):
-                [fan.on() for fan in self.actuator_repo.fans]
-                break
+        if self.in_time_schedule(current_time, self.irrigation_schedule):
+            self.actuator_repo.irrigation.run_water_cycle(duration=WATER_CYCLE_DURATION)
 
-        for lighting_time_on in [on for (on, off) in self.lighting_schedule]:
-            if self.in_time_window(current_time, lighting_time_on):
-                self.actuator_repo.main_led.on()
-                break
-        for lighting_time_off in [off for (on, off) in self.lighting_schedule]:
-            if self.in_time_window(current_time, lighting_time_off):
-                self.actuator_repo.main_led.off()
-                break
+    
+        if self.in_time_schedule_window(current_time, self.ventilation_schedule):
+            [fan.on() for fan in self.actuator_repo.fans]
+        else:
+            [fan.off() for fan in self.actuator_repo.fans]
+
+
+        if self.in_time_schedule_window(current_time, self.lighting_schedule):
+
+            self.actuator_repo.main_led.on()
+        else:
+            self.actuator_repo.main_led.off()
+
+
 
     def store_samples(self, samples: Dict, file_name: str):
         with open(file_name, 'a') as csv_file:
@@ -68,8 +80,8 @@ class Scheduler:
         while True:
             samples = self.sensor_reader.run()
             print(samples)  # TODO replace with pymongo
-            self.store_samples(samples, SAMPLES_FILE_NAME)
-            self.run_actuators
+            self.store_samples(samples, SampleFileName.v2.value)
+            self.run_actuators()
             time.sleep(SLEEPING_TIME_IN_SECONDS)
 
 
