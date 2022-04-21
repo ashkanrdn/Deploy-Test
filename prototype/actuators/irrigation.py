@@ -22,21 +22,23 @@ class Irrigation():
         process for level solenoid it checks for the water supply and verifies
         available water sources'''
         self.IRGlvl1Sol.on()
-        print('sol')
+        print('sol on')
         time.sleep(1)
         time.sleep(1)
 
         # Turning on the main pump
         self.IRGMainPump.on()
-        print('pump')
+        print('pump on')
 
         time.sleep(duration)
         # Turning off the main pump after the cycle time
         self.IRGMainPump.off()
+        print('pump off')
         time.sleep(1)
 
         # closing the lvl sols
-        self.IRGlvl1Sol.on()
+        self.IRGlvl1Sol.off()
+        print('sol off')
         time.sleep(1)
 
 
