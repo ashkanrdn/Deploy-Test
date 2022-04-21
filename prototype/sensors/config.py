@@ -27,7 +27,6 @@ LIGHT_SENSOR_TSLS = {
 
 SLEEPING_TIME_IN_SECONDS = 3
 
-SAMPLES_FILE_NAME = 'samples.csv'
 class SampleFileName(Enum):
     v1 = 'samples.csv'
     v2 = 'samples/samples_v2.csv'
