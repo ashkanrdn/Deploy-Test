@@ -55,7 +55,13 @@ class Scheduler:
         else:
             self.actuator_repo.main_led.off()
 
-
+    def setup_sample_file(self, samples: Dict, file_name:str):
+        with open(file_name, 'a') as csv_file:
+            fields = samples.keys()
+            dict_writer = DictWriter(csv_file, fields)
+            header_row = {field: field for field in fields}
+            dict_writer.writerow(header_row)
+            csv_file.close()
 
     def store_samples(self, samples: Dict, file_name: str):
         with open(file_name, 'a') as csv_file:
@@ -80,7 +86,7 @@ class Scheduler:
         while True:
             samples = self.sensor_reader.run()
             print(samples)  # TODO replace with pymongo
-            self.store_samples(samples, SampleFileName.v2.value)
+            self.store_samples(samples, SampleFileName.v3.value)
             self.run_actuators()
             time.sleep(SLEEPING_TIME_IN_SECONDS)
 

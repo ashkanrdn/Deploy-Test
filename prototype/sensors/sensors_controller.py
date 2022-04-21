@@ -25,11 +25,14 @@ class SensorReader:
         self.soil_sensors = [
             SoilSensor(sensor_tsl=tca[tsl], name=name) for name, tsl in
             SOIL_SENSORS_TSLS.items()]
+
         self.co2_sensors = [
             Co2Sensor(sensor_tsl=tca[tsl], name=name) for name, tsl in CO2_SENSORS_TSLS.items()]
+
         self.voc_sensors = [
             VoCSensor(sensor_tsl=tca[tsl], name=name) for name, tsl in VOC_SENSORS_TSLS.items()
             ]
+
         self.light_sensors = [
             LightSensor(sensor_tsl=tca[tsl], name=name) for name, tsl in LIGHT_SENSOR_TSLS.items()
             ]

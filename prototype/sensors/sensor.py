@@ -48,8 +48,13 @@ class Co2Sensor(Sensor):
         self.sensor_tsl = adafruit_scd30.SCD30(sensor_tsl)
 
     def read_sensor(self):
-        co2_in_ppm = self.sensor_tsl.CO2 if self.sensor_tsl.data_available else None
-        return {"co2": co2_in_ppm}
+        co2, temp, humidity = None, None, None
+        if self.sensor_tsl.data_available:
+            co2 = self.sensor_tsl.CO2 
+            temp = self.sensor_tsl.temperature 
+            humidity = self.sensor_tsl.relative_humidity
+        return {"co2": co2, 'temperature': temp, 'humidity': humidity}
+
 
 
 class VoCSensor(Sensor):
