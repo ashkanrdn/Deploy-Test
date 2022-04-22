@@ -18,6 +18,9 @@ class FanGPIOs(Enum):
 
 WATER_CYCLE_DURATION = 5
 
-IRRIGATION_SCHEDULE = ["07:00:20", "11:00:20", "15:00:20","19:00:20", "23:00:20"]
+# Time format is "HH:MM:SS".
+IRRIGATION_SCHEDULE = ["07:00:20", "11:00:20", "15:00:20", "19:00:20", "23:00:20"]
+# [(time_on1, time_off1), (time_on2, time_off2)] make sure they do not overlap.
 LIGHTING_SCHEDULE = [("06:59:20", "18:59:20")]
+# [(time_on1, time_off1), (time_on2, time_off2)] make sure they do not overlap
 AIR_SCHEDULE = [("06:59:20", "18:59:20")]
