@@ -50,11 +50,10 @@ class Co2Sensor(Sensor):
     def read_sensor(self):
         co2, temp, humidity = None, None, None
         if self.sensor_tsl.data_available:
-            co2 = self.sensor_tsl.CO2 
-            temp = self.sensor_tsl.temperature 
+            co2 = self.sensor_tsl.CO2
+            temp = self.sensor_tsl.temperature
             humidity = self.sensor_tsl.relative_humidity
         return {"co2": co2, 'temperature': temp, 'humidity': humidity}
-
 
 
 class VoCSensor(Sensor):
@@ -67,7 +66,6 @@ class VoCSensor(Sensor):
     def read_sensor(self):
         tvoc = self.sensor_tsl.TVOC
         return {"tvoc": tvoc}
-
 
 
 class LightSensor(Sensor):

@@ -10,12 +10,14 @@ from csv import DictWriter
 
 
 class Scheduler:
-    #converting times strings to time objects
-    irrigation_schedule = [datetime.strptime(time_,"%H:%M:%S") for time_ in IRRIGATION_SCHEDULE]
-    lighting_schedule = [(datetime.strptime(time_on,"%H:%M:%S"),datetime.strptime(time_off,"%H:%M:%S"))  for time_on, time_off in LIGHTING_SCHEDULE]
-    ventilation_schedule = [(datetime.strptime(time_on,"%H:%M:%S"),datetime.strptime(time_off,"%H:%M:%S"))  for time_on, time_off in AIR_SCHEDULE]
+    # converting times strings to time objects
+    irrigation_schedule = [datetime.strptime(time_, "%H:%M:%S") for time_ in IRRIGATION_SCHEDULE]
+    lighting_schedule = [(datetime.strptime(time_on, "%H:%M:%S"), datetime.strptime(time_off, "%H:%M:%S")) for
+                         time_on, time_off in LIGHTING_SCHEDULE]
+    ventilation_schedule = [(datetime.strptime(time_on, "%H:%M:%S"), datetime.strptime(time_off, "%H:%M:%S")) for
+                            time_on, time_off in AIR_SCHEDULE]
 
-    #setup sensors and actuators
+    # setup sensors and actuators
     sensor_reader = SensorReader()
 
     actuator_repo = ActuatorRepository()
@@ -28,26 +30,22 @@ class Scheduler:
         return False
 
     @staticmethod
-    def in_time_schedule_window(current_time, scheduled_windows: Tuple[List[datetime.time]]):
+    def in_time_schedule_window(current_time, scheduled_windows: List[Tuple[datetime.time]]):
         for scheduled_window in scheduled_windows:
             if scheduled_window[0].time() <= current_time <= scheduled_window[1].time():
                 return True
         return False
 
-
     def run_actuators(self):
         current_time = datetime.now().time()
-
 
         if self.in_time_schedule(current_time, self.irrigation_schedule):
             self.actuator_repo.irrigation.run_water_cycle(duration=WATER_CYCLE_DURATION)
 
-    
         if self.in_time_schedule_window(current_time, self.ventilation_schedule):
             [fan.on() for fan in self.actuator_repo.fans]
         else:
             [fan.off() for fan in self.actuator_repo.fans]
-
 
         if self.in_time_schedule_window(current_time, self.lighting_schedule):
 
@@ -55,7 +53,7 @@ class Scheduler:
         else:
             self.actuator_repo.main_led.off()
 
-    def setup_sample_file(self, samples: Dict, file_name:str):
+    def setup_sample_file(self, samples: Dict, file_name: str):
         with open(file_name, 'a') as csv_file:
             fields = samples.keys()
             dict_writer = DictWriter(csv_file, fields)
@@ -89,7 +87,6 @@ class Scheduler:
             self.store_samples(samples, SampleFileName.v3.value)
             self.run_actuators()
             time.sleep(SLEEPING_TIME_IN_SECONDS)
-
 
 
 if __name__ == "__main__":

@@ -12,7 +12,6 @@ class IrrigationTest(unittest.TestCase):
     def test_irrigation_waterCycle(self):
         self.irrigation_unit.run_water_cycle(duration=5)
 
-
 # irrigation_tester = IrrigationTest()
 # irrigation_tester.setUp()
 # irrigation_tester.test_irrigation_waterCycle()

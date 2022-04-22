@@ -6,8 +6,9 @@ import time
 
 import os
 import sys
-# Modify PATH so we can import files from elsewhere in this repo
+# Modify PATH, so we can import files from elsewhere in this repo
 from os.path import dirname, join, abspath
+
 sys.path.insert(0, abspath(join(dirname(__file__), '..')))
 
 
@@ -42,6 +43,6 @@ class Irrigation():
         time.sleep(1)
 
 
-''' Add a indicator on dashoboard tanks levels are full or empty. '''
+''' Add a indicator on dashboard tanks levels are full or empty. '''
 
 # Main pump only can be on if water sol is on and lvl one sol is on

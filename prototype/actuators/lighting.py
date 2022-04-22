@@ -17,6 +17,7 @@ class Led():
         off: turns all off'''
 
     status = False
+
     def __init__(self, dim_gpio, dim_value=1):
 
         self.main_lighting_led = gpiozero.PWMLED(dim_gpio)  # assign lightingLedMain
@@ -24,7 +25,7 @@ class Led():
 
     def on(self):
         """Powers on the main PWR, main LED and supplemental LED's at last set levels"""
-        if not self.status: 
+        if not self.status:
             time.sleep(.5)
             self.main_lighting_led.on()
             self.status = True
@@ -35,7 +36,6 @@ class Led():
         as a percentage of the MainLED level"""
         self.main_lighting_led.value = dim_value
         print(dim_value)
-
 
     def off(self):
         """Powers off the main PWR, main LED and supplemental LED's at last set levels"""
