@@ -1,5 +1,4 @@
 import time
-import logging
 from datetime import datetime, timedelta
 from typing import Dict, List, Tuple
 from sensors.sensors_controller import SensorReader
@@ -10,35 +9,58 @@ from csv import DictWriter
 
 
 class Scheduler:
-    # converting times strings to time objects
-    irrigation_schedule = [datetime.strptime(time_, "%H:%M:%S") for time_ in IRRIGATION_SCHEDULE]
-    lighting_schedule = [(datetime.strptime(time_on, "%H:%M:%S"), datetime.strptime(time_off, "%H:%M:%S")) for
-                         time_on, time_off in LIGHTING_SCHEDULE]
-    ventilation_schedule = [(datetime.strptime(time_on, "%H:%M:%S"), datetime.strptime(time_off, "%H:%M:%S")) for
-                            time_on, time_off in AIR_SCHEDULE]
 
-    # setup sensors and actuators
-    sensor_reader = SensorReader()
+    def __init__(self):
+        # converting times strings to time objects
+        # TODO get this data from database instead of reading locally
+        self.irrigation_schedule = [datetime.strptime(time_, "%H:%M:%S") for time_ in IRRIGATION_SCHEDULE]
+        self.lighting_schedule = [(datetime.strptime(time_on, "%H:%M:%S"), datetime.strptime(time_off, "%H:%M:%S")) for
+                                  time_on, time_off in LIGHTING_SCHEDULE]
+        self.ventilation_schedule = [(datetime.strptime(time_on, "%H:%M:%S"), datetime.strptime(time_off, "%H:%M:%S"))
+                                     for
+                                     time_on, time_off in AIR_SCHEDULE]
 
-    actuator_repo = ActuatorRepository()
+        self.lights_on_times = [on for on, off in self.lighting_schedule]
+        self.lights_off_times = [off for on, off in self.lighting_schedule]
+        self.fans_on_times = [on for on, off in self.ventilation_schedule]
+        self.fans_off_times = [off for on, off in self.ventilation_schedule]
+        # setup sensors and actuators
+        self.sensor_reader = SensorReader()
+
+        self.actuator_repo = ActuatorRepository()
 
     @staticmethod
-    def in_time_schedule(current_time, scheduled_times: List[datetime.time], time_window=SLEEPING_TIME_IN_SECONDS):
+    def in_time_schedule(current_time: datetime.time, scheduled_times: List[datetime],
+                         time_window=SLEEPING_TIME_IN_SECONDS):
         for scheduled_time in scheduled_times:
             if scheduled_time.time() <= current_time <= (scheduled_time + timedelta(seconds=time_window)).time():
                 return True
         return False
 
     @staticmethod
-    def in_time_schedule_window(current_time, scheduled_windows: List[Tuple[datetime.time]]):
+    def in_time_schedule_window(current_time: datetime.time, scheduled_windows: List[Tuple[datetime, datetime]]):
         for scheduled_window in scheduled_windows:
             if scheduled_window[0].time() <= current_time <= scheduled_window[1].time():
                 return True
         return False
 
-    def run_actuators(self):
+    def resume_schedule(self):
         current_time = datetime.now().time()
+        if self.in_time_schedule(current_time, scheduled_times=self.lights_on_times):
+            self.actuator_repo.main_led.on()
+        elif self.in_time_schedule(current_time, scheduled_times=self.lights_off_times):
+            self.actuator_repo.main_led.off()
 
+        if self.in_time_schedule(current_time, scheduled_times=self.fans_on_times):
+            self.actuator_repo.fans.on()
+        elif self.in_time_schedule(current_time, scheduled_times=self.fans_off_times):
+            self.actuator_repo.fans.off()
+
+        if self.in_time_schedule(current_time, self.irrigation_schedule):
+            self.actuator_repo.irrigation.run_water_cycle(duration=WATER_CYCLE_DURATION)
+
+    def start_schedule(self):
+        current_time = datetime.now().time()
         if self.in_time_schedule(current_time, self.irrigation_schedule):
             self.actuator_repo.irrigation.run_water_cycle(duration=WATER_CYCLE_DURATION)
 
@@ -53,13 +75,17 @@ class Scheduler:
         else:
             self.actuator_repo.main_led.off()
 
-    def setup_sample_file(self, samples: Dict, file_name: str):
-        with open(file_name, 'a') as csv_file:
-            fields = samples.keys()
-            dict_writer = DictWriter(csv_file, fields)
-            header_row = {field: field for field in fields}
-            dict_writer.writerow(header_row)
-            csv_file.close()
+    def update_irrigation_schedule(self, irrigation_schedule):
+        self.irrigation_schedule = irrigation_schedule
+        print('irrigation schedule updated to', irrigation_schedule)
+
+    def update_lighting_schedule(self, lighting_schedule):
+        self.lighting_schedule = lighting_schedule
+        print('lighting schedule updated to', lighting_schedule)
+
+    def update_ventilation_schedule(self, ventilation_schedule):
+        self.ventilation_schedule = ventilation_schedule
+        print('ventilation schedule updated to', ventilation_schedule)
 
     def store_samples(self, samples: Dict, file_name: str):
         with open(file_name, 'a') as csv_file:
@@ -68,26 +94,15 @@ class Scheduler:
             dict_writer.writerow(samples)
             csv_file.close()
 
-    # def update_irrigation_schedule(self, irrigation_schedule):
-    #     self.irrigation_schedule = irrigation_schedule
-    #     print('irrigation schedule updated to', irrigation_schedule)
-
-    # def update_lighting_schedule(self, lighting_schedule):
-    #     self.lighting_schedule = lighting_schedule
-    #     print('lighting schedule updated to', lighting_schedule)
-
-    # def update_ventilation_schedule(self, ventilation_schedule):
-    #     self.ventilation_schedule = ventilation_schedule
-    #     print('ventilation schedule updated to', ventilation_schedule)
-
     def run(self):
+        self.start_schedule()
         while True:
             samples = self.sensor_reader.run()
             print(samples)  # TODO replace with pymongo
             self.store_samples(samples, SampleFileName.v3.value)
-            self.run_actuators()
+            self.resume_schedule()
             time.sleep(SLEEPING_TIME_IN_SECONDS)
 
 
 if __name__ == "__main__":
-    Scheduler().run()
+    Scheduler().run()  # define scheduler globally
