@@ -74,6 +74,8 @@ AIRControls = AIR(gpioAIRMain)
 
 i = 8
 
+#print('Time Start of Day =' , datetime.datetime.now())
+swingCount = 82094
 #A routine to operate the system for the 10 day testing
 while True:
     print('Day =', i)
@@ -81,7 +83,7 @@ while True:
     print('Watering')
     IRGControls.supplyTankCheck()
     IRGControls.waterCycle(cycleTime = 5)
-    
+
     print('Airon')
     AIRControls.On()
 
@@ -91,9 +93,7 @@ while True:
     #print('dim')
     LEDControls.dim(mainDim=0)
     time.sleep(2)
-    
-    #print('Time Start of Day =' , datetime.datetime.now())
-    swingCount = 82094
+
     ARMControls.DaySwing(swingCount)
 
     print('LEDoff')
