@@ -31,9 +31,9 @@ class Scheduler:
 
     @staticmethod
     def in_time_schedule(current_time: datetime.time, scheduled_times: List[datetime],
-                         time_window=SLEEPING_TIME_IN_SECONDS):
+                         time_window=timedelta(seconds=SLEEPING_TIME_IN_SECONDS)):
         for scheduled_time in scheduled_times:
-            if scheduled_time.time() <= current_time <= (scheduled_time + timedelta(seconds=time_window)).time():
+            if scheduled_time.time() <= current_time <= (scheduled_time + time_window).time():
                 return True
         return False
 
@@ -44,25 +44,26 @@ class Scheduler:
                 return True
         return False
 
-    def resume_schedule(self):
+    def resume_schedule(self, last_cycle_duration):
         current_time = datetime.now().time()
-        if self.in_time_schedule(current_time, scheduled_times=self.lights_on_times):
+        if self.in_time_schedule(current_time, scheduled_times=self.lights_on_times, time_window=last_cycle_duration):
+            print('turn_on_light')
             self.actuator_repo.main_led.on()
-        elif self.in_time_schedule(current_time, scheduled_times=self.lights_off_times):
+        elif self.in_time_schedule(current_time, scheduled_times=self.lights_off_times, time_window=last_cycle_duration):
             self.actuator_repo.main_led.off()
 
-        if self.in_time_schedule(current_time, scheduled_times=self.fans_on_times):
+        if self.in_time_schedule(current_time, scheduled_times=self.fans_on_times, time_window=last_cycle_duration):
             self.actuator_repo.fans.on()
-        elif self.in_time_schedule(current_time, scheduled_times=self.fans_off_times):
+        elif self.in_time_schedule(current_time, scheduled_times=self.fans_off_times, time_window=last_cycle_duration):
             self.actuator_repo.fans.off()
 
         if self.in_time_schedule(current_time, self.irrigation_schedule):
             self.actuator_repo.irrigation.run_water_cycle(duration=WATER_CYCLE_DURATION)
+        
+        self.actuator_repo.irrigation.sol_check()
 
     def start_schedule(self):
         current_time = datetime.now().time()
-        if self.in_time_schedule(current_time, self.irrigation_schedule):
-            self.actuator_repo.irrigation.run_water_cycle(duration=WATER_CYCLE_DURATION)
 
         if self.in_time_schedule_window(current_time, self.ventilation_schedule):
             [fan.on() for fan in self.actuator_repo.fans]
@@ -70,6 +71,7 @@ class Scheduler:
             [fan.off() for fan in self.actuator_repo.fans]
 
         if self.in_time_schedule_window(current_time, self.lighting_schedule):
+            print('turn_on_light')
 
             self.actuator_repo.main_led.on()
         else:
@@ -96,12 +98,18 @@ class Scheduler:
 
     def run(self):
         self.start_schedule()
+        time_delta = timedelta(seconds=0)
         while True:
+            cycle_initial_time = datetime.now()
             samples = self.sensor_reader.run()
             print(samples)  # TODO replace with pymongo
             self.store_samples(samples, SampleFileName.v3.value)
-            self.resume_schedule()
+            self.resume_schedule(last_cycle_duration=time_delta)
             time.sleep(SLEEPING_TIME_IN_SECONDS)
+            cycle_final_time = datetime.now()
+            time_delta = cycle_final_time - cycle_initial_time
+
+
 
 
 if __name__ == "__main__":

@@ -18,3 +18,6 @@ class ActuatorRepository:
         self.irrigation = Irrigation(main_pump_gpio=IrrigationGPIOs.MAIN_PUMP.value,
                                      lvl1_sol_gpio=IrrigationGPIOs.LEVEL_ONE_SOL.value)
         print('irrigation instantiated')
+# 
+    # def irrigation_safety():
+
