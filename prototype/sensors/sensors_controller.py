@@ -7,6 +7,7 @@ import board
 from .sensor import *
 from .config import *
 
+    
 
 class SensorReader:
     air_sensors: List[Sensor]
@@ -38,6 +39,7 @@ class SensorReader:
         ]
 
     def read_sensors(self):
+        #TODO async gather
         samples = {}
         sensors = [
             *self.air_sensors,
@@ -47,9 +49,13 @@ class SensorReader:
             *self.light_sensors
         ]
         for sensor in sensors:
-            sample = sensor.read_sensor()
-            for feature in sample.keys():
-                samples[sensor.name.lower() + "_" + feature] = sample[feature]
+            try:
+                sample = sensor.read_sensor()
+                for feature in sample.keys():
+                    samples[sensor.name.lower() + "_" + feature] = sample[feature]
+            except Exception as e:
+                e.message = self.name + "_" + e.message
+                raise e
         return samples
 
     def run(self) -> Dict:

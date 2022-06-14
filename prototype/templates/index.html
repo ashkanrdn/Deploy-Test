@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+   <head>
+      <title>AMPS System Control</title>
+      <link rel="stylesheet" href='../static/master.css'/>
+   </head>
+
+   <body>
+		<h1>AMPS System Control</h1>
+		
+		<br>
+		
+		<h2> Actuator Status </h2>
+		<h3> FAN Control==>  {{ Fan Status  }}</h3>
+		<h3> Light Control ==>  {{ Light Status  }}</h3>
+		<h3> Irrigation Control ==>  {{ Irrigation Status  }}</h3>
+		<br>
+		<h2> Actuator Controls </h2>
+		<h3> 
+			Fan Control ==> 
+			<a href="/fan/on" class="button">TURN ON</a>  
+			<a href="/fan/off"class="button">TURN OFF</a>
+		</h3>
+		<h3> 
+			Light Control ==> 
+			<a href="/light/on" class="button">TURN ON</a>  
+			<a href="/light/off"class="button">TURN OFF</a>
+		</h3>
+		<h3> 
+			Irrigation Control ==> 
+			<a href="/pump/on" class="button">TURN ON</a>  
+			<a href="/pump/off"class="button">TURN OFF</a>
+		</h3>
+		
+   </body>
+</html>

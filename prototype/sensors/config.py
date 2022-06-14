@@ -4,6 +4,7 @@ import certifi
 
 AIR_SENSORS_TSLS = {
     'AIR_INSIDE': 0,
+    'AIR_OUTSIDE': 7
 }
 
 SOIL_SENSORS_TSLS = {
@@ -31,3 +32,4 @@ class SampleFileName(Enum):
     v1 = 'samples.csv'
     v2 = 'samples/samples_v2.csv'
     v3 = 'samples/samples_v3.csv'
+    v4 = 'samples/samples_v3.csv'

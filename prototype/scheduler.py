@@ -1,11 +1,15 @@
 import time
+
 from datetime import datetime, timedelta
 from typing import Dict, List, Tuple
+from csv import DictWriter
+
 from sensors.sensors_controller import SensorReader
 from sensors.config import SLEEPING_TIME_IN_SECONDS, SampleFileName
 from actuators.actuator_repository import ActuatorRepository
 from actuators.config import *
-from csv import DictWriter
+from logger import logger
+
 
 
 class Scheduler:
@@ -47,35 +51,49 @@ class Scheduler:
     def resume_schedule(self, last_cycle_duration):
         current_time = datetime.now().time()
         if self.in_time_schedule(current_time, scheduled_times=self.lights_on_times, time_window=last_cycle_duration):
-            print('turn_on_light')
             self.actuator_repo.main_led.on()
+            logger.info('lights on')
+
         elif self.in_time_schedule(current_time, scheduled_times=self.lights_off_times, time_window=last_cycle_duration):
             self.actuator_repo.main_led.off()
+            logger.info('lights off')
+
 
         if self.in_time_schedule(current_time, scheduled_times=self.fans_on_times, time_window=last_cycle_duration):
-            self.actuator_repo.fans.on()
+            [fan.on() for fan in self.actuator_repo.fans]
+            logger.info('fans on')
         elif self.in_time_schedule(current_time, scheduled_times=self.fans_off_times, time_window=last_cycle_duration):
-            self.actuator_repo.fans.off()
+             [fan.off() for fan in self.actuator_repo.fans]
+             logger.info('fans off')
 
         if self.in_time_schedule(current_time, self.irrigation_schedule):
+            logger.info("water cycle running")
             self.actuator_repo.irrigation.run_water_cycle(duration=WATER_CYCLE_DURATION)
         
         self.actuator_repo.irrigation.sol_check()
 
     def start_schedule(self):
+        logger.info("schedule starts")
         current_time = datetime.now().time()
 
         if self.in_time_schedule_window(current_time, self.ventilation_schedule):
             [fan.on() for fan in self.actuator_repo.fans]
+            logger.info('fans on')
+
         else:
             [fan.off() for fan in self.actuator_repo.fans]
+            logger.info('fans off')
+
 
         if self.in_time_schedule_window(current_time, self.lighting_schedule):
-            print('turn_on_light')
 
             self.actuator_repo.main_led.on()
+            logger.info('lights on')
+
         else:
             self.actuator_repo.main_led.off()
+            logger.info('lights off')
+
 
     def update_irrigation_schedule(self, irrigation_schedule):
         self.irrigation_schedule = irrigation_schedule
@@ -98,19 +116,23 @@ class Scheduler:
 
     def run(self):
         self.start_schedule()
-        time_delta = timedelta(seconds=0)
+        time_delta = timedelta(seconds=0) 
         while True:
-            cycle_initial_time = datetime.now()
-            samples = self.sensor_reader.run()
-            print(samples)  # TODO replace with pymongo
-            self.store_samples(samples, SampleFileName.v3.value)
-            self.resume_schedule(last_cycle_duration=time_delta)
-            time.sleep(SLEEPING_TIME_IN_SECONDS)
-            cycle_final_time = datetime.now()
-            time_delta = cycle_final_time - cycle_initial_time
+            try:        
+                cycle_initial_time = datetime.now()
+                samples = self.sensor_reader.run()
+                print(samples)  # TODO replace with pymongo 
+                # self.store_samples(samples, SampleFileName.v4.value)
+                self.resume_schedule(last_cycle_duration=time_delta)
+                time.sleep(SLEEPING_TIME_IN_SECONDS)
+                cycle_final_time = datetime.now()
+                time_delta = cycle_final_time - cycle_initial_time
+            except Exception as e:
+                logger.error(e)
 
 
 
 
+ 
 if __name__ == "__main__":
     Scheduler().run()  # define scheduler globally
