@@ -73,8 +73,8 @@ class Scheduler:
         self.actuator_repo.irrigation.sol_check()
 
     def start_schedule(self):
-        logger.info("schedule starts")
         current_time = datetime.now().time()
+        logger.info("schedule starts")
 
         if self.in_time_schedule_window(current_time, self.ventilation_schedule):
             [fan.on() for fan in self.actuator_repo.fans]
