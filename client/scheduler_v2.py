@@ -1,5 +1,4 @@
 import time
-import asyncio
 
 from datetime import datetime, timedelta
 from typing import Dict, List, Tuple
@@ -112,22 +111,8 @@ class Scheduler:
             dict_writer.writerow(samples)
             csv_file.close()
 
-    async def read_sensors(self):
-        samples = self.sensor_controller.read_sensors()
-        await asyncio.sleep(SENSOR_CONTROLLER_SLEEPING_TIME)
-        return samples
 
-    async def run_actuators(self):
-        pass
-
-    async def async_run(self):
-        self.start_schedule()
-        while True:
-            await asyncio.create_task(self.read_sensors())
-            await asyncio.create_task(self.run_actuators())
-
-
-def run(self):
+    def run(self):
         self.start_schedule()
         time_delta = timedelta(seconds=0)
         while True:

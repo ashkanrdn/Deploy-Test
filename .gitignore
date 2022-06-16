@@ -266,6 +266,7 @@ cython_debug/
 #.idea/
 
 ### VisualStudioCode ###
+.vscode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
@@ -291,3 +292,4 @@ prototype/samples/*
 ampsenv/*
 build_deps/*
 bundles/*
+
