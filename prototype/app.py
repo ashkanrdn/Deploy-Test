@@ -42,13 +42,13 @@ actuator_repo = ActuatorRepository()
 # ############lighting#############
 
 def lighting():
-    self.actuator_repo.main_led.on()
+    self.actuator_controller.main_led.on()
 
 def fan():
-    self.actuator_repo.fans.on()
+    self.actuator_controller.fans.on()
 
 def irrigation():
-    self.actuator_repo.irrigation.run_water_cycle(duration=WATER_CYCLE_DURATION)
+    self.actuator_controller.irrigation.run_water_cycle(duration=WATER_CYCLE_DURATION)
 
 
 
