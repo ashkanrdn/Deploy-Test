@@ -71,15 +71,15 @@ ARMControls = ARM(gpioARMEna, gpioARMDir, gpioARMPul, gpioARMEndL, gpioARMEndR)
 AIRControls = AIR(gpioAIRMain)
 
 #set watering time in seconds
-waterDuration = 5
+waterDuration = 4
 
 #times to water, turn on/off lights, turn on/off air in list format
 waterTime = ["07:00:20", "11:00:20", "15:00:20", "19:00:20", "23:00:20"]
 lightOn = ["06:59:20"]
 lightOff = ["18:59:20"]
-airOn = []
-airOff = []
-
+airOn = ["07:03:00"]
+airOff = ["19:03:00"]
+print('routine started')
 #operate the system at certain times per day
 while True:
     dateSTR = datetime.datetime.now().strftime("%H:%M:%S")
