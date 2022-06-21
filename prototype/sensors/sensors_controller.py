@@ -40,7 +40,8 @@ class SensorReader:
 
     def read_sensors(self):
         #TODO async gather
-        samples = {}
+        timestamp = datetime.now().strftime('%y-%m-%d,%H:%M:%S,')
+        samples = {'timestamp': timestamp }
         sensors = [
             *self.air_sensors,
             *self.soil_sensors,
@@ -56,13 +57,7 @@ class SensorReader:
             except Exception as e:
                 e.message = self.name + "_" + e.message
                 raise e
+
         return samples
 
-    def run(self) -> Dict:
-        timestamp = datetime.now().strftime('%y-%m-%d,%H:%M:%S,')
-        samples = self.read_sensors()
-        data = {
-            "timestamp": timestamp,
-            **samples
-        }
-        return data
+sensor_reader = SensorReader()

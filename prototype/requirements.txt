@@ -4,3 +4,7 @@ adafruit-circuitpython-sht31d
 adafruit-circuitpython-sht4x
 adafruit-circuitpython-veml7700
 adafruit-circuitpython-tca9548a
+python3-gpiozero
+
+
+--pip3 install--

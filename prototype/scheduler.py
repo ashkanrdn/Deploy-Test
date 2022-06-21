@@ -1,4 +1,5 @@
 import time
+import logging
 
 from datetime import datetime, timedelta
 from typing import Dict, List, Tuple
@@ -8,7 +9,10 @@ from sensors.sensors_controller import SensorReader
 from sensors.config import SLEEPING_TIME_IN_SECONDS, SampleFileName
 from actuators.actuator_repository import ActuatorRepository
 from actuators.config import *
-from logger import logger
+
+logging.basicConfig(filename='amps.log',
+    format='%(asctime)s %(levelname)s: %(message)s',
+ level=logging.INFO)
 
 
 
@@ -52,52 +56,52 @@ class Scheduler:
         current_time = datetime.now().time()
         if self.in_time_schedule(current_time, scheduled_times=self.lights_on_times, time_window=last_cycle_duration):
             self.actuator_repo.main_led.on()
-            logger.info('lights on')
+            logging.info('lights on')
 
         elif self.in_time_schedule(current_time, scheduled_times=self.lights_off_times, time_window=last_cycle_duration):
             self.actuator_repo.main_led.off()
-            logger.info('lights off')
+            logging.info('lights off')
 
 
         if self.in_time_schedule(current_time, scheduled_times=self.fans_on_times, time_window=last_cycle_duration):
             [fan.on() for fan in self.actuator_repo.fans]
-            logger.info('fans on')
+            logging.info('fans on')
         elif self.in_time_schedule(current_time, scheduled_times=self.fans_off_times, time_window=last_cycle_duration):
              [fan.off() for fan in self.actuator_repo.fans]
-             logger.info('fans off')
+             logging.info('fans off')
 
         if self.in_time_schedule(current_time, self.irrigation_schedule):
-            logger.info("water cycle running")
+            logging.info("water cycle running")
             self.actuator_repo.irrigation.run_water_cycle(duration=WATER_CYCLE_DURATION)
         
         self.actuator_repo.irrigation.sol_check()
 
     def start_schedule(self):
         current_time = datetime.now().time()
-        logger.info("schedule starts")
+        logging.info("schedule starts")
 
         if self.in_time_schedule_window(current_time, self.ventilation_schedule):
             [fan.on() for fan in self.actuator_repo.fans]
-            logger.info('fans on')
+            logging.info('fans on')
 
         else:
             [fan.off() for fan in self.actuator_repo.fans]
-            logger.info('fans off')
+            logging.info('fans off')
 
 
         if self.in_time_schedule_window(current_time, self.lighting_schedule):
 
             self.actuator_repo.main_led.on()
-            logger.info('lights on')
+            logging.info('lights on')
 
         else:
             self.actuator_repo.main_led.off()
-            logger.info('lights off')
+            logging.info('lights off')
 
 
     def update_irrigation_schedule(self, irrigation_schedule):
         self.irrigation_schedule = irrigation_schedule
-        print('irrigation schedule updated to', irrigation_schedule)
+        print('irrigation git  updated to', irrigation_schedule)
 
     def update_lighting_schedule(self, lighting_schedule):
         self.lighting_schedule = lighting_schedule
@@ -128,7 +132,7 @@ class Scheduler:
                 cycle_final_time = datetime.now()
                 time_delta = cycle_final_time - cycle_initial_time
             except Exception as e:
-                logger.error(e)
+                logging.error(e)
 
 
 

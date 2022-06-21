@@ -4,16 +4,9 @@ from gpiozero import DigitalOutputDevice
 from gpiozero import DigitalInputDevice
 import time
 import datetime
+from .config import WATER_CYCLE_DURATION
 
-import os
-import sys
-# Modify PATH, so we can import files from elsewhere in this repo
-from os.path import dirname, join, abspath
-
-sys.path.insert(0, abspath(join(dirname(__file__), '..')))
-
-
-class Irrigation():
+class Irrigation:
 
     def __init__(self, main_pump_gpio, lvl1_sol_gpio):
         self.IRGMainPump = DigitalOutputDevice(main_pump_gpio)
@@ -21,7 +14,7 @@ class Irrigation():
         self.sol_status = False
         self.sol_on_time = datetime.datetime.now()
 
-    def run_water_cycle(self, duration=5):
+    def run_water_cycle(self, duration=WATER_CYCLE_DURATION):
         ''' runs the water cycle for given time. at end of each irrigation
         process for level solenoid it checks for the water supply and verifies
         available water sources'''
