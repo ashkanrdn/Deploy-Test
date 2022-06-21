@@ -52,17 +52,13 @@ class SensorReader:
             try:
                 sample = sensor.read_sensor()
                 for feature in sample.keys():
-                    samples[sensor.name.lower() + "_" + feature] = sample[feature]
+                    samples[f"{sensor.name.lower()}_{feature}"] = sample[feature]
             except Exception as e:
-                e.message = self.name + "_" + e.message
+                e.message = f"{self.name}_{e.message}"
                 raise e
         return samples
 
     def run(self) -> Dict:
         timestamp = datetime.now().strftime('%y-%m-%d,%H:%M:%S,')
         samples = self.read_sensors()
-        data = {
-            "timestamp": timestamp,
-            **samples
-        }
-        return data
+        return {"timestamp": timestamp, **samples}

@@ -36,17 +36,21 @@ class Scheduler:
     @staticmethod
     def in_time_schedule(current_time: datetime.time, scheduled_times: List[datetime],
                          time_window=timedelta(seconds=SLEEPING_TIME_IN_SECONDS)):
-        for scheduled_time in scheduled_times:
-            if scheduled_time.time() <= current_time <= (scheduled_time + time_window).time():
-                return True
-        return False
+        return any(
+            scheduled_time.time()
+            <= current_time
+            <= (scheduled_time + time_window).time()
+            for scheduled_time in scheduled_times
+        )
 
     @staticmethod
     def in_time_schedule_window(current_time: datetime.time, scheduled_windows: List[Tuple[datetime, datetime]]):
-        for scheduled_window in scheduled_windows:
-            if scheduled_window[0].time() <= current_time <= scheduled_window[1].time():
-                return True
-        return False
+        return any(
+            scheduled_window[0].time()
+            <= current_time
+            <= scheduled_window[1].time()
+            for scheduled_window in scheduled_windows
+        )
 
     def resume_schedule(self, last_cycle_duration):
         current_time = datetime.now().time()
