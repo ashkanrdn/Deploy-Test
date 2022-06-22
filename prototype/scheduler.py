@@ -5,10 +5,10 @@ from datetime import datetime, timedelta
 from typing import Dict, List, Tuple
 from csv import DictWriter
 
-from sensors.sensors_controller import SensorReader
-from sensors.config import SLEEPING_TIME_IN_SECONDS, SampleFileName
-from actuators.actuator_repository import ActuatorRepository
-from actuators.config import *
+from models.sensors.sensors_controller import SensorReader
+from models.sensors.config import SLEEPING_TIME_IN_SECONDS
+from models.actuators.actuator_repository import ActuatorRepository
+from models.actuators.config import *
 
 logging.basicConfig(filename='amps.log',
     format='%(asctime)s %(levelname)s: %(message)s',
