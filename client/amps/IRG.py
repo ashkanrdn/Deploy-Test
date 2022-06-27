@@ -107,7 +107,7 @@ class Irrigation():
                 # LedMain.dim(0, 0, 0)
                 # turn off fans
                 # activate tank switch relay to switch from main tank to drain tank
-                
+
                 return True
             elif self.IRGDrainTankSensorEmpty.is_active == True:  # if the drain tank is empty too
                 self.panicMode()  # Add the panic drill
