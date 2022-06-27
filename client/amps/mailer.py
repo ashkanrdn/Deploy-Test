@@ -9,7 +9,7 @@ GMAIL_PASSWORD = 'FABSSH0P'  #change this to match your gmail password
 
 class Emailer():
     def sendmail(self, recipients, subject, content):
-         
+
         for recipient in recipients:
         #Create Headers
             headers = [

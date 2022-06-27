@@ -79,7 +79,7 @@ waterTime = 5
 
 #A routine to operate the system for the 10 day testing
 while True:
-    
+
     print('Time =' , datetime.datetime.now())
     print('Watering')
     IRGControls.supplyTankCheck()
