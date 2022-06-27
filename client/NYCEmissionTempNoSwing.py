@@ -80,11 +80,11 @@ waterTime = 5
 #A routine to operate the system for the 10 day testing
 while True:
     
+    print('Time =' , datetime.datetime.now())
+    print('Watering')
+    IRGControls.supplyTankCheck()
+    IRGControls.waterCycle(cycleTime = waterTime)
     if i%2 == 0:
-        print('Time =' , datetime.datetime.now())
-        print('Watering')
-        IRGControls.supplyTankCheck()
-        IRGControls.waterCycle(cycleTime = waterTime)
         print('Airon')
         AIRControls.On()
 
@@ -105,24 +105,20 @@ while True:
         IRGControls.IRGlvl1Sol.off()
         IRGControls.IRGlvl2Sol.off()
 
-    
+
         sleep(21590)
-        
+
 
 
 
     else:
-        print('Time =' , datetime.datetime.now())
-        print('Watering')
-        IRGControls.supplyTankCheck()
-        IRGControls.waterCycle(cycleTime = waterTime)
         sleep(1)
         IRGControls.IRGlvl1Sol.on()
         IRGControls.IRGlvl2Sol.on()
         sleep(5)
         IRGControls.IRGlvl1Sol.off()
         IRGControls.IRGlvl2Sol.off()
-        
+
         print('Airoff')
         AIRControls.Off()
 
@@ -131,7 +127,7 @@ while True:
         sleep(43190)
 
 
-    
 
-    
+
+
     i+=1
