@@ -6,9 +6,9 @@ from datetime import datetime
 from typing import Dict, List, Tuple
 from csv import DictWriter
 
-from models.sensors.sensors_controller import sensor_reader
-from models.actuators.actuator_repository import actuator_repository
-from models.actuators.config import *
+from sensors.sensors_controller import sensor_reader
+from actuators.actuator_repository import actuator_repository
+from actuators.config import *
 
 logging.basicConfig(filename='amps_v2.log',
                     format='%(asctime)s %(levelname)s: %(message)s',
@@ -33,6 +33,7 @@ class SchedulerV2:
         self.lighting_jobs = self.create_lighting_jobs(lighting_schedule=self.lighting_schedule)
         self.sensor_reader_job = self.create_sensor_job()
         self.status = False
+        self.initiated = False
 
     def initial_state(self):
         current_time = datetime.now().time()
@@ -49,6 +50,10 @@ class SchedulerV2:
                 actuator_repository.main_led.on()
                 logging.info('lights on')
                 break
+
+    def turn_off_actuators(self):
+        actuator_repository.fans_off()
+        actuator_repository.main_led.off()
 
     def create_irrigation_jobs(self, irrigation_schedule: List[datetime]):
         irrigation_jobs = [self.scheduler.add_job(actuator_repository.run_water_cycle, 'cron',
@@ -96,13 +101,22 @@ class SchedulerV2:
             dict_writer.writerow(samples)
             csv_file.close()
 
-    def run(self):
-        self.initial_state()
-        self.scheduler.start()
-        self.status = True
+    def start(self):
+        if not self.status:
+            self.initial_state()
+            self.scheduler.start() if not self.initiated else self.scheduler.resume()
+            self.status = True
+            self.initiated = True
+
+        
+        while True:
+            pass
 
     def pause(self):
-        self.scheduler.pause()
-
+        if self.status:
+            self.scheduler.pause()
+            self.turn_off_actuators()
+            self.status = False
 
 scheduler_v2 = SchedulerV2()
+scheduler_v2.start()

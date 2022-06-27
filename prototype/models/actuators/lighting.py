@@ -1,8 +1,11 @@
+from pyexpat import native_encoding
 import gpiozero
+from gpiozero.pins.native import NativeFactory
+from gpiozero import Device, LED, PWMLED
 import time
 from time import sleep
 
-
+native_factory = NativeFactory()
 class Led():
     ''' The LedMain class controls the main LED grow light:
         gpioPwr is the raspberry pi pin assignment for Main LED Power on/off
@@ -20,7 +23,7 @@ class Led():
 
     def __init__(self, dim_gpio, dim_value=1):
 
-        self.main_lighting_led = gpiozero.PWMLED(dim_gpio)  # assign lightingLedMain
+        self.main_lighting_led = gpiozero.LED(dim_gpio, pin_factory=native_factory)  # assign lightingLedMain
         self.main_lighting_dim = dim_value
 
     def on(self):
