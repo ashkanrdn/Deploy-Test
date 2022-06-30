@@ -4,14 +4,14 @@ import time
 import logging
 
 
-class AIR():
-    def __init__(self, gpioAIRMain):
-        self.AIRMain = DigitalOutputDevice(gpioAIRMain)
+class Air:
+    def __init__(self, main_air_gpio):
+        self.AIRMain = DigitalOutputDevice(main_air_gpio)
 
-    def On(self):
+    def on(self):
         self.AIRMain.on()
         print('On')
 
-    def Off(self):
+    def off(self):
         self.AIRMain.off()
         print('off')

@@ -31,7 +31,7 @@ gpioIRGTankSwitchSol = 14
 gpioIRGMainTankSensorFull = 20
 gpioIRGMainTankSensorEmpty = 5
 # Drain Supply Sensors
-gpioIRGDrainTankSensorFull = 9
+gpioIRGDrainTankSensorFull = 16
 gpioIRGDrainTankSensorEmpty = 26
 
 # <<<< Level Solonoids >>>>
@@ -58,9 +58,4 @@ gpioAIRMain = 19
 # serverUrl = "https://amps-dash.herokuapp.com/"
 serverUrl = "http://localhost:3000/"
 
-
-
-
-
-
-
+SENSOR_CONTROLLER_SLEEPING_TIME = 3
