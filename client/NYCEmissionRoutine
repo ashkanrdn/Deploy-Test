@@ -11,7 +11,6 @@ import socketio
 import os
 import sys
 import time
-import datetime
 
 # \\\\\\\\\\\\\\\\\\\\\\ GPIO ASSIGNMENTS //////////////////////
 
@@ -68,8 +67,20 @@ IRGControls = IRG(gpioIRGMainPump, gpioIRGWtrSol, gpioIRGTankSwitchSol, gpioIRGN
 
 ARMControls = ARM(gpioARMEna, gpioARMDir, gpioARMPul, gpioARMEndL, gpioARMEndR)
 
+
 AIRControls = AIR(gpioAIRMain)
 
-LEDControls.dim()
-sleep(10)
-LEDControls.off()
+
+
+
+#A routine to operate the system for the 10 day testing
+while True:
+    IRGControls.waterCycle(cycleTime=5)
+    AIRControls.On()
+    LEDControls.on()
+    LEDControls.dim(mainDim=50)
+    #ARMControls.DaySwing()
+    LEDControls.off()
+    AIRControls.Off()
+    IRGControls.waterCycle(cycleTime=5)
+    sleep(43,200)

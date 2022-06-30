@@ -68,8 +68,66 @@ IRGControls = IRG(gpioIRGMainPump, gpioIRGWtrSol, gpioIRGTankSwitchSol, gpioIRGN
 
 ARMControls = ARM(gpioARMEna, gpioARMDir, gpioARMPul, gpioARMEndL, gpioARMEndR)
 
+
 AIRControls = AIR(gpioAIRMain)
 
-LEDControls.dim()
-sleep(10)
-LEDControls.off()
+#set i=1 to start off, i=2 to start on
+i = 1
+
+#set watering time in seconds
+waterTime = 5
+
+#A routine to operate the system for the 10 day testing
+while True:
+    
+    print('Time =' , datetime.datetime.now())
+    print('Watering')
+    IRGControls.supplyTankCheck()
+    IRGControls.waterCycle(cycleTime = waterTime)
+    if i%2 == 0:
+        print('Airon')
+        AIRControls.On()
+
+        print('LEDon')
+        LEDControls.on()
+
+        #print('dim')
+        LEDControls.dim(mainDim=0)
+        sleep(21590)
+        print('Time =' , datetime.datetime.now())
+        print('Watering')
+        IRGControls.supplyTankCheck()
+        IRGControls.waterCycle(cycleTime = waterTime)
+        sleep(1)
+        IRGControls.IRGlvl1Sol.on()
+        IRGControls.IRGlvl2Sol.on()
+        sleep(5)
+        IRGControls.IRGlvl1Sol.off()
+        IRGControls.IRGlvl2Sol.off()
+
+
+        sleep(21590)
+
+
+
+
+    else:
+        sleep(1)
+        IRGControls.IRGlvl1Sol.on()
+        IRGControls.IRGlvl2Sol.on()
+        sleep(5)
+        IRGControls.IRGlvl1Sol.off()
+        IRGControls.IRGlvl2Sol.off()
+
+        print('Airoff')
+        AIRControls.Off()
+
+        print('LEDoff')
+        LEDControls.off()
+        sleep(43190)
+
+
+
+
+
+    i+=1

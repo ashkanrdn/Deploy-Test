@@ -68,8 +68,46 @@ IRGControls = IRG(gpioIRGMainPump, gpioIRGWtrSol, gpioIRGTankSwitchSol, gpioIRGN
 
 ARMControls = ARM(gpioARMEna, gpioARMDir, gpioARMPul, gpioARMEndL, gpioARMEndR)
 
+
 AIRControls = AIR(gpioAIRMain)
 
-LEDControls.dim()
-sleep(10)
-LEDControls.off()
+
+i = 8
+
+#print('Time Start of Day =' , datetime.datetime.now())
+swingCount = 82094
+#A routine to operate the system for the 10 day testing
+while True:
+    print('Day =', i)
+    print('Time =' , datetime.datetime.now())
+    print('Watering')
+    IRGControls.supplyTankCheck()
+    IRGControls.waterCycle(cycleTime = 5)
+
+    print('Airon')
+    AIRControls.On()
+
+    print('LEDon')
+    LEDControls.on()
+
+    #print('dim')
+    LEDControls.dim(mainDim=0)
+    time.sleep(2)
+
+    ARMControls.DaySwing(swingCount)
+
+    print('LEDoff')
+    print('time =' , datetime.datetime.now())
+    LEDControls.off()
+
+    print('AIRoff')
+    AIRControls.Off()
+
+    print('watering')
+    IRGControls.supplyTankCheck()
+    IRGControls.waterCycle(cycleTime=5)
+
+    print('Sleeping')
+    sleep(44280)
+    i=i+1
+

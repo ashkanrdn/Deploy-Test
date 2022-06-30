@@ -1,3 +1,9 @@
+# \\\\\\\\\\\\\\\\\\\\\\ AMPS IMPORTS //////////////////////
+from logging import error
+from amps.AIR import AIR
+from amps.ARM import ARM
+from amps.IRG import Irrigation as IRG
+from amps.LED import LedMain as LED
 import appConfig as config
 import logging
 from actuators.actuator_controller import ActuatorController
@@ -9,7 +15,7 @@ import os
 import sys
 
 import time
-from apscheduler.schedulers.blocking import BlockingScheduler
+
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
@@ -18,7 +24,6 @@ from appConfig import *
 from os.path import dirname, join, abspath
 
 sys.path.insert(0, abspath(join(dirname(__file__), '..')))
-# \\\\\\\\\\\\\\\\\\\\\\ AMPS IMPORTS //////////////////////
 
 
 # # Config file variable
@@ -96,6 +101,7 @@ def IRGChanged(data):
 
 @sio.on('IRGCycleWtr')
 def IRGCycleChanged(data):
+    print('water cycle activated')
     dashValues = json.loads(data)
     if ('IRGWtrCycleTime' in dashValues):
         actuator_controller.irrigation_controller.run_water_cycle(int(dashValues['IRGWtrCycleTime']))
@@ -120,8 +126,8 @@ def IRGCycleChangedNutr(data):
 
 stateStepperL = False
 stateStepperR = False
-
-
+globalLoc = 0
+globalCurrentLoc = 0
 # STEP TP L/R
 
 
@@ -132,22 +138,28 @@ def ArmChanged(data):
     global stateStepperR
 
 
-# Note : if the while true runs on the main app it causes the
-# calibrate function to run slowly without while true maual jog to
+# Note : if the while true runs on the main app it causes the 
+# calibrate function to run slowly without while true maual jog to 
 # left or right and go to loc is not possible
 # research asyncio and back ground tasks to see if the args from event can be passed
 # some async runner in the bg and keep the thread alive
-
-
-    if('swingArmL' in dashValues):
+    
+  
+    if('swingArmL' in dashValues == True):
 
         stateStepperL = dashValues['swingArmL']
-    if ('swingArmR' in dashValues):
+        actuator_controller.arm_controller.Pulsate(dir='L')
+        print('move left',actuator_controller.arm_controller.ARMLoc)
+
+
+    if('swingArmR' in dashValues == True):
         stateStepperR = dashValues['swingArmR']
+        actuator_controller.arm_controller.Pulsate(dir='R')
+        print('move right', globalCurrentLoc)
 
 
-globalLoc = 0
-globalCurrentLoc = 0
+
+
 
 
 # ARM CALIBRATE
@@ -155,9 +167,12 @@ globalCurrentLoc = 0
 
 @sio.on('ARMCalibrate')
 def ArmCalibrate(data):
-    actuator_controller.ARMControls.calibrate()
+    print('Calibrating ')
+    print (' global loc current ', globalCurrentLoc)
 
-    actuator_controller.irrigation_controller.Callibrate()
+    print (' global loc ', globalLoc)
+    print (' global loc current ', globalCurrentLoc)
+    actuator_controller.arm_controller.Callibrate()
 
 # GO TO LOCATION
 
@@ -165,47 +180,54 @@ def ArmCalibrate(data):
 @sio.on('ARMLoc')
 def ArmLocChanged(data):
     dashValues = json.loads(data)
+    
     global globalLoc
     global globalCurrentLoc
     loc = int(dashValues['swingArmLoc'])
     globalLoc = loc
-    actuator_controller.arm_controller.go_to_loc(loc)
+    # ARMControls.goToLoc(loc)
 
 
-sched = BlockingScheduler()
 
 
-@sched.scheduled_job('cron', day_of_week='mon-tue,fri-sat', hour='*/8')
-def water_Schedule_1():
-    logging.INFO(('Water Cycle ran @ ') +
-                 (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))))
-    actuator_controller.irrigation_controller.run_water_cycle()
 
 
-@sched.scheduled_job('cron', day_of_week='wed-thu,sun', hour='*/12')
-def water_Schedule_2():
-    logging.INFO(('Water Cycle ran @ ') +
-                 (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))))
-    actuator_controller.irrigation_controller.run_water_cycle()
 
 
-@sched.scheduled_job('cron', hour=23, minute=45)
-def nutrient_Schedule():
-    logging.INFO(('nutrient Cycle ran @ ') +
-                 (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))))
-    actuator_controller.irrigation_controller.nutrientCycle()
-
-
-@sched.scheduled_job('cron', day="*" , hour = "6")
-def LED_Schedule_on():
-    print(('Lights turned on ')+ (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))) )
-    actuator_controller.led_controller.on()
-    # LEDControls.dim(1, 1, 1)
-
-@sched.scheduled_job('cron', day="*" , hour = "20")
-def LED_Schedule_off():
-    print(('Lights turned off ')+ (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))) )
-    actuator_controller.led_controller.off()
+# sched = BackgroundScheduler()
+#
+#
+# @sched.scheduled_job('cron', day_of_week='mon-tue,fri-sat', hour='*/8')
+# def water_Schedule_1():
+#     logging.INFO(('Water Cycle ran @ ') +
+#                  (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))))
+#     actuator_controller.irrigation_controller.run_water_cycle()
+#
+#
+# @sched.scheduled_job('cron', day_of_week='wed-thu,sun', hour='*/12')
+# def water_Schedule_2():
+#     logging.INFO(('Water Cycle ran @ ') +
+#                  (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))))
+#     actuator_controller.irrigation_controller.run_water_cycle()
+#
+#
+# @sched.scheduled_job('cron', hour=23, minute=45)
+# def nutrient_Schedule():
+#     logging.INFO(('nutrient Cycle ran @ ') +
+#                  (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))))
+#     actuator_controller.irrigation_controller.nutrientCycle()
+#
+#
+# @sched.scheduled_job('cron', day="*" , hour = "6")
+# def LED_Schedule_on():
+#     print(('Lights turned on ')+ (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))) )
+#     actuator_controller.led_controller.on()
+#     # LEDControls.dim(1, 1, 1)
+#
+# @sched.scheduled_job('cron', day="*" , hour = "20")
+# def LED_Schedule_off():
+#     print(('Lights turned off ')+ (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))) )
+#     actuator_controller.led_controller.off()
 
 # @sched.scheduled_job('cron', day_of_week="mon-fri" , hour = "8")
 # def AIR_Schedule_on():
@@ -217,7 +239,7 @@ def LED_Schedule_off():
 #     print(('Lights turned off ')+ (time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))) )
 #     AIRControls.AIRMain.off()
 
-sched.start()
+# sched.start()
 # print(" Pi started")
 # for i in range(663311):
 #     ARMControls.Pulsate("L")

@@ -70,6 +70,48 @@ ARMControls = ARM(gpioARMEna, gpioARMDir, gpioARMPul, gpioARMEndL, gpioARMEndR)
 
 AIRControls = AIR(gpioAIRMain)
 
-LEDControls.dim()
-sleep(10)
-LEDControls.off()
+#set watering time in seconds
+waterDuration = 4
+
+#times to water, turn on/off lights, turn on/off air in list format
+waterTime = ["07:00:20", "11:00:20", "15:00:20", "19:00:20", "23:00:20"]
+lightOn = ["06:59:20"]
+lightOff = ["18:59:20"]
+airOn = ["07:03:00"]
+airOff = ["19:03:00"]
+print('routine started')
+#operate the system at certain times per day
+while True:
+    dateSTR = datetime.datetime.now().strftime("%H:%M:%S")
+
+    if dateSTR in airOn:
+        print('Air on at',dateSTR)
+        AIRControls.On()
+        sleep(1)
+    #ALWAYS USE DIM METHOD FOR TURNING LIGHTS ON AND OFF   
+    elif dateSTR in lightOn:
+        print('LED on at', dateSTR)
+        LEDControls.dim()
+        sleep(1)
+    elif dateSTR in airOff:
+        print('Air off at', dateSTR)
+        AIRControls.Off()
+        sleep(1)
+    elif dateSTR in lightOff:
+        print('LED off at', dateSTR)
+        LEDControls.off()
+        sleep(1)
+    elif dateSTR in waterTime:
+        print('Watering at', dateSTR)
+        IRGControls.supplyTankCheck()
+        IRGControls.waterCycle(cycleTime = waterDuration)
+        sleep(1)
+        IRGControls.IRGlvl1Sol.on()
+        IRGControls.IRGlvl2Sol.on()
+        sleep(5)
+        IRGControls.IRGlvl1Sol.off()
+        IRGControls.IRGlvl2Sol.off()
+        sleep(1)
+    else:
+        sleep(1)
+    

@@ -68,8 +68,12 @@ IRGControls = IRG(gpioIRGMainPump, gpioIRGWtrSol, gpioIRGTankSwitchSol, gpioIRGN
 
 ARMControls = ARM(gpioARMEna, gpioARMDir, gpioARMPul, gpioARMEndL, gpioARMEndR)
 
+
 AIRControls = AIR(gpioAIRMain)
 
-LEDControls.dim()
-sleep(10)
-LEDControls.off()
+print('moving right, to intereupt press ctr+C')
+while True:
+   
+    ARMControls.Pulsate(dir='R')
+    #ARMControls.ARML2RTotalStps += 1
+    #ARMControls.ARMLoc += 1
