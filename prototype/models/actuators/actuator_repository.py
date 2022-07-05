@@ -55,6 +55,10 @@ class ActuatorRepository:
         try:
             self.irrigation.run_water_cycle() 
         except Exception as e:
-            logging.error(e)       
+            logging.error(e)
+            raise e       
+
+    def sol_check(self):
+        self.irrigation.sol_check()
 
 actuator_repository = ActuatorRepository()
