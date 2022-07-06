@@ -1,0 +1,10 @@
+pip install adafruit-circuitpython-scd30
+pip install adafruit-circuitpython-sgp30
+pip install adafruit-circuitpython-sht31d
+pip install adafruit-circuitpython-sht4x
+pip install adafruit-circuitpython-veml7700
+pip install adafruit-circuitpython-tca9548a
+pip install python3-gpiozero
+
+
+--pip3 install--  

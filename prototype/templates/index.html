@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+   <head>
+      <title>AMPS System Control</title>
+      <link rel="stylesheet" href='../static/master.css'/>
+   </head>
+
+   <body>
+		<h1>AMPS System Control</h1>
+		
+		<br>
+		
+		<h2> Schedule Status </h2>
+		<h3> Scheduler Control==>  {{ scheduler_status }}</h3>
+		<br>
+		<h2> Scheduler Controller </h2>
+		<h3> 
+			<a href="/scheduler/on" class="button">TURN ON</a>
+			<a href="/scheduler/off"class="button">TURN OFF</a>
+		</h3>
+		<hr>
+
+		<h2> Light Controller </h2>
+		<h3> Schedule</h3>
+		<ul>{% for on, off in lighting_schedule %} 
+				<li>{{on}}-{{off}} <a href="/remove/LIGHT/{{on}}-{{off}}"class="button">remove</a> </li> </br>
+			{% endfor %}
+		</ul>
+		<form action="/add/" method="post">
+			<input type="hidden" id="type" name="type" value="LIGHT">
+			<lable for="from">From</lable>
+			<input type="time" id="from" name="from">
+			<lable for="to">To</lable>
+			<input type="time" id="to" name="to">
+			<input type="submit" value="add">
+
+		</form>
+		<h3> 
+			<a href="/light/on" class="button">TURN ON</a>
+			<a href="/light/off"class="button">TURN OFF</a>
+		</h3>
+
+		<hr>
+		<h2> fans Controller </h2>
+		<h3> Schedule</h3>
+		<ul>{% for on, off in air_schedule %} 
+				<li>{{on}}-{{off}} <a href="/remove/AIR/{{on}}-{{off}}"class="button">remove</a> </li> </br>
+			{% endfor %}
+		</ul>
+		<form action="/add/" method="post">
+			<input type="hidden" id="type" name="type" value="AIR">
+			<lable for="from">From</lable>
+			<input type="time" id="from" name="from">
+			<lable for="to">To</lable>
+			<input type="time" id="to" name="to">
+			<input type="submit" value="add">
+
+		</form>
+		<h3> 
+			<a href="/fans/on" class="button">TURN ON</a>
+			<a href="/fans/off"class="button">TURN OFF</a>
+		</h3>
+		<hr>
+
+		<h2> Irrigation Controller </h2>
+
+		<h3> Schedule</h3>
+		<ul>{% for time in irrigation_schedule %} 
+				<li>{{time}} <a href="/remove/IRG/{{time}}"class="button">remove</a> </li> </br>
+			{% endfor %}
+		</ul>
+		<form action="/add/" method="post">
+			<input type="hidden" id="type" name="type" value="IRG">
+			<lable for="time">time</lable>
+			<input type="time" id="time" name="time">
+			<input type="submit" value="add">
+
+		</form>
+		<h3> 
+			<a href="/irg/run"class="button">RUN WATER CYCLE</a>
+		</h3>
+
+		</ol>
+   </body>
+</html>
