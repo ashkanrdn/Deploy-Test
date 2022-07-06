@@ -3,6 +3,7 @@ from arm import Arm
 from irrigation import Irrigation
 from lighting import LedMain
 from config import *
+import logging
 
 
 class ActuatorController:
@@ -21,5 +22,30 @@ class ActuatorController:
 
     arm_controller = Arm(enable_gpio=ArmGPIOs.ENABLE, direction_gpio=ArmGPIOs.DIRECTION, pulse_gpio=ArmGPIOs.PULSE,
                          left_limit_sensor_gpio=ArmGPIOs.LEFT_LIMIT, right_limit_sensor_gpio=ArmGPIOs.RIGHT_LIMIT)
-
     air_controller = Air(AIR_MAIN_GPIO)
+
+    def air_on(self):
+        try:
+            self.air_controller.on()
+        except Exception as e:
+            logging.error(e)
+
+    def air_off(self):
+        try:
+            self.air_controller.on()
+        except Exception as e:
+            logging.error(e)
+
+    def run_water_cycle(self):
+        try:
+            self.irrigation_controller.run_cycle()
+        except Exception as e:
+            logging.error(e)
+            raise e
+
+    # def sol_check(self):
+    #     self.irrigation_controller.sol_check()
+    #
+
+
+actuator_controller = ActuatorController()

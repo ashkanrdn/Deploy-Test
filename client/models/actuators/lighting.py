@@ -1,12 +1,10 @@
-from pyexpat import native_encoding
 import gpiozero
-from gpiozero.pins.native import NativeFactory
-from gpiozero import Device, LED, PWMLED
 import time
 from time import sleep
+import logging
 
-native_factory = NativeFactory()
-class Led():
+
+class LedMain():
     ''' The LedMain class controls the main LED grow light:
         gpioPwr is the raspberry pi pin assignment for Main LED Power on/off
         gpioDim is the raspberry pi pin assignment for Main LED Dim controller
@@ -19,30 +17,54 @@ class Led():
             all supplemental LEDs arelevels are assigned as percentage of main
         off: turns all off'''
 
-    status = False
+    def __init__(self, power_gpio, dim_gpio, supp1_gpio, supp2_gpio, supp1_dim=0.5, supp2_dim=0.5, main_dim=0.5):
+        # assign MainLED power on/off
+        self.main_led_power = gpiozero.DigitalOutputDevice(power_gpio)
+        # assign lightingLedMain
+        self.main_led = gpiozero.PWMLED(
+            dim_gpio)
+        # assign lightingLedSuppOne as PWMLED
+        self.led_supp_one = gpiozero.PWMLED(supp1_gpio)
+        # assign lightingLedSuppTwo as PWMLED
+        self.led_supp_two = gpiozero.PWMLED(supp2_gpio)
+        # setting the initial Dim value for lightingLedSuppOne
+        self.led_supp_one_dim = supp1_dim
+        # setting the initial Dim value for lightingLedSuppTwo
+        self.led_supp_two_dim = supp2_dim
+        logging.info('Class Initiated')
 
-    def __init__(self, dim_gpio, dim_value=1):
+    def power_on(self):
+        '''Powers on the main PWR, main LED and supplemental LED's at last set levels'''
+        self.main_led_power.power_on()
+        time.sleep(.5)
+        self.main_led.power_on()
+        self.led_supp_one.power_on()
+        self.led_supp_two.power_on()
 
-        self.main_lighting_led = gpiozero.LED(dim_gpio, pin_factory=native_factory)  # assign lightingLedMain
-        self.main_lighting_dim = dim_value
+    def dim(self, main_dim=0, supp1_dim=0, supp2_dim=0):
+        """Set the dim level for the main LED. The supplemental LED's are asigned based on the configuration file data
+         as a percentage of the MainLED level"""
+        if not self.main_led_power.is_active:
+            self.main_led_power.power_on()
 
-    def on(self):
-        """Powers on the main PWR, main LED and supplemental LED's at last set levels"""
-        if not self.status:
-            time.sleep(.5)
-            self.main_lighting_led.on()
-            self.status = True
-            print('Lights on')
+        self.main_led.value = main_dim
+        self.led_supp_one.value = supp1_dim
+        self.led_supp_two.value = supp2_dim
 
-    def dim(self, dim_value=0):
-        """Set the dim level for the main LED. The supplemental LED's are assigned based on the configuration file data
-        as a percentage of the MainLED level"""
-        self.main_lighting_led.value = dim_value
-        print(dim_value)
-
-    def off(self):
+    def power_off(self):
         """Powers off the main PWR, main LED and supplemental LED's at last set levels"""
-        if self.status:
-            self.main_lighting_led.off()
-            self.status = False
-            print('Lights off')
+        self.main_led.power_off()
+        self.led_supp_one.power_off()
+        self.led_supp_two.power_off()
+
+        self.main_led_power.power_off()
+
+    def calibrate(self, supp_one_level, supp_two_level):
+        # figure out how to calibrate supp LEDs
+        self.main_led_power.power.power_on()
+
+        # set supplemental one level:
+        self.led_supp_one.value = supp_one_level
+        self.led_supp_two.value = supp_two_level
+        self.led_supp_one_percentage = (self.led_supp_one.value / self.main_led)
+        self.led_supp_two_percentage = (self.led_supp_two.value / self.main_led)
