@@ -39,7 +39,7 @@ class Irrigation:
         # Turning on the lvl sols
         # if(self.gotWater()):
         for sol in self.levels_sols:
-            logging.INFO(sol, ' Turned on')
+            logging.info(sol, ' Turned on')
             sol.on()
             time.sleep(1)
             # Opening the water sol
@@ -58,11 +58,11 @@ class Irrigation:
         self.water_sol.on() if not nutrient else self.nutr_sol.on()
         # closing the lvl sols
         for sol in self.levels_sols:
-            logging.INFO(sol, ' Turned off')
+            logging.info(sol, 'Turned off')
             sol.off()
             time.sleep(1)
 
-    def has_water(self):
+    def has_water(self):  # TODO move panic logic to controller
         if not self.main_tank_empty.is_active:  # Main Tank is not empty
             self.tank_switch_sol.power_off()  # make sure the tank switch relay is off
             return True
@@ -80,21 +80,24 @@ class Irrigation:
                 LedMain.dim(0, 0, 0)  # turn off lights
                 return False
 
-    def panic_mode(self):
-        ''' function for flashing all the lights'''
-        for _ in range(30):
-            LedMain.dim(1, 1, 1)
-            time.sleep(1)
-            LedMain.dim(0.5, 0.5, 0.5)
-            time.sleep(1)
-            LedMain.dim(0, 0, 0)
-            time.sleep(1)
+    # #todo fix this and put in actuator controller
+    # def panic_mode(self):
+    #     ''' function for flashing all the lights'''
+    #     for _ in range(30):
+    #         LedMain.dim(1, 1, 1)
+    #         time.sleep(1)
+    #         LedMain.dim(0.5, 0.5, 0.5)
+    #         time.sleep(1)
+    #         LedMain.dim(0, 0, 0)
+    #         time.sleep(1)
 
     def tank_full(self):
         ''' function that checks when any of the water tanks get full and runs the panic drill
         if they are full'''
         if self.main_tank_full.is_active or self.drain_tank_full.is_active:
-            self.panic_mode()
+            # self.panic_mode()
+            return True
+        return False
 
 
 ''' Add a indicator on dashoboard tanks levels are full or empty. '''

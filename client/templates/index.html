@@ -22,7 +22,7 @@
 		<h2> Light Controller </h2>
 		<h3> Schedule</h3>
 		<ul>{% for on, off in lighting_schedule %} 
-				<li>{{on}}-{{off}} <a href="/remove/LIGHT/{{on}}-{{off}}"class="button">remove</a> </li> </br>
+				<li>{{on.strftime('%I:%M %p'))}}-{{off.strftime('%I:%M %p')}} <a href="/remove/LIGHT/{{on}}-{{off}}"class="button">remove</a> </li> </br>
 			{% endfor %}
 		</ul>
 		<form action="/add/" method="post">
@@ -43,7 +43,7 @@
 		<h2> fans Controller </h2>
 		<h3> Schedule</h3>
 		<ul>{% for on, off in air_schedule %} 
-				<li>{{on}}-{{off}} <a href="/remove/AIR/{{on}}-{{off}}"class="button">remove</a> </li> </br>
+				<li>{{on.strftime('%I:%M %p')}}-{{off.strftime('%I:%M %p')}} <a href="/remove/AIR/{{on}}-{{off}}"class="button">remove</a> </li> </br>
 			{% endfor %}
 		</ul>
 		<form action="/add/" method="post">
@@ -70,13 +70,27 @@
 		</ul>
 		<form action="/add/" method="post">
 			<input type="hidden" id="type" name="type" value="IRG">
-			<lable for="time">time</lable>
-			<input type="time" id="time" name="time">
+			<lable for="job_time">time</lable>
+			<input type="time" id="job_time" name="job_time">
+			<lable for="duration">Duration</lable>
+			<input type="nubmer" id="duration" name="duration", placeholder="15">
 			<input type="submit" value="add">
 
 		</form>
 		<h3> 
-			<a href="/irg/run"class="button">RUN WATER CYCLE</a>
+			<form action="/irg/run" method="post">
+				<input type="hidden" id="type" name="type" value="IRG">
+				<lable for="duration">Duration</lable>
+				<input type="nubmer" id="duration" name="duration", placeholder="15">
+				<select id="level" name="level">
+					<option value="1">Level 1</option>
+					<option value="2">Level 2</option>
+					<option value="3">Level 3</option>
+					<option value="4">Level 4</option>
+				</select>
+				<input type="submit" value="run">
+
+			</form>
 		</h3>
 
 		</ol>

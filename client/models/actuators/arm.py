@@ -30,7 +30,7 @@ class Arm:
         self.lock = 0
         sleep(1)
 
-        logging.INFO('Far Left Reached')
+        logging.info('Far Left Reached')
         while not self.right_limit_sensor.is_active:
             self.pulsate(direction='R')
             self.total_steps += 1
@@ -71,7 +71,7 @@ class Arm:
                 self.lock += 1
 
         else:
-            logging.INFO('Direction ')
+            logging.info('Direction ')
 
     def go_to_loc(self, location, speed=100):
 

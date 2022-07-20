@@ -14,43 +14,30 @@ logging.basicConfig(filename='amps_v2.log',
                     level=logging.INFO)
 
 
-class SchedulerV2:
+class ActuatorScheduler:
 
     def __init__(self):
         # converting times strings to time objects
         # TODO get this data from database instead of reading locally
 
         self.scheduler = BackgroundScheduler()
+        self.immediate_scheduler = BackgroundScheduler()
         self.irrigation_schedule = []
         self.lighting_schedule = []
         self.air_schedule = []
-        irrigation_schedule = [datetime.strptime(time_, "%H:%M:%S") for time_ in IRRIGATION_SCHEDULE]
+        irrigation_schedule = [(datetime.strptime(cycle_time, "%H:%M:%S"), duration) for cycle_time, duration in
+                               IRRIGATION_SCHEDULE]
         lighting_schedule = [(datetime.strptime(time_on, "%H:%M:%S"), datetime.strptime(time_off, "%H:%M:%S"))
                              for time_on, time_off in LIGHTING_SCHEDULE]
         air_schedule = [(datetime.strptime(time_on, "%H:%M:%S"), datetime.strptime(time_off, "%H:%M:%S"))
                         for time_on, time_off in AIR_SCHEDULE]
 
-        self.create_irrigation_jobs(irrigation_schedule=irrigation_schedule)
-        self.create_air_jobs(air_schedule=air_schedule)
-        self.create_lighting_jobs(lighting_schedule=lighting_schedule)
-        self.create_sensor_job()
+        self.add_irrigation_jobs(irrigation_schedule=irrigation_schedule)
+        self.add_air_jobs(air_schedule=air_schedule)
+        self.add_lighting_jobs(lighting_schedule=lighting_schedule)
         # self.create_other_jobs()
         self.status = False
         self.initiated = False
-
-    @staticmethod
-    def store_samples(self, samples: Dict, file_name: str):
-        with open(file_name, 'a') as csv_file:
-            fields = samples.keys()
-            dict_writer = DictWriter(csv_file, fields)
-            dict_writer.writerow(samples)
-            csv_file.close()
-
-    @staticmethod
-    def sensor_read_and_publish(self):
-        samples = sensor_controller.read_sensors()
-        print(samples)
-        logging.info(samples)
 
     def reinitiate_state(self):
         current_time = datetime.now().time()
@@ -77,19 +64,40 @@ class SchedulerV2:
     @staticmethod
     def turn_off_actuators():
         actuator_controller.air_controller.off()
-        actuator_controller.led_controller.dim()
+        actuator_controller.led_controller.power_off()
 
-    def create_irrigation_jobs(self, irrigation_schedule: List[datetime]):
-        irrigation_jobs = [self.scheduler.add_job(actuator_controller.irrigation_controller.run_cycle, 'cron',
-                                                  id=f'IRG-{irrigation_time.time()}', hour=irrigation_time.hour,
-                                                  minute=irrigation_time.minute) for
-                           irrigation_time in irrigation_schedule]
+    @staticmethod
+    def valid_schedule(time_schedule: List):
+        """
+        checks if there are overlaps in the schedule and if the window is valid or not
+        """
+        time_schedule.sort()
+        for i in range(len(time_schedule) - 1):
+            if time_schedule[i][0] >= time_schedule[i][1]:
+                raise Exception(
+                    f'This time window is not valid: {time_schedule[0][0].time()} to {time_schedule[0][1].time()}')
+            for j in range(i + 1, len(time_schedule)):
+                if time_schedule[i][1] > time_schedule[j][0]:
+                    raise Exception(
+                        f'This two time windows have overlaps: {time_schedule[0][0].time()} to {time_schedule[0][1].time()} and {time_schedule[j][0].time()} to {time_schedule[j][1].time()}')
+
+    def run_immediate_irrigation_job(self, duration):
+        self.immediate_scheduler.add_job(lambda :actuator_controller.irrigation_controller.run_cycle(duration=duration))
+
+    def add_irrigation_jobs(self, irrigation_schedule: List):
+        irrigation_jobs = [
+            self.scheduler.add_job(lambda: actuator_controller.irrigation_controller.run_cycle(duration=duration),
+                                   'cron',
+                                   id=f'IRG-{irrigation_time.time()}', hour=irrigation_time.hour,
+                                   minute=irrigation_time.minute) for
+            irrigation_time, duration in irrigation_schedule]
         self.irrigation_schedule += irrigation_schedule
         self.irrigation_schedule.sort()
 
         return irrigation_jobs
 
-    def create_air_jobs(self, air_schedule):
+    def add_air_jobs(self, air_schedule):
+        self.valid_schedule(time_schedule=self.air_schedule + air_schedule)
         air_on_jobs = [
             self.scheduler.add_job(actuator_controller.air_controller.on, 'cron', hour=air_on_time.hour,
                                    id=f'AIR-ON-{air_on_time.time()}',
@@ -106,14 +114,16 @@ class SchedulerV2:
         self.air_schedule.sort()
         return air_on_jobs + air_off_jobs
 
-    def create_lighting_jobs(self, lighting_schedule):
-        lighting_on_jobs = [  # TODO how to pass parameters to it
+    def add_lighting_jobs(self, lighting_schedule):
+        self.valid_schedule(time_schedule=self.lighting_schedule + lighting_schedule)
+
+        lighting_on_jobs = [
             self.scheduler.add_job(actuator_controller.led_controller.dim, 'cron',
                                    id=f'LIGHT-ON-{lighting_on_time.time()}',
                                    hour=lighting_on_time.hour, minute=lighting_on_time.minute) for
             lighting_on_time, lighting_off_time in lighting_schedule]
         lighting_off_jobs = [
-            self.scheduler.add_job(actuator_controller.led_controller.dim, 'cron',
+            self.scheduler.add_job(actuator_controller.led_controller.off, 'cron',
                                    id=f'LIGHT-OFF-{lighting_off_time.time()}',
                                    hour=lighting_off_time.hour, minute=lighting_off_time.minute) for
             lighting_on_time, lighting_off_time in lighting_schedule]
@@ -134,6 +144,8 @@ class SchedulerV2:
                 if time == scheduled_datetime:
                     self.irrigation_schedule.remove(job_time)
                     break
+            if self.status:
+                self.reinitiate_state()
 
         except Exception as e:
             logging.error(e)
@@ -142,7 +154,8 @@ class SchedulerV2:
     def remove_window_jobs(self, scheduled_window, job_type):
         scheduled_list = self.lighting_schedule if job_type == 'LIGHT' else self.air_schedule
 
-        on_time, off_time = [datetime.strptime(time, "%H:%M:%S") for time in scheduled_window.split('-')]
+        on_time, off_time = [datetime.strptime(scheduled_time, "%H:%M:%S") for scheduled_time in
+                             scheduled_window.split('-')]
         on_id = f'{job_type}-ON-{on_time.time()}'
         off_id = f'{job_type}-OFF-{off_time.time()}'
         for i, window in enumerate(scheduled_list):
@@ -153,12 +166,12 @@ class SchedulerV2:
                     self.scheduler.remove_job(off_id)
 
                     break
+
                 except Exception as e:
                     logging.error(e)
                     raise e
-
-    def create_sensor_job(self):
-        return self.scheduler.add_job(self.sensor_read_and_publish, 'interval', seconds=3)
+        if self.status:
+            self.reinitiate_state()
 
     # def create_other_jobs(self):
     #     self.scheduler.add_job(actuator_controller.sol_check, 'interval', minutes=30)
@@ -177,4 +190,4 @@ class SchedulerV2:
             self.status = False
 
 
-scheduler_v2 = SchedulerV2()
+actuator_scheduler = ActuatorScheduler()

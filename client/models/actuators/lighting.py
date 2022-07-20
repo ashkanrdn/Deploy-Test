@@ -68,3 +68,13 @@ class LedMain():
         self.led_supp_two.value = supp_two_level
         self.led_supp_one_percentage = (self.led_supp_one.value / self.main_led)
         self.led_supp_two_percentage = (self.led_supp_two.value / self.main_led)
+
+    def panic_mode(self):
+        ''' function for flashing all the lights'''
+        for _ in range(30):
+            self.dim(1, 1, 1)
+            time.sleep(1)
+            self.dim(0.5, 0.5, 0.5)
+            time.sleep(1)
+            self.dim(0, 0, 0)
+            time.sleep(1)
