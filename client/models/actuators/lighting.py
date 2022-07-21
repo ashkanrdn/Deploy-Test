@@ -23,10 +23,16 @@ class LedMain():
         # assign lightingLedMain
         self.main_led = gpiozero.PWMLED(
             dim_gpio)
+        self.main_led.frequency = 1000
+
         # assign lightingLedSuppOne as PWMLED
         self.led_supp_one = gpiozero.PWMLED(supp1_gpio)
+        self.led_supp_one.frequency = 1000
+
         # assign lightingLedSuppTwo as PWMLED
         self.led_supp_two = gpiozero.PWMLED(supp2_gpio)
+        self.led_supp_two.frequency = 1000
+
         # setting the initial Dim value for lightingLedSuppOne
         self.led_supp_one_dim = supp1_dim
         # setting the initial Dim value for lightingLedSuppTwo
@@ -35,39 +41,41 @@ class LedMain():
 
     def power_on(self):
         '''Powers on the main PWR, main LED and supplemental LED's at last set levels'''
-        self.main_led_power.power_on()
+        self.main_led_power.on()
         time.sleep(.5)
-        self.main_led.power_on()
-        self.led_supp_one.power_on()
-        self.led_supp_two.power_on()
+        self.main_led.off() #works reversly
+        self.led_supp_one.on()
+        self.led_supp_two.on()
 
-    def dim(self, main_dim=0, supp1_dim=0, supp2_dim=0):
+    def dim(self, main_dim=0, supp1_dim=0, supp2_dim=0): #keep main dim at 0
         """Set the dim level for the main LED. The supplemental LED's are asigned based on the configuration file data
          as a percentage of the MainLED level"""
-        if not self.main_led_power.is_active:
-            self.main_led_power.power_on()
-
-        self.main_led.value = main_dim
-        self.led_supp_one.value = supp1_dim
-        self.led_supp_two.value = supp2_dim
+        # if not self.main_led_power.is_active:
+        #     self.main_led_power.on()
+        # # time.sleep(1)
+        # self.main_led.value = main_dim
+        # self.led_supp_one.value = supp1_dim
+        # self.led_supp_two.value = supp2_dim
+        raise NotImplementedError
 
     def power_off(self):
         """Powers off the main PWR, main LED and supplemental LED's at last set levels"""
-        self.main_led.power_off()
-        self.led_supp_one.power_off()
-        self.led_supp_two.power_off()
+        self.main_led.off()
+        self.led_supp_one.off()
+        self.led_supp_two.off()
 
-        self.main_led_power.power_off()
+        self.main_led_power.off()
 
     def calibrate(self, supp_one_level, supp_two_level):
-        # figure out how to calibrate supp LEDs
-        self.main_led_power.power.power_on()
+        # # figure out how to calibrate supp LEDs
+        # self.main_led_power.power.on()
 
-        # set supplemental one level:
-        self.led_supp_one.value = supp_one_level
-        self.led_supp_two.value = supp_two_level
-        self.led_supp_one_percentage = (self.led_supp_one.value / self.main_led)
-        self.led_supp_two_percentage = (self.led_supp_two.value / self.main_led)
+        # # set supplemental one level:
+        # self.led_supp_one.value = supp_one_level
+        # self.led_supp_two.value = supp_two_level
+        # self.led_supp_one_percentage = (self.led_supp_one.value / self.main_led)
+        # self.led_supp_two_percentage = (self.led_supp_two.value / self.main_led)
+        raise NotImplementedError
 
     def panic_mode(self):
         ''' function for flashing all the lights'''

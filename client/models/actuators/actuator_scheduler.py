@@ -5,9 +5,8 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime
 from typing import Dict, List
 from csv import DictWriter
-from ..sensors.sensors_controller import sensor_controller
-from ..actuators.actuator_controller import actuator_controller
-from ..actuators.config import *
+from .actuator_controller import actuator_controller
+from .config import *
 
 logging.basicConfig(filename='amps_v2.log',
                     format='%(asctime)s %(levelname)s: %(message)s',
@@ -54,11 +53,11 @@ class ActuatorScheduler:
 
         for scheduled_window in self.lighting_schedule:
             if scheduled_window[0].time() <= current_time <= scheduled_window[1].time():
-                actuator_controller.led_controller.dim()
+                actuator_controller.led_controller.power_on()
                 logging.info('lights on')
                 break
         else:
-            actuator_controller.led_controller.dim(main_dim=0, supp1_dim=0, supp2_dim=0)
+            actuator_controller.led_controller.power_off()
             logging.info('lights off')
 
     @staticmethod
@@ -83,6 +82,7 @@ class ActuatorScheduler:
 
     def run_immediate_irrigation_job(self, duration):
         self.immediate_scheduler.add_job(lambda :actuator_controller.irrigation_controller.run_cycle(duration=duration))
+        print(self.immediate_scheduler.get_jobs())
 
     def add_irrigation_jobs(self, irrigation_schedule: List):
         irrigation_jobs = [
@@ -118,12 +118,12 @@ class ActuatorScheduler:
         self.valid_schedule(time_schedule=self.lighting_schedule + lighting_schedule)
 
         lighting_on_jobs = [
-            self.scheduler.add_job(actuator_controller.led_controller.dim, 'cron',
+            self.scheduler.add_job(actuator_controller.led_controller.power_on, 'cron',
                                    id=f'LIGHT-ON-{lighting_on_time.time()}',
                                    hour=lighting_on_time.hour, minute=lighting_on_time.minute) for
             lighting_on_time, lighting_off_time in lighting_schedule]
         lighting_off_jobs = [
-            self.scheduler.add_job(actuator_controller.led_controller.off, 'cron',
+            self.scheduler.add_job(actuator_controller.led_controller.power_off, 'cron',
                                    id=f'LIGHT-OFF-{lighting_off_time.time()}',
                                    hour=lighting_off_time.hour, minute=lighting_off_time.minute) for
             lighting_on_time, lighting_off_time in lighting_schedule]
@@ -140,9 +140,9 @@ class ActuatorScheduler:
             scheduled_datetime = datetime.strptime(scheduled_time, "%H:%M:%S")
 
             self.scheduler.remove_job(job_id)
-            for job_time in self.irrigation_schedule:
-                if time == scheduled_datetime:
-                    self.irrigation_schedule.remove(job_time)
+            for job in self.irrigation_schedule:
+                if job[0] == scheduled_datetime:
+                    self.irrigation_schedule.remove(job)
                     break
             if self.status:
                 self.reinitiate_state()

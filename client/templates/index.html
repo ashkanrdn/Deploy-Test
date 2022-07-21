@@ -9,10 +9,9 @@
 		
 		<br>
 		
-		<h2> Schedule Status </h2>
-		<h3> Scheduler Control==>  {{ scheduler_status }}</h3>
-		<br>
 		<h2> Scheduler Controller </h2>
+		<h3> Status {{ scheduler_status }}</h3>
+		<br>
 		<h3> 
 			<a href="/scheduler/on" class="button">TURN ON</a>
 			<a href="/scheduler/off"class="button">TURN OFF</a>
@@ -22,7 +21,7 @@
 		<h2> Light Controller </h2>
 		<h3> Schedule</h3>
 		<ul>{% for on, off in lighting_schedule %} 
-				<li>{{on.strftime('%I:%M %p'))}}-{{off.strftime('%I:%M %p')}} <a href="/remove/LIGHT/{{on}}-{{off}}"class="button">remove</a> </li> </br>
+				<li>{{on.strftime('%I:%M %p')}}-{{off.strftime('%I:%M %p')}} <a href="/remove/LIGHT/{{on.time()}}-{{off.time()}}"class="button">remove</a> </li> </br>
 			{% endfor %}
 		</ul>
 		<form action="/add/" method="post">
@@ -40,10 +39,10 @@
 		</h3>
 
 		<hr>
-		<h2> fans Controller </h2>
+		<h2> Air Controller </h2>
 		<h3> Schedule</h3>
 		<ul>{% for on, off in air_schedule %} 
-				<li>{{on.strftime('%I:%M %p')}}-{{off.strftime('%I:%M %p')}} <a href="/remove/AIR/{{on}}-{{off}}"class="button">remove</a> </li> </br>
+				<li>{{on.strftime('%I:%M %p')}}-{{off.strftime('%I:%M %p')}} <a href="/remove/AIR/{{on.time()}}-{{off.time()}}"class="button">remove</a> </li> </br>
 			{% endfor %}
 		</ul>
 		<form action="/add/" method="post">
@@ -56,22 +55,22 @@
 
 		</form>
 		<h3> 
-			<a href="/fans/on" class="button">TURN ON</a>
-			<a href="/fans/off"class="button">TURN OFF</a>
+			<a href="/air/on" class="button">TURN ON</a>
+			<a href="/air/off"class="button">TURN OFF</a>
 		</h3>
 		<hr>
 
 		<h2> Irrigation Controller </h2>
 
 		<h3> Schedule</h3>
-		<ul>{% for time in irrigation_schedule %} 
-				<li>{{time}} <a href="/remove/IRG/{{time}}"class="button">remove</a> </li> </br>
+		<ul>{% for time, duration in irrigation_schedule %} 
+				<li>{{time.strftime('%I:%M %p')}} Duration: {{duration}}s <a href="/remove/IRG/{{time.time()}}"class="button">remove</a> </li> </br>
 			{% endfor %}
 		</ul>
 		<form action="/add/" method="post">
 			<input type="hidden" id="type" name="type" value="IRG">
-			<lable for="job_time">time</lable>
-			<input type="time" id="job_time" name="job_time">
+			<lable for="time">time</lable>
+			<input type="time" id="time" name="time">
 			<lable for="duration">Duration</lable>
 			<input type="nubmer" id="duration" name="duration", placeholder="15">
 			<input type="submit" value="add">
@@ -82,12 +81,12 @@
 				<input type="hidden" id="type" name="type" value="IRG">
 				<lable for="duration">Duration</lable>
 				<input type="nubmer" id="duration" name="duration", placeholder="15">
-				<select id="level" name="level">
+				<!-- <select id="level" name="level">
 					<option value="1">Level 1</option>
 					<option value="2">Level 2</option>
 					<option value="3">Level 3</option>
 					<option value="4">Level 4</option>
-				</select>
+				</select> -->
 				<input type="submit" value="run">
 
 			</form>

@@ -1,6 +1,6 @@
 from typing import List
 
-from lighting import LedMain
+from .lighting import LedMain
 import gpiozero
 from gpiozero import DigitalOutputDevice
 from gpiozero import DigitalInputDevice
@@ -32,7 +32,7 @@ class Irrigation:
         self.drain_tank_full = DigitalInputDevice(drain_tank_full_gpio, pull_up=True)
         self.drain_tank_empty = DigitalInputDevice(drain_tank_empty_gpio, pull_up=True)
 
-    def run_cycle(self, duration=5, nutrient=False):
+    def run_cycle(self, duration=5, nutrient=False, level=None):
         ''' runs the water cycle for given time. at end of each irrigation
         process for level solenoid it checks for the water supply and verifies
         available water sources'''
@@ -42,9 +42,7 @@ class Irrigation:
             logging.info(sol, ' Turned on')
             sol.on()
             time.sleep(1)
-            # Opening the water sol
-            self.water_sol.on() if not nutrient else self.nutr_sol.on()
-            time.sleep(1)
+
         # Opening the water sol
         self.water_sol.on() if not nutrient else self.nutr_sol.on()
         time.sleep(1)
@@ -55,12 +53,20 @@ class Irrigation:
         self.main_pump.off()
         time.sleep(1)
         # closing the water sol
-        self.water_sol.on() if not nutrient else self.nutr_sol.on()
+        self.water_sol.off() if not nutrient else self.nutr_sol.off()
         # closing the lvl sols
         for sol in self.levels_sols:
             logging.info(sol, 'Turned off')
             sol.off()
             time.sleep(1)
+
+    def sol_check(self):
+        for sol in self.levels_sols:
+            sol.off()
+            print(sol, 'off')
+            time.sleep(1)
+        self.water_sol.off()
+        print('water_sol_off')
 
     def has_water(self):  # TODO move panic logic to controller
         if not self.main_tank_empty.is_active:  # Main Tank is not empty
