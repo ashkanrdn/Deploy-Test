@@ -26,7 +26,7 @@ class TankSensorGPIOs:
 class LevelSolenoidsGPIOs(Enum):
     LEVEL_1 = 27
     LEVEL_2 = 17
-    LEVEL_3 = 3
+    LEVEL_3 = 6
     LEVEL_4 = 15
     LEVEL_5 = 4
 
@@ -41,7 +41,7 @@ class ArmGPIOs:
 
 AIR_MAIN_GPIO = 19
 
-DEFAULT_WATER_CYCLE_DURATION = 15
+DEFAULT_WATER_CYCLE_DURATION = 10
 IRRIGATION_SCHEDULE = [
     ("07:00:00", DEFAULT_WATER_CYCLE_DURATION),
                        ("11:00:00", DEFAULT_WATER_CYCLE_DURATION),

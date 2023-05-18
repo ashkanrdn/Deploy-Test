@@ -1,12 +1,12 @@
 import logging
 from datetime import datetime
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, flash
 from .models.actuators.actuator_scheduler import actuator_scheduler
 # from models.sensors.sensor_scheduler import sensor_scheduler
 from .models.actuators.actuator_controller import actuator_controller
 
 app = Flask(__name__)
-
+app.secret_key = '3e340752-90a4-402b-9c61-3f3f351f0efe'
 
 @app.route("/")
 def index():
@@ -99,7 +99,8 @@ def add_time():
 
     except Exception as e:
         logging.error(e)
-        raise e
+
+        flash(str(e))
 
     return redirect("/")
 

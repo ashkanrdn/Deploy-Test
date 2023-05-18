@@ -5,6 +5,9 @@
    </head>
 
    <body>
+	   {% for msg in get_flashed_messages()%}
+	   <p style="color:red"> {{msg}}</p>
+	   {%endfor%}
 		<h1>AMPS System Control</h1>
 		
 		<br>

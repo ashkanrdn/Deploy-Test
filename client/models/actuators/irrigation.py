@@ -1,6 +1,6 @@
 from typing import List
 
-from .lighting import LedMain
+# from .lighting import LedMain
 import gpiozero
 from gpiozero import DigitalOutputDevice
 from gpiozero import DigitalInputDevice
@@ -32,13 +32,15 @@ class Irrigation:
         self.drain_tank_full = DigitalInputDevice(drain_tank_full_gpio, pull_up=True)
         self.drain_tank_empty = DigitalInputDevice(drain_tank_empty_gpio, pull_up=True)
 
-    def run_cycle(self, duration=5, nutrient=False, level=None):
+    def run_cycle(self, duration=5, nutrient=False, levels=None):
         ''' runs the water cycle for given time. at end of each irrigation
         process for level solenoid it checks for the water supply and verifies
         available water sources'''
         # Turning on the lvl sols
         # if(self.gotWater()):
-        for sol in self.levels_sols:
+        
+        levels_sols = [self.levels_sols[level] for level in levels] if levels else self.levels_sols
+        for sol in levels_sols:
             logging.info(sol, ' Turned on')
             sol.on()
             time.sleep(1)
@@ -55,7 +57,7 @@ class Irrigation:
         # closing the water sol
         self.water_sol.off() if not nutrient else self.nutr_sol.off()
         # closing the lvl sols
-        for sol in self.levels_sols:
+        for sol in levels_sols:
             logging.info(sol, 'Turned off')
             sol.off()
             time.sleep(1)
@@ -68,23 +70,23 @@ class Irrigation:
         self.water_sol.off()
         print('water_sol_off')
 
-    def has_water(self):  # TODO move panic logic to controller
-        if not self.main_tank_empty.is_active:  # Main Tank is not empty
-            self.tank_switch_sol.power_off()  # make sure the tank switch relay is off
-            return True
-        elif self.main_tank_empty.is_active:
-            # Case where main tank is empty
-            if not self.drain_tank_empty.is_active:  # Case where the drain tank is not empty
-                self.panic_mode()  # add the lesser panic drill
-                LedMain.dim(0, 0, 0)
-                # turn off fans
-                # activate tank switch relay to switch from main tank to drain tank
-                self.tank_switch_sol.on()
-                return True
-            elif self.drain_tank_empty.is_active:  # if the drain tank is empty too
-                self.panic_mode()  # Add the panic drill
-                LedMain.dim(0, 0, 0)  # turn off lights
-                return False
+    # def has_water(self):  # TODO move panic logic to controller
+    #     if not self.main_tank_empty.is_active:  # Main Tank is not empty
+    #         self.tank_switch_sol.power_off()  # make sure the tank switch relay is off
+    #         return True
+    #     elif self.main_tank_empty.is_active:
+    #         # Case where main tank is empty
+    #         if not self.drain_tank_empty.is_active:  # Case where the drain tank is not empty
+    #             self.panic_mode()  # add the lesser panic drill
+    #             LedMain.dim(0, 0, 0)
+    #             # turn off fans
+    #             # activate tank switch relay to switch from main tank to drain tank
+    #             self.tank_switch_sol.on()
+    #             return True
+    #         elif self.drain_tank_empty.is_active:  # if the drain tank is empty too
+    #             self.panic_mode()  # Add the panic drill
+    #             LedMain.dim(0, 0, 0)  # turn off lights
+    #             return False
 
     # #todo fix this and put in actuator controller
     # def panic_mode(self):
