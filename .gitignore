@@ -233,6 +233,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+ampsenv/
 
 # Spyder project settings
 .spyderproject
@@ -293,3 +294,7 @@ prototype/ampsenv/*
 build_deps/*
 bundles/*
 
+
+
+#interface prototype
+interface/*

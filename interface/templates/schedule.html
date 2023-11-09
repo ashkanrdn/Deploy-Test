@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>AMPS Schedule</title>
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+	<link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script type="text/javascript">
+		$(document).ready(function() {
+			// get the temperature status element
+			var temperatureStatus = $("#temperature-status");
+
+			// function to update the temperature status
+			function updateTemperatureStatus() {
+				$.ajax({
+					url: "/temperature",
+					type: "GET",
+					success: function(data) {
+						temperatureStatus.text(data.temperature + " °C");
+					},
+					error: function() {
+						temperatureStatus.text("Error");
+					}
+				});
+			}
+
+			// update the temperature status every minute
+			// TODO uncomment if we have the info
+			// setInterval(updateTemperatureStatus, 1000);
+		});
+	</script>
+	<script>
+
+	$(document).ready(function() {
+		// function to update the light level
+		function updateLightStatus(level) {
+			$.ajax({
+				type: 'POST',
+				url: '/update_light_status',
+				data: JSON.stringify({'status': light_status}),
+				contentType: 'application/json',
+				success: function(response) {
+					console.log(response);
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+		}
+
+		// function to update the fan speed
+		function updateFanSpeed(speed) {
+			$.ajax({
+				type: 'POST',
+				url: '/update_fan_status',
+				data: JSON.stringify({'status': fan_status}),
+				contentType: 'application/json',
+				success: function(response) {
+					console.log(response);
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+		}
+
+		// function to handle changes to the light slider
+		// function to handle changes to the light toggle
+		$('#light-toggle').on('change', function() {
+			var light_status = $(this).is(':checked');
+			updateLightStatus(light_status);
+		});
+
+		// function to handle changes to the fan slider
+		$('#fan-toggle').on('change', function() {
+			var fan_status = $(this).is(':checked');
+			updateFanStatus(fan_status);
+		});
+	});
+	</script>
+</head>
+<body>
+    <header>
+    <div class="container">
+		<h1>AMPS System</h1>
+
+    </div>
+    </header>
+    <nav class="nav-bar">
+        <ul>
+			<li><a class="nav-link" href="/">Home</a></li>
+			<li><a class="nav-link" href="/schedule">Schedule</a></li>
+		</ul>
+    </nav>
+	<main>
+        <table>
+			<tr>
+				<div class="top-row">
+					<th>
+					<div class="small-col">
+
+					<div class="row">
+						<div class=slider-container sty>
+						<label for="light-toggle" class="status-label">Light Status</label>
+						<label class="switch" >
+							<input type="checkbox" id="light-toggle" {% if light_status %}checked{% endif %}>
+							<span class="slider round"></span>
+						</label>
+					</div>
+						</div>
+						
+					</div>
+				</th>
+				<th>
+					<div class="small-col">
+						<div class="row">
+							<div class=slider-container>
+			
+								<label for="irr-toggle" class="status-label">Irrigation Cycle</label>
+								<label >
+									<form action="/irg/run" method="post">
+										<input type="hidden" id="type" name="type" value="IRG">
+										<lable for="duration" class="status-label">Duration</lable>
+										<span><input type="text" id="duration" name="duration", placeholder="15"></span>
+										<!-- <select id="level" name="level">
+											<option value="1">Level 1</option>
+											<option value="2">Level 2</option>
+											<option value="3">Level 3</option>
+											<option value="4">Level 4</option>
+										</select> -->
+										<span><input type="submit" value="run" style="inline"></span>
+						
+									</form>
+								
+								</label>
+							</div>
+						</div>
+					</div>
+				</th>
+				<th>
+					<div class="small-col">
+
+					<div class="row">
+						<div class=slider-container>
+		
+							<label for="fan-toggle" class="status-label">Fan Speed</label>
+							<label class="switch">
+								<input type="checkbox" {% if fan_status %}checked{% endif %}>
+								<span class="slider round"></span>
+							</label>
+						</div>
+					</div>
+				</div>
+					
+					</th>
+			</div>
+			</tr>
+
+			<tr>
+            <th>
+			<div class="col">
+				
+				
+				<div class="row">
+					
+				<h2>Light Schedule</h2>
+				<ul id="light-schedule"> {% for on, off in lighting_schedule %} 
+					
+					<li class="time-list"><span>{{on.strftime('%I:%M %p')}}</span> - <span>{{off.strftime('%I:%M %p')}} </span> <span> <a href="/remove/LIGHT/{{on.time()}}-{{off.time()}}"class="button"><i class="fa fa-remove"></i></a></span></li>
+					{% endfor %}
+				</ul>
+			</div>
+				<div class="row">
+				<form action="/add/" method="post">
+					<input type="hidden" id="type" name="type" value="LIGHT">
+					<label for="light-start-time">Start Time:</label>
+					<input type="time" id="light-start-time" name="light-start-time" required>
+					<label for="light-end-time">End Time:</label>
+					<input type="time" id="light-end-time" name="light-end-time" required>
+					<button type="submit" value="add">Add</button>
+				</form>
+			</div>
+				
+				
+			</div>
+            </th>
+            <th>
+			<div class="col">
+				
+				<div class="row">
+					<h2>Irrigation Schedule</h2>
+					<ul id="water-schedule">n{% for time, duration in irrigation_schedule %} 
+						<li class="time-list"><span>{{time.strftime('%I:%M %p')}}</span> - <span>Duration: {{off.strftime('%I:%M %p')}}</span> <span> <a href="/remove/IRG/{{time.time()}}"class="button"><i class="fa fa-remove"></i></a></span></li> </br>
+					{% endfor %}
+					</ul>
+				</div>
+				<div class="row">
+					<form id="add-water-form">
+						<label for="water-start-time">Start Time:</label>
+							<input type="time" id="water-start-time" name="water-start-time" required>
+						<label for="water-end-time">End Time:</label>
+							<input type="time" id="water-end-time" name="water-end-time" required>
+						<label for="water-duration">Duration</label>
+							<input type="text" id="water-duration" name="water-duration", placeholder="15" required>
+						<button type="submit">Add</button>
+					</form>
+				</div>
+			</div>
+            </th>
+            <th>
+			<div class="col">
+				
+				<div class="row">
+				<h2>Fan Schedule</h2>
+				<ul id="fan-schedule"> {% for on, off in air_schedule %} 
+					<ul id="water-schedule">{% for on, off in air_schedule %} 
+						<liclass="time-list"><span>{{on.strftime('%I:%M %p')}}</span> - <span>{{off.strftime('%I:%M %p')}}</span> <span> <a href="/remove/FAN/{{on.time()}}-{{off.time()}}"class="button"><i class="fa fa-remove"></i></a></span></li> </br>
+					{% endfor %}
+				</ul>
+			</div>
+				<div class="row">
+				<form id="add-fan-form">
+					<label for="fan-start-time" class="schedule-label">Start Time:</label>
+						<input type="time" id="fan-start-time" name="fan-start-time" required>
+					<label for="fan-end-time">End Time:</label>
+						<input type="time" id="fan-end-time" name="fan-end-time" required>
+					<button type="submit">Add</button>
+				</form>
+			</div>
+			</div>
+            </th>
+		</tr>
+		</div>
+        </table>
+	</main>
+</body>
+</html>

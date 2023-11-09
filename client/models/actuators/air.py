@@ -9,11 +9,14 @@ import logging
 class Air:
     def __init__(self, main_air_gpio):
         self.AIRMain = DigitalOutputDevice(main_air_gpio)
+        
+    def status(self):
+        return 1
 
     def on(self):
-        self.AIRMain.on()
+        self.AIRMain.off()
         logging.info('air on')
 
     def off(self):
-        self.AIRMain.off()
+        self.AIRMain.on()
         logging.info('air off')

@@ -6,7 +6,6 @@ from gpiozero import DigitalOutputDevice
 from gpiozero import DigitalInputDevice
 import time
 import logging
-
 import os
 import sys
 # Modify PATH so we can import files from elsewhere in this repo
@@ -17,50 +16,102 @@ sys.path.insert(0, abspath(join(dirname(__file__), '../..')))
 
 class Irrigation:
 
-    def __init__(self, main_pump_gpio, water_sol_gpio, tank_switch_sol_gpio, nutr_sol_gpio,
+    def __init__(self, water_sol_gpio, tank_switch_sol_gpio, nutr_sol_gpio,
                  levels_sol_gpios: List,
-                 main_tank_full_gpio, main_tank_empty_gpio, drain_tank_full_gpio, drain_tank_empty_gpio
+                 pressure_relief_gpio
                  ):
-        self.main_pump = DigitalOutputDevice(main_pump_gpio)
         self.water_sol = DigitalOutputDevice(water_sol_gpio)
+        self.pressure_relief_sol = DigitalOutputDevice(pressure_relief_gpio)
         self.tank_switch_sol = DigitalOutputDevice(tank_switch_sol_gpio)
         self.nutr_sol = DigitalOutputDevice(nutr_sol_gpio)
         self.levels_sols = [DigitalOutputDevice(level_sol_gpio) for level_sol_gpio in levels_sol_gpios]
 
-        self.main_tank_full = DigitalInputDevice(main_tank_full_gpio, pull_up=True)
-        self.main_tank_empty = DigitalInputDevice(main_tank_empty_gpio, pull_up=True)
-        self.drain_tank_full = DigitalInputDevice(drain_tank_full_gpio, pull_up=True)
-        self.drain_tank_empty = DigitalInputDevice(drain_tank_empty_gpio, pull_up=True)
 
-    def run_cycle(self, duration=5, nutrient=False, levels=None):
-        ''' runs the water cycle for given time. at end of each irrigation
-        process for level solenoid it checks for the water supply and verifies
-        available water sources'''
-        # Turning on the lvl sols
-        # if(self.gotWater()):
+    
+
+    # def run_cycle(self, duration, nutrient=False, levels=None):
+
+    #     source_sol = self.nutr_sol if nutrient else self.water_sol
+    #     water_sleep_time = 1
+    #     pressure_relief_time = 2
+    #     source_sol.on()
+    #     print(source_sol, 'Source Solenoid Turned On!')
+    #     print(f'Waiting for {water_sleep_time} seconds...')
+    #     time.sleep(water_sleep_time)
+
+    #     #Pressure Relief Turn On
+    #     self.pressure_relief_sol.on()
+    #     print(self.pressure_relief_sol, 'Pressure Relief Solenoid Turned On!')
+    #     print(f'Waiting for {pressure_relief_time} seconds...')
+    #     time.sleep(pressure_relief_time)
+    #     self.pressure_relief_sol.off()
+    #     print(self.pressure_relief_sol, 'Pressure Relief Solenoid Turned Off!')
+
+
+    #     #Levels
+    #     levels_sols = [self.levels_sols[level] for level in levels] if levels else self.levels_sols
+    #     level_pressure_time = 5
+    #     for sol in levels_sols:
+    #         sol.on()
+    #         print(sol, 'Solenoid level Turned On!')
+    #         print(f'Waiting for {level_pressure_time} seconds...')
+    #         time.sleep(level_pressure_time)
+    #         sol.off()
+    #         print(sol, 'Solenoid level Turned Off!')
+    #         self.pressure_relief_sol.on()
+    #         print(self.pressure_relief_sol, 'Pressure Relief Solenoid Turned On!')
+    #         print(f'Waiting for {duration} seconds...')
+    #         time.sleep(duration)
+    #         self.pressure_relief_sol.off()
+    #         print(self.pressure_relief_sol, 'Pressure Relief Solenoid Turned Off!')
+    #         time.sleep(1)
+    #         print('Irrigation for this level has been completed!')
+
+    #     source_sol.off()
+    #     print(source_sol, 'Source Solenoid Turned On!') 
         
-        levels_sols = [self.levels_sols[level] for level in levels] if levels else self.levels_sols
-        for sol in levels_sols:
-            logging.info(sol, ' Turned on')
+
+    def run_cycle(self, duration, nutrient=False, levels=None):
+        source_sol = self.nutr_sol if nutrient else self.water_sol
+        levels_sols = [self.levels_sols[level-1] for level in levels] if levels else self.levels_sols
+        print(levels, levels_sols)
+        # return
+        primeTime = 40
+        source_sol.on()
+        time.sleep(20)
+        # #levels
+        for i,sol in enumerate(levels_sols):
+            print(f'Prime Process running for level {i+1}')
+            self.pressure_relief_sol.on()
+            print('Pressure relief sol is on!')
             sol.on()
+            print(f'Solenoid level {i+1} is on!')
+            print(f'Sleeping for {primeTime}...')
+
+            time.sleep(primeTime)
+            self.pressure_relief_sol.off()
+            print('Pressure relief sol is off!')
+
+            print(f'Sleeping for {duration}...')
+
+            time.sleep(duration)
+            sol.off()
+            print(f'Solenoid level {i+1} is off!')
+
+            print(f'draingin level {i+1}!')
+
+            time.sleep(1)
+            self.pressure_relief_sol.on()
+            print('Pressure relief sol is on!')
+
+            time.sleep(20)
+            self.pressure_relief_sol.off()
+            print('Pressure relief sol is off!')
+
             time.sleep(1)
 
-        # Opening the water sol
-        self.water_sol.on() if not nutrient else self.nutr_sol.on()
-        time.sleep(1)
-        # Turning on the main pump
-        self.main_pump.on()
-        time.sleep(duration)
-        # Turning off the main pump after the cycle time
-        self.main_pump.off()
-        time.sleep(1)
-        # closing the water sol
-        self.water_sol.off() if not nutrient else self.nutr_sol.off()
-        # closing the lvl sols
-        for sol in levels_sols:
-            logging.info(sol, 'Turned off')
-            sol.off()
-            time.sleep(1)
+        source_sol.off()
+
 
     def sol_check(self):
         for sol in self.levels_sols:
@@ -69,45 +120,3 @@ class Irrigation:
             time.sleep(1)
         self.water_sol.off()
         print('water_sol_off')
-
-    # def has_water(self):  # TODO move panic logic to controller
-    #     if not self.main_tank_empty.is_active:  # Main Tank is not empty
-    #         self.tank_switch_sol.power_off()  # make sure the tank switch relay is off
-    #         return True
-    #     elif self.main_tank_empty.is_active:
-    #         # Case where main tank is empty
-    #         if not self.drain_tank_empty.is_active:  # Case where the drain tank is not empty
-    #             self.panic_mode()  # add the lesser panic drill
-    #             LedMain.dim(0, 0, 0)
-    #             # turn off fans
-    #             # activate tank switch relay to switch from main tank to drain tank
-    #             self.tank_switch_sol.on()
-    #             return True
-    #         elif self.drain_tank_empty.is_active:  # if the drain tank is empty too
-    #             self.panic_mode()  # Add the panic drill
-    #             LedMain.dim(0, 0, 0)  # turn off lights
-    #             return False
-
-    # #todo fix this and put in actuator controller
-    # def panic_mode(self):
-    #     ''' function for flashing all the lights'''
-    #     for _ in range(30):
-    #         LedMain.dim(1, 1, 1)
-    #         time.sleep(1)
-    #         LedMain.dim(0.5, 0.5, 0.5)
-    #         time.sleep(1)
-    #         LedMain.dim(0, 0, 0)
-    #         time.sleep(1)
-
-    def tank_full(self):
-        ''' function that checks when any of the water tanks get full and runs the panic drill
-        if they are full'''
-        if self.main_tank_full.is_active or self.drain_tank_full.is_active:
-            # self.panic_mode()
-            return True
-        return False
-
-
-''' Add a indicator on dashoboard tanks levels are full or empty. '''
-
-# Main pump only can be on if water sol is on and lvl one sol is on

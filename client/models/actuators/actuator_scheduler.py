@@ -28,11 +28,12 @@ class ActuatorScheduler:
                                IRRIGATION_SCHEDULE]
         lighting_schedule = [(datetime.strptime(time_on, "%H:%M:%S"), datetime.strptime(time_off, "%H:%M:%S"))
                              for time_on, time_off in LIGHTING_SCHEDULE]
+        print(lighting_schedule)
         air_schedule = [(datetime.strptime(time_on, "%H:%M:%S"), datetime.strptime(time_off, "%H:%M:%S"))
                         for time_on, time_off in AIR_SCHEDULE]
 
         self.add_irrigation_jobs(irrigation_schedule=irrigation_schedule)
-        self.add_air_jobs(air_schedule=air_schedule)
+        # self.add_air_jobs(air_schedule=air_schedule)
         self.add_lighting_jobs(lighting_schedule=lighting_schedule)
         # self.create_other_jobs()
         self.status = False
@@ -40,25 +41,26 @@ class ActuatorScheduler:
 
     def reinitiate_state(self):
         current_time = datetime.now().time()
-        logging.info("schedule starts")
+        print("schedule starts")
 
         for scheduled_window in self.air_schedule:
             if scheduled_window[0].time() <= current_time <= scheduled_window[1].time():
                 actuator_controller.air_controller.on()
-                logging.info('fans on')
+                print('fans on')
                 break
         else:
             actuator_controller.air_controller.off()
-            logging.info('fans off')
+            print('fans off')
 
         for scheduled_window in self.lighting_schedule:
             if scheduled_window[0].time() <= current_time <= scheduled_window[1].time():
                 actuator_controller.led_controller.power_on()
-                logging.info('lights on')
+                print('lights on')
+                print('lights on')
                 break
         else:
             actuator_controller.led_controller.power_off()
-            logging.info('lights off')
+            print('lights off')
 
     @staticmethod
     def turn_off_actuators():
@@ -164,7 +166,7 @@ class ActuatorScheduler:
                     scheduled_list.pop(i)
                     self.scheduler.remove_job(on_id)
                     self.scheduler.remove_job(off_id)
-
+                    # TODO call db and remove by job_ids
                     break
 
                 except Exception as e:
