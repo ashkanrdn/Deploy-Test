@@ -1,6 +1,6 @@
 import logging
 from datetime import datetime
-from flask import Flask, render_template, redirect, request, flash
+from flask import Flask, render_template, redirect, request, flash, jsonify
 from models.actuators.actuator_scheduler import actuator_scheduler
 # from models.sensors.sensor_scheduler import sensor_scheduler
 from models.actuators.actuator_controller import actuator_controller
@@ -35,12 +35,15 @@ def stop_scheduler():
 
     return redirect("/")
 
+@app.route("/light/status")
+def get_light_status():
+    status = actuator_controller.led_controller.status
+    return jsonify(light_status=status)
 
 @app.route("/light/on")
 def lights_on():
     actuator_controller.led_controller.power_on()
     return redirect("/")
-
 
 @app.route("/light/off")
 def lights_off():
