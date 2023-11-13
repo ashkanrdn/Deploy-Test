@@ -1,6 +1,7 @@
 import time
 import logging
 from apscheduler.schedulers.background import BackgroundScheduler
+from dataaccess.sqlite import db
 
 from datetime import datetime
 from typing import Dict, List
@@ -18,24 +19,15 @@ class ActuatorScheduler:
     def __init__(self):
         # converting times strings to time objects
         # TODO get this data from database instead of reading locally
-
+        self.db = db
         self.scheduler = BackgroundScheduler()
         self.immediate_scheduler = BackgroundScheduler()
-        self.irrigation_schedule = []
-        self.lighting_schedule = []
-        self.air_schedule = []
-        irrigation_schedule = [(datetime.strptime(cycle_time, "%H:%M:%S"), duration) for cycle_time, duration in
-                               IRRIGATION_SCHEDULE]
-        lighting_schedule = [(datetime.strptime(time_on, "%H:%M:%S"), datetime.strptime(time_off, "%H:%M:%S"))
-                             for time_on, time_off in LIGHTING_SCHEDULE]
-        print(lighting_schedule)
-        air_schedule = [(datetime.strptime(time_on, "%H:%M:%S"), datetime.strptime(time_off, "%H:%M:%S"))
-                        for time_on, time_off in AIR_SCHEDULE]
+        irrigation_schedule, lighting_schedule, air_schedule = db.load_jobs()
+
 
         self.add_irrigation_jobs(irrigation_schedule=irrigation_schedule)
-        # self.add_air_jobs(air_schedule=air_schedule)
+        self.add_air_jobs(air_schedule=air_schedule)
         self.add_lighting_jobs(lighting_schedule=lighting_schedule)
-        # self.create_other_jobs()
         self.status = False
         self.initiated = False
 
@@ -87,67 +79,62 @@ class ActuatorScheduler:
         print(self.immediate_scheduler.get_jobs())
 
     def add_irrigation_jobs(self, irrigation_schedule: List):
-        irrigation_jobs = [
+        [
             self.scheduler.add_job(lambda: actuator_controller.irrigation_controller.run_cycle(duration=duration),
                                    'cron',
                                    id=f'IRG-{irrigation_time.time()}', hour=irrigation_time.hour,
                                    minute=irrigation_time.minute) for
             irrigation_time, duration in irrigation_schedule]
-        self.irrigation_schedule += irrigation_schedule
-        self.irrigation_schedule.sort()
+        
 
-        return irrigation_jobs
+
+        [self.db.insert_irrigation_job('IRG', start_time=start_time, duration=duration) for start_time, duration in irrigation_schedule]
+
 
     def add_air_jobs(self, air_schedule):
-        self.valid_schedule(time_schedule=self.air_schedule + air_schedule)
-        air_on_jobs = [
+        current_air_schedule = self.db.load_jobs()[2]
+        self.valid_schedule(time_schedule=current_air_schedule + air_schedule)
+        [
             self.scheduler.add_job(actuator_controller.air_controller.on, 'cron', hour=air_on_time.hour,
                                    id=f'AIR-ON-{air_on_time.time()}',
                                    minute=air_on_time.minute)
             for air_on_time, air_off_time in air_schedule
         ]
-        air_off_jobs = [
+        [
             self.scheduler.add_job(actuator_controller.air_controller.off, 'cron', hour=air_off_time.hour,
                                    id=f'AIR-OFF-{air_off_time.time()}',
                                    minute=air_off_time.minute)
             for air_on_time, air_off_time in air_schedule
         ]
-        self.air_schedule += air_schedule
-        self.air_schedule.sort()
-        return air_on_jobs + air_off_jobs
+        [self.db.insert_window_jobs('FAN', start_time=start_time, end_time=end_time) for start_time, duration in air_schedule]
+
 
     def add_lighting_jobs(self, lighting_schedule):
-        self.valid_schedule(time_schedule=self.lighting_schedule + lighting_schedule)
+        current_light_schedule = self.db.load_jobs()[1]
 
-        lighting_on_jobs = [
+        self.valid_schedule(time_schedule=current_light_schedule + lighting_schedule)
+
+        [
             self.scheduler.add_job(actuator_controller.led_controller.power_on, 'cron',
                                    id=f'LIGHT-ON-{lighting_on_time.time()}',
                                    hour=lighting_on_time.hour, minute=lighting_on_time.minute) for
             lighting_on_time, lighting_off_time in lighting_schedule]
-        lighting_off_jobs = [
+        [
             self.scheduler.add_job(actuator_controller.led_controller.power_off, 'cron',
                                    id=f'LIGHT-OFF-{lighting_off_time.time()}',
                                    hour=lighting_off_time.hour, minute=lighting_off_time.minute) for
             lighting_on_time, lighting_off_time in lighting_schedule]
 
-        self.lighting_schedule += lighting_schedule
-        self.lighting_schedule.sort()
-        return lighting_on_jobs + lighting_off_jobs
+        [self.db.insert_window_jobs('LIGHT', start_time=start_time, end_time=end_time) for start_time, duration in lighting_schedule]
+
 
     def remove_irrigation_job(self, scheduled_time):
 
         try:
 
             job_id = f'IRG-{scheduled_time}'
-            scheduled_datetime = datetime.strptime(scheduled_time, "%H:%M:%S")
-
             self.scheduler.remove_job(job_id)
-            for job in self.irrigation_schedule:
-                if job[0] == scheduled_datetime:
-                    self.irrigation_schedule.remove(job)
-                    break
-            if self.status:
-                self.reinitiate_state()
+            self.db.delete_job('IRG', start_time=scheduled_time)
 
         except Exception as e:
             logging.error(e)
@@ -160,23 +147,18 @@ class ActuatorScheduler:
                              scheduled_window.split('-')]
         on_id = f'{job_type}-ON-{on_time.time()}'
         off_id = f'{job_type}-OFF-{off_time.time()}'
-        for i, window in enumerate(scheduled_list):
-            if window[0] == on_time and window[1] == off_time:
-                try:
-                    scheduled_list.pop(i)
-                    self.scheduler.remove_job(on_id)
-                    self.scheduler.remove_job(off_id)
-                    # TODO call db and remove by job_ids
-                    break
+        try:
+            scheduled_list.pop(i)
+            self.scheduler.remove_job(on_id)
+            self.scheduler.remove_job(off_id)
+            self.db.delete_job('IRG', start_time=on_time)
 
-                except Exception as e:
-                    logging.error(e)
-                    raise e
+        except Exception as e:
+            logging.error(e)
+            raise e
         if self.status:
             self.reinitiate_state()
 
-    # def create_other_jobs(self):
-    #     self.scheduler.add_job(actuator_controller.sol_check, 'interval', minutes=30)
 
     def start(self):
         if not self.status:
