@@ -33,9 +33,9 @@ class SensorController:
                 try:
                     sample = sensor.read_sensor()
                     for feature in sample.keys():
-                        samples[sensor.name.lower() + "_" + feature] = sample[feature]
+                        samples[f"{sensor.name.lower()}_{feature}"] = sample[feature]
                 except Exception as e:
-                    e.message = self.name + "_" + e.message
+                    e.message = f"{self.name}_{e.message}"
                     raise e
             return samples
 
