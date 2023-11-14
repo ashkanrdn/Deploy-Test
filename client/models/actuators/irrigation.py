@@ -81,36 +81,42 @@ class Irrigation:
         time.sleep(20)
         # #levels
         for i,sol in enumerate(levels_sols):
-            print(f'Prime Process running for level {i+1}')
-            self.pressure_relief_sol.on()
-            print('Pressure relief sol is on!')
-            sol.on()
-            print(f'Solenoid level {i+1} is on!')
-            print(f'Sleeping for {primeTime}...')
-
-            time.sleep(primeTime)
-            self.pressure_relief_sol.off()
-            print('Pressure relief sol is off!')
-
-            print(f'Sleeping for {duration}...')
-
-            time.sleep(duration)
-            sol.off()
-            print(f'Solenoid level {i+1} is off!')
-
-            print(f'draingin level {i+1}!')
-
-            time.sleep(1)
-            self.pressure_relief_sol.on()
-            print('Pressure relief sol is on!')
-
-            time.sleep(20)
-            self.pressure_relief_sol.off()
-            print('Pressure relief sol is off!')
-
-            time.sleep(1)
+            self.run_cycle_level(levels[i], duration)
 
         source_sol.off()
+
+    def run_cycle_level(self, level, duration):
+        sol = self.levels_sols[level - 1]
+        primeTime = 40
+        print(f'Prime Process running for level {level}')
+        self.pressure_relief_sol.on()
+        print('Pressure relief sol is on!')
+        sol.on()
+        print(f'Solenoid level {level} is on!')
+        print(f'Sleeping for {primeTime}...')
+
+        time.sleep(primeTime)
+        self.pressure_relief_sol.off()
+        print('Pressure relief sol is off!')
+
+        print(f'Sleeping for {duration}...')
+
+        time.sleep(duration)
+        sol.off()
+        print(f'Solenoid level {level} is off!')
+
+        print(f'draingin level {level}!')
+
+        time.sleep(1)
+        self.pressure_relief_sol.on()
+        print('Pressure relief sol is on!')
+
+        time.sleep(20)
+        self.pressure_relief_sol.off()
+        print('Pressure relief sol is off!')
+
+        time.sleep(1)
+
 
 
     def sol_check(self):
